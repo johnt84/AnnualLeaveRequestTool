@@ -2,4 +2,5 @@
 Simple Blazor Annual Leave Request Tool
 
 * Allows users to create, update or delete annual leave requests.  
-* The Annual leave requests are saved and read from a SQLServer database.  THE GUI is developed with Blazor Server/.Net Core 3
+* The Annual leave requests are saved and read from a SQLServer database.  
+* The GUI is developed with Blazor Server/.Net Core 3
