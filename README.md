@@ -1,4 +1,4 @@
-# BlazorAnnualLeaveRequestTool
+# Blazor Annual Leave Request Tool
 Simple Blazor Annual Leave Request Tool
 
 * Allows users to create, update or delete annual leave requests.  
