@@ -1,0 +1,147 @@
+﻿@page  "/AnnualLeave/Edit/{AnnualLeaveRequestID:int}"
+
+@using AnnualLeaveRequest.Data
+@using AnnualLeaveRequest.Models
+@inject IAnnualLeaveRequestService AnnualLeaveRequestService
+@inject NavigationManager NavigationManager
+
+<h2>Edit Annual Leave Request</h2>
+<br>
+
+<EditForm Model="model" OnValidSubmit="@EditRequest">
+    <DataAnnotationsValidator />
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Start Date</label>
+        <div class="col-md-3">
+            <InputDate class="form-control" @bind-Value="model.StartDate" />
+            <ValidationMessage For="(() => model.StartDate)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">End Date</label>
+        <div class="col-md-3">
+            <InputDate class="form-control" @bind-Value="model.ReturnDate" />
+            <ValidationMessage For="(() => model.ReturnDate)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Number of Days</label>
+        <div class="col-md-3">
+            <InputNumber class="form-control" @bind-Value="model.NumberOfDaysRequested" />
+            <ValidationMessage For="(() => model.NumberOfDaysRequested)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Number of Annual Leave Days</label>
+        <div class="col-md-3">
+            <InputNumber class="form-control" @bind-Value="model.NumberOfAnnualLeaveDaysRequested" />
+            <ValidationMessage For="(() => model.NumberOfAnnualLeaveDaysRequested)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Number of Public Leave Days</label>
+        <div class="col-md-3">
+            <InputNumber class="form-control" @bind-Value="model.NumberOfPublicLeaveDaysRequested" />
+            <ValidationMessage For="(() => model.NumberOfPublicLeaveDaysRequested)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Leave to be Paid/Unpaid</label>
+        <div class="col-md-3">
+            <InputSelect @bind-Value="model.PaidLeaveType" class="form-control">
+                <option value="">Please select the Paid Leave Type</option>
+                @foreach (var paidLeaveType in PaidLeaveTypes)
+                {
+                    <option value="@paidLeaveType">@paidLeaveType</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="(() => model.PaidLeaveType)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Leave to be Paid/Unpaid</label>
+        <div class="col-md-3">
+            <InputSelect @bind-Value="model.LeaveType" class="form-control">
+                <option value="">Please select the Leave Type</option>
+                @foreach (var leaveType in LeaveTypes)
+                {
+                    <option value="@leaveType">@leaveType</option>
+                }
+            </InputSelect>
+            <ValidationMessage For="(() => model.LeaveType)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Notes</label>
+        <div class="col-md-3">
+            <InputTextArea class="form-control" @bind-Value="model.Notes" />
+            <ValidationMessage For="(() => model.Notes)" />
+        </div>
+    </div>
+
+    <button type="submit">Submit</button>
+</EditForm>
+
+<div class="form-actions no-color esh-link-list" style="padding-top: 20px">
+    <a href="@($"/AnnualLeave/Details/{model.AnnualLeaveRequestID}")" class="esh-link-item">
+        Details
+    </a>
+    |
+    <a href="/AnnualLeave/Overview" class="esh-link-item">
+        Back to Overview
+    </a>
+</div>
+
+@code {
+
+    [Parameter]
+    public int AnnualLeaveRequestID { get; set; }
+
+    private List<string> PaidLeaveTypes = new List<string>()
+{
+        "Paid",
+        "Unpaid"
+     }
+    .OrderBy(x => x)
+    .ToList();
+
+    private List<string> LeaveTypes = new List<string>()
+{
+        "Annual Leave",
+        "Compassionate Leave",
+        "Appointment"
+    }
+    .OrderBy(x => x)
+    .ToList();
+
+    private DateTime DateRequested { get; set; }
+
+    private AnnualLeaveRequestOverviewModel model = new AnnualLeaveRequestOverviewModel();
+
+    protected override void OnInitialized()
+    {
+        model = AnnualLeaveRequestService.GetRequest(AnnualLeaveRequestID);
+    }
+
+    private void EditRequest()
+    {
+        DateRequested = DateTime.UtcNow;
+
+        model = AnnualLeaveRequestService.Update(model);
+
+        NavigationManager.NavigateTo("AnnualLeave/Overview");
+    }
+
+    private void BackToOverview()
+    {
+        NavigationManager.NavigateTo("AnnualLeave/Overview");
+    }
+}

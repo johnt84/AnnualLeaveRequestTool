@@ -1,0 +1,150 @@
+﻿@page  "/AnnualLeave/Overview"
+
+@using AnnualLeaveRequest.Data
+@using AnnualLeaveRequest.Models
+@inject IAnnualLeaveRequestService AnnualLeaveRequestService
+
+<div style="padding-bottom: 20px">
+    <h2>Annual Leave Calendar - @Year</h2>
+</div>
+
+<div class="form-actions no-color esh-link-list" style="padding-bottom: 20px">
+    <a href="@($"/AnnualLeave/Create")" class="esh-link-item">
+        Create
+    </a>
+</div>
+
+<div style="padding-bottom: 20px">
+    <select id="Year" name="Year" @onchange=@YearSelected>
+        @foreach (var year in years)
+        {
+            if (year == Year)
+            {
+                <option value="@year" selected>@year</option>
+            }
+            else
+            {
+                <option value="@year">@year</option>
+            }
+        }
+    </select>
+</div>
+
+<table class="table" style="width: 1024px;">
+    <tr>
+        <th style="width: 120px;">Start Date</th>
+        <th style="width: 120px;">End Date</th>
+        <th style="width: 165px;">Number of Days Requested</th>
+        <th style="width: 165px;">Number of Annual Leave Days Requested</th>
+        <th style="width: 165px;">Number of Public Leave Days Requested</th>
+        <th style="width: 165px;">Number of Days Left</th>
+        <th style="width: 165px;">Number of Annual Leave Days Left</th>
+        <th style="width: 165px;">Number of Public Holidays Left</th>
+        <th style="width: 150px;">Notes</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+        <th>&nbsp;</th>
+    </tr>
+    @foreach (var annualLeaveRequest in annualLeaveRequests)
+    {
+<tr>
+    <td>@annualLeaveRequest.StartDate.ToString("dd MMM yyyy")</td>
+    <td>@annualLeaveRequest.ReturnDate.ToString("dd MMM yyyy")</td>
+    <td>@annualLeaveRequest.NumberOfDaysRequested</td>
+    <td>@annualLeaveRequest.NumberOfAnnualLeaveDaysRequested</td>
+    <td>@annualLeaveRequest.NumberOfPublicLeaveDaysRequested</td>
+    <td>@annualLeaveRequest.NumberOfDaysLeft</td>
+    <td>@annualLeaveRequest.NumberOfAnnualLeaveDaysLeft</td>
+    <td>@annualLeaveRequest.NumberOfPublicLeaveDaysLeft</td>
+    <td>@annualLeaveRequest.Notes</td>
+    <td>
+        <a href="@($"AnnualLeave/Edit/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
+            Edit
+        </a>
+    </td>
+    <td>
+        <a href="@($"AnnualLeave/Details/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
+            Details
+        </a>
+    </td>
+    <td>
+        <a href="@($"AnnualLeave/Delete/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
+            Delete
+        </a>
+    </td>
+</tr>
+    }
+
+</table>
+<br />
+
+<table class="table" style="width: 225px;">
+    <tr>
+        <td>Number of Days</td>
+        <td>@NumberOfDays</td>
+    </tr>
+    <tr>
+        <td>Number of Annual Leave Days</td>
+        <td>@NumberOfAnnualLeaveDays</td>
+    </tr>
+    <tr>
+        <td>Number of Public Holidays</td>
+        <td>@NumberOfPublicDays</td>
+    </tr>
+    <tr>
+        <td>Number of Days Left</td>
+        <td>@NumberOfDaysLeft</td>
+    </tr>
+    <tr>
+        <td>Number of Annual Leave Days Left</td>
+        <td>@NumberOfAnnualLeaveDaysLeft</td>
+    </tr>
+    <tr>
+        <td>Number of Public Days Left</td>
+        <td>@NumberOfPublicDaysLeft</td>
+    </tr>
+</table>
+
+@code {
+    private int NumberOfDays { get; set; }
+    private int NumberOfAnnualLeaveDays { get; set; }
+    private int NumberOfPublicDays { get; set; }
+    private int NumberOfDaysLeft { get; set; }
+    private int NumberOfAnnualLeaveDaysLeft { get; set; }
+    private int NumberOfPublicDaysLeft { get; set; }
+    protected int Year { get; set; } = DateTime.UtcNow.Year;
+
+    private List<AnnualLeaveRequestOverviewModel> annualLeaveRequests;
+    protected List<int> years;
+
+    protected override void OnInitialized()
+    {
+        RefreshPage();
+    }
+
+    void YearSelected(ChangeEventArgs e)
+    {
+        Year = Convert.ToInt32(e.Value.ToString());
+
+        RefreshPage();
+    }
+
+    private void RefreshPage()
+    {
+        years = AnnualLeaveRequestService.GetYears();
+        annualLeaveRequests = AnnualLeaveRequestService.GetRequestForYear(Year);
+
+        if (annualLeaveRequests.Count > 0)
+        {
+            NumberOfDays = annualLeaveRequests.Last().NumberOfDays;
+            NumberOfAnnualLeaveDays = annualLeaveRequests.Last().NumberOfAnnualLeaveDays;
+            NumberOfPublicDays = annualLeaveRequests.Last().NumberOfPublicDays;
+            NumberOfDaysLeft = annualLeaveRequests.Last().NumberOfDaysLeft;
+            NumberOfAnnualLeaveDaysLeft = annualLeaveRequests.Last().NumberOfAnnualLeaveDaysLeft;
+            NumberOfPublicDaysLeft = annualLeaveRequests.Last().NumberOfPublicLeaveDaysLeft;
+        }
+
+        annualLeaveRequests = annualLeaveRequests.Where(x => x.AnnualLeaveRequestID > 0).ToList();
+    }
+}
+
