@@ -11,6 +11,18 @@
 <EditForm Model="model" OnValidSubmit="@CreateRequest">
     <DataAnnotationsValidator />
 
+    <div style="color:red; padding-bottom: 20px">
+        @if(ErrorMessages?.Count > 0)
+        {
+            <ul>
+                @foreach (var errorMessage in ErrorMessages)
+                {
+                    <li>@errorMessage</li>
+                }
+            </ul>
+        } 
+    </div>
+
     <div class="form-group">
         <label class="control-label col-md-2">Start Date</label>
         <div class="col-md-3">
@@ -97,6 +109,7 @@
 </div>
 
 @code {
+    protected List<string> ErrorMessages { get; set; }
 
     private List<string> PaidLeaveTypes = new List<string>()
     {
@@ -111,7 +124,7 @@
         "Annual Leave",
         "Compassionate Leave",
         "Appointment"
-    } 
+    }
     .OrderBy(x => x)
     .ToList();
 
@@ -125,7 +138,15 @@
 
         model = AnnualLeaveRequestService.Create(model);
 
-        NavigationManager.NavigateTo("AnnualLeave/Overview");
+        if(string.IsNullOrEmpty(model.ErrorMessage))
+        {
+            NavigationManager.NavigateTo("AnnualLeave/Overview");
+        }
+        else
+        {
+            ErrorMessages = model.ErrorMessage.Split("\\n").ToList();
+            ErrorMessages.RemoveAll(x => string.IsNullOrEmpty(x));
+        }
     }
 
     private void BackToOverview()

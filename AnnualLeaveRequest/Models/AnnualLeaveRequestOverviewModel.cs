@@ -40,9 +40,13 @@ namespace AnnualLeaveRequest.Models
         public string Notes { get; set; }
         public int NumberOfDays { get; set; }
         public int NumberOfAnnualLeaveDays { get; set; }
-        public int NumberOfPublicDays { get; set; }
+        public int NumberOfPublicLeaveDays { get; set; }
         public int NumberOfDaysLeft { get; set; }
         public int NumberOfAnnualLeaveDaysLeft { get; set; }
         public int NumberOfPublicLeaveDaysLeft { get; set; }
+        public int NumberOfDaysLeftForYear { get; set; }
+        public int NumberOfAnnualLeaveDaysLeftForYear { get; set; }
+        public int NumberOfPublicLeaveDaysLeftForYear { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }

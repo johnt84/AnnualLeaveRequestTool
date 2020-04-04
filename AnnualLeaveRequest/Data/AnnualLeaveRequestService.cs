@@ -1,6 +1,7 @@
 ﻿using AnnualLeaveRequest.Models;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -25,7 +26,7 @@ namespace AnnualLeaveRequest.Data
                 connection.Open();
                 var years = connection.
                                             Query<int>(
-                                                "Select t.Year from AnnualLeaveRequestsOverview t"
+                                                "Select t.Year from AnnualLeaveRequestsOverview t group by t.Year"
                                                 ).
                                             OrderBy(x => x).
                                             ToList();
@@ -40,6 +41,7 @@ namespace AnnualLeaveRequest.Data
             using (IDbConnection connection = Connection)
             {
                 connection.Open();
+
                 var annualLeaveRequests = connection.
                                             Query<AnnualLeaveRequestOverviewModel>(
                                                 "Select * from AnnualLeaveRequestsOverview t where t.Year = @year", 
@@ -47,6 +49,20 @@ namespace AnnualLeaveRequest.Data
                                             OrderBy(x => x.StartDate).
                                             ToList();
 
+                int noOfDaysLeft = annualLeaveRequests.First().NumberOfDays;
+                int noOfAnnualLeaveDaysLeft = annualLeaveRequests.First().NumberOfAnnualLeaveDays;
+                int noOfPublicLeaveDaysLeft = annualLeaveRequests.First().NumberOfPublicLeaveDays;
+
+                foreach(var annualLeaveRequest in annualLeaveRequests.OrderBy(x => x.StartDate).ToList())
+                {
+                    noOfDaysLeft = noOfDaysLeft - annualLeaveRequest.NumberOfDaysRequested;
+                    noOfAnnualLeaveDaysLeft = noOfAnnualLeaveDaysLeft - annualLeaveRequest.NumberOfAnnualLeaveDaysRequested;
+                    noOfPublicLeaveDaysLeft = noOfPublicLeaveDaysLeft - annualLeaveRequest.NumberOfPublicLeaveDaysRequested;
+
+                    annualLeaveRequest.NumberOfDaysLeft = noOfDaysLeft;
+                    annualLeaveRequest.NumberOfAnnualLeaveDaysLeft = noOfAnnualLeaveDaysLeft;
+                    annualLeaveRequest.NumberOfPublicLeaveDaysLeft = noOfPublicLeaveDaysLeft;
+                }
 
                 return annualLeaveRequests;
             }
@@ -84,9 +100,18 @@ namespace AnnualLeaveRequest.Data
                                         @DateCreated, 
                                         @Notes";
 
-                model.AnnualLeaveRequestID = connection.
-                                                Query<int>(query, model).
-                                                Single();
+                try
+                {
+                    model.AnnualLeaveRequestID = connection.
+                                                    Query<int>(query, model).
+                                                    Single();
+
+                    model.ErrorMessage = string.Empty;
+                }
+                catch(Exception ex)
+                {
+                    model.ErrorMessage = ex.Message;
+                }
             }
 
             return model;
@@ -108,7 +133,16 @@ namespace AnnualLeaveRequest.Data
                                         @NumberOfPublicLeaveDaysRequested, 
                                         @Notes";
 
-                connection.Query<int>(query, model);
+                try
+                {
+                    connection.Query<int>(query, model);
+
+                    model.ErrorMessage = string.Empty;
+                }
+                catch (Exception ex)
+                {
+                    model.ErrorMessage = ex.Message;
+                }
             }
 
             return model;

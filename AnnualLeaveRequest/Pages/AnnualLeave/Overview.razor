@@ -89,7 +89,7 @@
     </tr>
     <tr>
         <td>Number of Public Holidays</td>
-        <td>@NumberOfPublicDays</td>
+        <td>@NumberOfPublicLeaveDays</td>
     </tr>
     <tr>
         <td>Number of Days Left</td>
@@ -108,7 +108,7 @@
 @code {
     private int NumberOfDays { get; set; }
     private int NumberOfAnnualLeaveDays { get; set; }
-    private int NumberOfPublicDays { get; set; }
+    private int NumberOfPublicLeaveDays { get; set; }
     private int NumberOfDaysLeft { get; set; }
     private int NumberOfAnnualLeaveDaysLeft { get; set; }
     private int NumberOfPublicDaysLeft { get; set; }
@@ -138,10 +138,10 @@
         {
             NumberOfDays = annualLeaveRequests.Last().NumberOfDays;
             NumberOfAnnualLeaveDays = annualLeaveRequests.Last().NumberOfAnnualLeaveDays;
-            NumberOfPublicDays = annualLeaveRequests.Last().NumberOfPublicDays;
-            NumberOfDaysLeft = annualLeaveRequests.Last().NumberOfDaysLeft;
-            NumberOfAnnualLeaveDaysLeft = annualLeaveRequests.Last().NumberOfAnnualLeaveDaysLeft;
-            NumberOfPublicDaysLeft = annualLeaveRequests.Last().NumberOfPublicLeaveDaysLeft;
+            NumberOfPublicLeaveDays = annualLeaveRequests.Last().NumberOfPublicLeaveDays;
+            NumberOfDaysLeft = annualLeaveRequests.Last().NumberOfDaysLeftForYear;
+            NumberOfAnnualLeaveDaysLeft = annualLeaveRequests.Last().NumberOfAnnualLeaveDaysLeftForYear;
+            NumberOfPublicDaysLeft = annualLeaveRequests.Last().NumberOfPublicLeaveDaysLeftForYear;
         }
 
         annualLeaveRequests = annualLeaveRequests.Where(x => x.AnnualLeaveRequestID > 0).ToList();
