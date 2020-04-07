@@ -1,8 +1,10 @@
-﻿@page  "/AnnualLeave/Overview"
+﻿@page  "/AnnualLeave/Overview/"
+@page  "/AnnualLeave/Overview/{AnnualLeaveRequestID:int}"
 
 @using AnnualLeaveRequest.Data
 @using AnnualLeaveRequest.Models
 @inject IAnnualLeaveRequestService AnnualLeaveRequestService
+@inject NavigationManager NavigationManager
 
 <div style="padding-bottom: 20px">
     <h2>Annual Leave Calendar - @Year</h2>
@@ -47,32 +49,32 @@
     </tr>
     @foreach (var annualLeaveRequest in annualLeaveRequests)
     {
-<tr>
-    <td>@annualLeaveRequest.StartDate.ToString("dd MMM yyyy")</td>
-    <td>@annualLeaveRequest.ReturnDate.ToString("dd MMM yyyy")</td>
-    <td>@annualLeaveRequest.NumberOfDaysRequested</td>
-    <td>@annualLeaveRequest.NumberOfAnnualLeaveDaysRequested</td>
-    <td>@annualLeaveRequest.NumberOfPublicLeaveDaysRequested</td>
-    <td>@annualLeaveRequest.NumberOfDaysLeft</td>
-    <td>@annualLeaveRequest.NumberOfAnnualLeaveDaysLeft</td>
-    <td>@annualLeaveRequest.NumberOfPublicLeaveDaysLeft</td>
-    <td>@annualLeaveRequest.Notes</td>
-    <td>
-        <a href="@($"AnnualLeave/Edit/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
-            Edit
-        </a>
-    </td>
-    <td>
-        <a href="@($"AnnualLeave/Details/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
-            Details
-        </a>
-    </td>
-    <td>
-        <a href="@($"AnnualLeave/Delete/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
-            Delete
-        </a>
-    </td>
-</tr>
+        <tr style="@(annualLeaveRequest.AnnualLeaveRequestID == AnnualLeaveRequestID ? "background-color: #ffff99;" : string.Empty)">
+            <td>@annualLeaveRequest.StartDate.ToString("dd MMM yyyy")</td>
+            <td>@annualLeaveRequest.ReturnDate.ToString("dd MMM yyyy")</td>
+            <td>@annualLeaveRequest.NumberOfDaysRequested</td>
+            <td>@annualLeaveRequest.NumberOfAnnualLeaveDaysRequested</td>
+            <td>@annualLeaveRequest.NumberOfPublicLeaveDaysRequested</td>
+            <td>@annualLeaveRequest.NumberOfDaysLeft</td>
+            <td>@annualLeaveRequest.NumberOfAnnualLeaveDaysLeft</td>
+            <td>@annualLeaveRequest.NumberOfPublicLeaveDaysLeft</td>
+            <td>@annualLeaveRequest.Notes</td>
+            <td>
+                <a href="@($"AnnualLeave/Edit/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
+                    Edit
+                </a>
+            </td>
+            <td>
+                <a href="@($"AnnualLeave/Details/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
+                    Details
+                </a>
+            </td>
+            <td>
+                <a href="@($"AnnualLeave/Delete/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
+                    Delete
+                </a>
+            </td>
+        </tr>
     }
 
 </table>
@@ -106,6 +108,9 @@
 </table>
 
 @code {
+    [Parameter]
+    public int AnnualLeaveRequestID { get; set; }
+
     private int NumberOfDays { get; set; }
     private int NumberOfAnnualLeaveDays { get; set; }
     private int NumberOfPublicLeaveDays { get; set; }
@@ -117,19 +122,19 @@
     private List<AnnualLeaveRequestOverviewModel> annualLeaveRequests;
     protected List<int> years;
 
-    protected override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
-        RefreshPage();
+        await RefreshPage();
     }
 
-    void YearSelected(ChangeEventArgs e)
+    protected async Task YearSelected(ChangeEventArgs e)
     {
         Year = Convert.ToInt32(e.Value.ToString());
 
-        RefreshPage();
+        await RefreshPage();
     }
 
-    private void RefreshPage()
+    private async Task RefreshPage()
     {
         years = AnnualLeaveRequestService.GetYears();
         annualLeaveRequests = AnnualLeaveRequestService.GetRequestForYear(Year);
@@ -145,6 +150,13 @@
         }
 
         annualLeaveRequests = annualLeaveRequests.Where(x => x.AnnualLeaveRequestID > 0).ToList();
+
+        //used to highlight the row which has been changed (created/updated) for a short time
+        if (AnnualLeaveRequestID > 0)
+        {
+            await Task.Delay(500);
+            NavigationManager.NavigateTo("AnnualLeave/Overview");
+        }
     }
 }
 

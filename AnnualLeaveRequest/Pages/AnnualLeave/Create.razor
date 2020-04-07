@@ -140,7 +140,7 @@
 
         if(string.IsNullOrEmpty(model.ErrorMessage))
         {
-            NavigationManager.NavigateTo("AnnualLeave/Overview");
+            NavigationManager.NavigateTo($"AnnualLeave/Overview/{model.AnnualLeaveRequestID}");
         }
         else
         {
