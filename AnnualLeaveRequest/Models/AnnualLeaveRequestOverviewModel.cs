@@ -23,30 +23,21 @@ namespace AnnualLeaveRequest.Models
         public DateTime ReturnDate { get; set; } = DateTime.UtcNow;
 
         [Required]
-        [Range(1, 31, ErrorMessage = "Invalid number of days (1-30).")]
-        public int NumberOfDaysRequested { get; set; }
-
-        [Required]
-        [Range(0, 31, ErrorMessage = "Invalid number of days (0-30).")]
-        public int NumberOfAnnualLeaveDaysRequested { get; set; }
-
-        [Required]
-        [Range(0, 31, ErrorMessage = "Invalid number of days (0-3).")]
-        public int NumberOfPublicLeaveDaysRequested { get; set; }
-
-        [Required]
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
         public string Notes { get; set; }
-        public int NumberOfDays { get; set; }
-        public int NumberOfAnnualLeaveDays { get; set; }
-        public int NumberOfPublicLeaveDays { get; set; }
-        public int NumberOfDaysLeft { get; set; }
-        public int NumberOfAnnualLeaveDaysLeft { get; set; }
-        public int NumberOfPublicLeaveDaysLeft { get; set; }
-        public int NumberOfDaysLeftForYear { get; set; }
-        public int NumberOfAnnualLeaveDaysLeftForYear { get; set; }
-        public int NumberOfPublicLeaveDaysLeftForYear { get; set; }
+        public decimal NumberOfDays { get; set; }
+        public decimal NumberOfAnnualLeaveDays { get; set; }
+        public decimal NumberOfPublicLeaveDays { get; set; }
+        public decimal NumberOfDaysRequested { get; set; }
+        public decimal NumberOfAnnualLeaveDaysRequested { get; set; }
+        public decimal NumberOfPublicLeaveDaysRequested { get; set; }
+        public decimal NumberOfDaysLeft { get; set; }
+        public decimal NumberOfAnnualLeaveDaysLeft { get; set; }
+        public decimal NumberOfPublicLeaveDaysLeft { get; set; }
+        public decimal NumberOfDaysLeftForYear { get; set; }
+        public decimal NumberOfAnnualLeaveDaysLeftForYear { get; set; }
+        public decimal NumberOfPublicLeaveDaysLeftForYear { get; set; }
         public string ErrorMessage { get; set; }
     }
 }

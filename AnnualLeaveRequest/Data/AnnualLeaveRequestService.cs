@@ -49,9 +49,9 @@ namespace AnnualLeaveRequest.Data
                                             OrderBy(x => x.StartDate).
                                             ToList();
 
-                int noOfDaysLeft = annualLeaveRequests.First().NumberOfDays;
-                int noOfAnnualLeaveDaysLeft = annualLeaveRequests.First().NumberOfAnnualLeaveDays;
-                int noOfPublicLeaveDaysLeft = annualLeaveRequests.First().NumberOfPublicLeaveDays;
+                decimal noOfDaysLeft = annualLeaveRequests.First().NumberOfDays;
+                decimal noOfAnnualLeaveDaysLeft = annualLeaveRequests.First().NumberOfAnnualLeaveDays;
+                decimal noOfPublicLeaveDaysLeft = annualLeaveRequests.First().NumberOfPublicLeaveDays;
 
                 foreach(var annualLeaveRequest in annualLeaveRequests.OrderBy(x => x.StartDate).ToList())
                 {
@@ -94,9 +94,6 @@ namespace AnnualLeaveRequest.Data
                                         @LeaveType, 
                                         @StartDate, 
                                         @ReturnDate, 
-                                        @NumberOfDaysRequested, 
-                                        @NumberOfAnnualLeaveDaysRequested, 
-                                        @NumberOfPublicLeaveDaysRequested, 
                                         @DateCreated, 
                                         @Notes";
 
@@ -127,10 +124,7 @@ namespace AnnualLeaveRequest.Data
                                         @PaidLeaveType, 
                                         @LeaveType, 
                                         @StartDate, 
-                                        @ReturnDate, 
-                                        @NumberOfDaysRequested, 
-                                        @NumberOfAnnualLeaveDaysRequested, 
-                                        @NumberOfPublicLeaveDaysRequested, 
+                                        @ReturnDate,  
                                         @Notes";
 
                 try

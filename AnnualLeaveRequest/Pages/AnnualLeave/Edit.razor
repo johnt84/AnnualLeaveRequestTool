@@ -40,30 +40,6 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-md-2">Number of Days</label>
-        <div class="col-md-3">
-            <InputNumber class="form-control" @bind-Value="model.NumberOfDaysRequested" />
-            <ValidationMessage For="(() => model.NumberOfDaysRequested)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-md-2">Number of Annual Leave Days</label>
-        <div class="col-md-3">
-            <InputNumber class="form-control" @bind-Value="model.NumberOfAnnualLeaveDaysRequested" />
-            <ValidationMessage For="(() => model.NumberOfAnnualLeaveDaysRequested)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-md-2">Number of Public Leave Days</label>
-        <div class="col-md-3">
-            <InputNumber class="form-control" @bind-Value="model.NumberOfPublicLeaveDaysRequested" />
-            <ValidationMessage For="(() => model.NumberOfPublicLeaveDaysRequested)" />
-        </div>
-    </div>
-
-    <div class="form-group">
         <label class="control-label col-md-2">Leave to be Paid/Unpaid</label>
         <div class="col-md-3">
             <InputSelect @bind-Value="model.PaidLeaveType" class="form-control">

@@ -35,7 +35,7 @@
 <table class="table" style="width: 1024px;">
     <tr>
         <th style="width: 120px;">Start Date</th>
-        <th style="width: 120px;">End Date</th>
+        <th style="width: 120px;">Return Date</th>
         <th style="width: 165px;">Number of Days Requested</th>
         <th style="width: 165px;">Number of Annual Leave Days Requested</th>
         <th style="width: 165px;">Number of Public Leave Days Requested</th>
@@ -111,12 +111,12 @@
     [Parameter]
     public int AnnualLeaveRequestID { get; set; }
 
-    private int NumberOfDays { get; set; }
-    private int NumberOfAnnualLeaveDays { get; set; }
-    private int NumberOfPublicLeaveDays { get; set; }
-    private int NumberOfDaysLeft { get; set; }
-    private int NumberOfAnnualLeaveDaysLeft { get; set; }
-    private int NumberOfPublicDaysLeft { get; set; }
+    private decimal NumberOfDays { get; set; }
+    private decimal NumberOfAnnualLeaveDays { get; set; }
+    private decimal NumberOfPublicLeaveDays { get; set; }
+    private decimal NumberOfDaysLeft { get; set; }
+    private decimal NumberOfAnnualLeaveDaysLeft { get; set; }
+    private decimal NumberOfPublicDaysLeft { get; set; }
     protected int Year { get; set; } = DateTime.UtcNow.Year;
 
     private List<AnnualLeaveRequestOverviewModel> annualLeaveRequests;
