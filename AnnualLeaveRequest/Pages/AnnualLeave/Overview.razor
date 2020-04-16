@@ -136,6 +136,11 @@
 
     private async Task RefreshPage()
     {
+        if (AnnualLeaveRequestID > 0)
+        {
+            Year = AnnualLeaveRequestService.GetRequest(AnnualLeaveRequestID)?.Year ?? DateTime.UtcNow.Year;
+        }
+
         years = AnnualLeaveRequestService.GetYears();
         annualLeaveRequests = AnnualLeaveRequestService.GetRequestForYear(Year);
 
