@@ -96,14 +96,11 @@ namespace AnnualLeaveRequest.Data
             using (IDbConnection connection = Connection)
             {
                 connection.Open();
-                var daysBetweenStartDateAndReturnDate = connection.
-                                            Query<decimal>(
-                                                "Select t.numberOfDays from NumberOfAnnualLeaveDaysBetweenTwoDatesGet(@startDate, @returnDate) t",
-                                                new { startDate, returnDate }).
-                                            FirstOrDefault();
-
-
-                return daysBetweenStartDateAndReturnDate;
+                return connection.
+                        Query<decimal>(
+                            "Select t.numberOfDays from NumberOfAnnualLeaveDaysBetweenTwoDatesGet(@startDate, @returnDate) t",
+                            new { startDate, returnDate }).
+                        FirstOrDefault();
             }
         }
 
