@@ -40,6 +40,13 @@
     </div>
 
     <div class="form-group">
+        <label class="control-label col-md-2">Number of days requested</label>
+        <div class="col-md-3">
+            <label class="control-label col-md-2">@GetNumberOfDaysRequested()</label>
+        </div>
+    </div>
+
+    <div class="form-group">
         <label class="control-label col-md-2">Leave to be Paid/Unpaid</label>
         <div class="col-md-3">
             <InputSelect @bind-Value="model.PaidLeaveType" class="form-control">
@@ -141,5 +148,10 @@
     private void BackToOverview()
     {
         NavigationManager.NavigateTo("AnnualLeave/Overview");
+    }
+
+    private decimal GetNumberOfDaysRequested()
+    {
+        return AnnualLeaveRequestService.GetDaysBetweenStartDateAndReturnDate(model.StartDate, model.ReturnDate);
     }
 }

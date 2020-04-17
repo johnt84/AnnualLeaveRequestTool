@@ -12,7 +12,7 @@
     <DataAnnotationsValidator />
 
     <div style="color:red; padding-bottom: 20px">
-        @if(ErrorMessages?.Count > 0)
+        @if (ErrorMessages?.Count > 0)
         {
             <ul>
                 @foreach (var errorMessage in ErrorMessages)
@@ -20,7 +20,7 @@
                     <li>@errorMessage</li>
                 }
             </ul>
-        } 
+        }
     </div>
 
     <div class="form-group">
@@ -36,6 +36,13 @@
         <div class="col-md-3">
             <InputDate class="form-control" @bind-Value="model.ReturnDate" />
             <ValidationMessage For="(() => model.ReturnDate)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2">Number of days requested</label>
+        <div class="col-md-3">
+            <label class="control-label col-md-2">@GetNumberOfDaysRequested()</label>
         </div>
     </div>
 
@@ -128,5 +135,10 @@
     private void BackToOverview()
     {
         NavigationManager.NavigateTo("AnnualLeave/Overview");
+    }
+
+    private decimal GetNumberOfDaysRequested()
+    {
+        return AnnualLeaveRequestService.GetDaysBetweenStartDateAndReturnDate(model.StartDate, model.ReturnDate);
     }
 }

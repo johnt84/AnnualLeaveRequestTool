@@ -84,6 +84,29 @@ namespace AnnualLeaveRequest.Data
             }
         }
 
+        public decimal GetDaysBetweenStartDateAndReturnDate(DateTime startDate, DateTime returnDate)
+        {
+            var emptyDate = new DateTime(2010,01,01);
+            
+            if(startDate < emptyDate || returnDate < emptyDate)
+            {
+                return 0;
+            }
+
+            using (IDbConnection connection = Connection)
+            {
+                connection.Open();
+                var daysBetweenStartDateAndReturnDate = connection.
+                                            Query<decimal>(
+                                                "Select t.numberOfDays from NumberOfAnnualLeaveDaysBetweenTwoDatesGet(@startDate, @returnDate) t",
+                                                new { startDate, returnDate }).
+                                            FirstOrDefault();
+
+
+                return daysBetweenStartDateAndReturnDate;
+            }
+        }
+
         public AnnualLeaveRequestOverviewModel Create(AnnualLeaveRequestOverviewModel model)
         {
             using (IDbConnection connection = Connection)
