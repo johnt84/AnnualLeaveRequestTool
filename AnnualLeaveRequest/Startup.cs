@@ -22,9 +22,14 @@ namespace AnnualLeaveRequest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
-            services.AddServerSideBlazor();
+
             services.AddServerSideBlazor()
-                .AddCircuitOptions(options => { options.DetailedErrors = Convert.ToBoolean(Configuration["DetailedErrors"]); });
+                .AddCircuitOptions(options => 
+                { 
+                    //can toggle detailed errors on or off from app settings
+                    options.DetailedErrors = Convert.ToBoolean(Configuration["DetailedErrors"]); 
+                });
+
             services.AddScoped<IAnnualLeaveRequestService, AnnualLeaveRequestService>();
 
             var sqlConnectionConfiguration = new SqlConnectionConfiguration(Configuration.GetConnectionString("AnnualLeaveRequestDB"));
