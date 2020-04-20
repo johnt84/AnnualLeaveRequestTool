@@ -42,7 +42,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Number of days requested</label>
         <div class="col-md-3">
-            <label class="control-label col-md-2">@GetNumberOfDaysRequested()</label>
+            <label style="@(GetNumberOfDaysRequested() > 0 ? "color:black;" : "color:red")" class="control-label col-md-2">@GetNumberOfDaysRequested()</label>
         </div>
     </div>
 
@@ -82,7 +82,10 @@
         </div>
     </div>
 
-    <button type="submit">Submit</button>
+    @if (GetNumberOfDaysRequested() > 0)
+    {
+        <button type="submit">Submit</button>
+    }
 </EditForm>
 
 <div class="form-actions no-color esh-link-list" style="padding-top: 20px">
