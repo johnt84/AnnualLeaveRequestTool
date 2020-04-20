@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace AnnualLeaveRequest
 {
@@ -22,6 +23,8 @@ namespace AnnualLeaveRequest
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddServerSideBlazor()
+                .AddCircuitOptions(options => { options.DetailedErrors = Convert.ToBoolean(Configuration["DetailedErrors"]); });
             services.AddScoped<IAnnualLeaveRequestService, AnnualLeaveRequestService>();
 
             var sqlConnectionConfiguration = new SqlConnectionConfiguration(Configuration.GetConnectionString("AnnualLeaveRequestDB"));
