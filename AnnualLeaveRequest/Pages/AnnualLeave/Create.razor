@@ -6,7 +6,6 @@
 @inject NavigationManager NavigationManager
 
 <h2>Create Annual Leave Request</h2>
-<br>
 
 <EditForm Model="model" OnValidSubmit="@CreateRequest">
     <DataAnnotationsValidator />
@@ -32,7 +31,7 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-md-2">End Date</label>
+        <label class="control-label col-md-2">Return Date</label>
         <div class="col-md-3">
             <InputDate class="form-control" @bind-Value="model.ReturnDate" />
             <ValidationMessage For="(() => model.ReturnDate)" />

@@ -75,7 +75,9 @@ namespace AnnualLeaveRequest.Data
                 connection.Open();
                 var annualLeaveRequest = connection.
                                             Query<AnnualLeaveRequestOverviewModel>(
-                                                "Select * from AnnualLeaveRequestsOverview t where t.annualLeaveRequestID = @annualLeaveRequestID",
+                                                @"Select * 
+                                                    from AnnualLeaveRequestsOverview t 
+                                                    where t.annualLeaveRequestID = @annualLeaveRequestID",
                                                 new { annualLeaveRequestID }).
                                             FirstOrDefault();
 
@@ -98,7 +100,8 @@ namespace AnnualLeaveRequest.Data
                 connection.Open();
                 return connection.
                         Query<decimal>(
-                            "Select t.numberOfDays from NumberOfAnnualLeaveDaysBetweenTwoDatesGet(@startDate, @returnDate) t",
+                            @"select iif(sum(t.numberOfDays) > 0, sum(t.numberOfDays), 0)
+                                from numberOfAnnualLeaveDaysBetweenTwoDatesGet(@startDate, @returnDate) t",
                             new { startDate, returnDate }).
                         FirstOrDefault();
             }
@@ -108,8 +111,7 @@ namespace AnnualLeaveRequest.Data
         {
             using (IDbConnection connection = Connection)
             {
-                string query = @"
-                                exec procCreateAnnualLeaveRequest 
+                string query = @"exec procCreateAnnualLeaveRequest 
                                         @PaidLeaveType, 
                                         @LeaveType, 
                                         @StartDate, 
@@ -138,8 +140,7 @@ namespace AnnualLeaveRequest.Data
         {
             using (IDbConnection connection = Connection)
             {
-                string query = @"
-                                exec procUpdateAnnualLeaveRequest 
+                string query = @"exec procUpdateAnnualLeaveRequest 
                                         @AnnualLeaveRequestID,                 
                                         @PaidLeaveType, 
                                         @LeaveType, 

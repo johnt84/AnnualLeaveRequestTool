@@ -77,10 +77,14 @@
     </div>
 
     <div class="form-actions no-color esh-link-list">
-        <a href="@($"/AnnualLeave/Edit/{model.AnnualLeaveRequestID}")" class="esh-link-item">
-            Edit
-        </a>
-        |
+        @if (editableRequest)
+        {
+            <a href="@($"/AnnualLeave/Edit/{model.AnnualLeaveRequestID}")" class="esh-link-item">
+                Edit
+            </a>
+            <label>|</label>
+        }
+
         <a href="/AnnualLeave/Overview" class="esh-link-item">
             Back to Overview
         </a>
@@ -88,10 +92,12 @@
 </div>
 
 @code {
-    private AnnualLeaveRequestOverviewModel model = new AnnualLeaveRequestOverviewModel();
-
     [Parameter]
     public int AnnualLeaveRequestID { get; set; }
+
+    private AnnualLeaveRequestOverviewModel model = new AnnualLeaveRequestOverviewModel();
+    protected bool editableRequest => model.Year >= DateTime.UtcNow.Year;
+
 
     protected override void OnInitialized()
     {

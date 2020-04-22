@@ -10,11 +10,14 @@
     <h2>Annual Leave Calendar - @Year</h2>
 </div>
 
-<div class="form-actions no-color esh-link-list" style="padding-bottom: 20px">
-    <a href="@($"/AnnualLeave/Create")" class="esh-link-item">
-        Create
-    </a>
-</div>
+@if(editableYearSelected)
+{
+    <div class="form-actions no-color esh-link-list" style="padding-bottom: 20px">
+        <a href="@($"/AnnualLeave/Create")" class="esh-link-item">
+            Create
+        </a>
+    </div>
+}
 
 <div style="padding-bottom: 20px">
     <select id="Year" name="Year" @onchange=@YearSelected>
@@ -49,32 +52,39 @@
     </tr>
     @foreach (var annualLeaveRequest in annualLeaveRequests)
     {
-        <tr style="@(annualLeaveRequest.AnnualLeaveRequestID == AnnualLeaveRequestID ? "background-color: #ffff99;" : string.Empty)">
-            <td>@annualLeaveRequest.StartDate.ToString("dd MMM yyyy")</td>
-            <td>@annualLeaveRequest.ReturnDate.ToString("dd MMM yyyy")</td>
-            <td>@annualLeaveRequest.NumberOfDaysRequested</td>
-            <td>@annualLeaveRequest.NumberOfAnnualLeaveDaysRequested</td>
-            <td>@annualLeaveRequest.NumberOfPublicLeaveDaysRequested</td>
-            <td>@annualLeaveRequest.NumberOfDaysLeft</td>
-            <td>@annualLeaveRequest.NumberOfAnnualLeaveDaysLeft</td>
-            <td>@annualLeaveRequest.NumberOfPublicLeaveDaysLeft</td>
-            <td>@annualLeaveRequest.Notes</td>
-            <td>
+    <tr style="@(annualLeaveRequest.AnnualLeaveRequestID == AnnualLeaveRequestID ? "background-color: #ffff99;" : string.Empty)">
+        <td>@annualLeaveRequest.StartDate.ToString("dd MMM yyyy")</td>
+        <td>@annualLeaveRequest.ReturnDate.ToString("dd MMM yyyy")</td>
+        <td>@annualLeaveRequest.NumberOfDaysRequested</td>
+        <td>@annualLeaveRequest.NumberOfAnnualLeaveDaysRequested</td>
+        <td>@annualLeaveRequest.NumberOfPublicLeaveDaysRequested</td>
+        <td>@annualLeaveRequest.NumberOfDaysLeft</td>
+        <td>@annualLeaveRequest.NumberOfAnnualLeaveDaysLeft</td>
+        <td>@annualLeaveRequest.NumberOfPublicLeaveDaysLeft</td>
+        <td>@annualLeaveRequest.Notes</td>
+
+        <td>
+            @if(editableYearSelected)
+            {
                 <a href="@($"AnnualLeave/Edit/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
                     Edit
                 </a>
-            </td>
-            <td>
-                <a href="@($"AnnualLeave/Details/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
-                    Details
-                </a>
-            </td>
-            <td>
+            }
+        </td>
+        <td>
+            <a href="@($"AnnualLeave/Details/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
+                Details
+            </a>
+        </td>
+        <td>
+            @if(editableYearSelected)
+            {
                 <a href="@($"AnnualLeave/Delete/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
                     Delete
                 </a>
-            </td>
-        </tr>
+            }
+        </td>
+    </tr>
     }
 
 </table>
@@ -118,6 +128,8 @@
     private decimal NumberOfAnnualLeaveDaysLeft { get; set; }
     private decimal NumberOfPublicDaysLeft { get; set; }
     protected int Year { get; set; } = DateTime.UtcNow.Year;
+
+    protected bool editableYearSelected => Year >= DateTime.UtcNow.Year;
 
     private List<AnnualLeaveRequestOverviewModel> annualLeaveRequests;
     protected List<int> years;
