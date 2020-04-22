@@ -3,12 +3,12 @@ declare @startYear int = 2019
 ,@numberOfAnnualLeaveDays decimal(18, 2) = 25
 ,@numberOfPublicLeaveDays decimal(18, 2) = 3
 
-;with yearlist as 
+;with yearList as 
 (
     select @startYear as year
     union all
     select yl.year + 1 as year
-    from yearlist yl
+    from yearList yl
     where yl.year + 1 <= YEAR(GetDate()) + 1
 )
 
@@ -31,4 +31,4 @@ select
 	,@numberOfAnnualLeaveDays
 	,@numberOfPublicLeaveDays
 from 
-	yearlist t
+	yearList t
