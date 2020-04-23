@@ -110,7 +110,7 @@
 
     private AnnualLeaveRequestOverviewModel model = new AnnualLeaveRequestOverviewModel();
 
-    protected bool deletableRequest => model.Year >= DateTime.UtcNow.Year;
+    protected bool deletableRequest => model?.AnnualLeaveRequestID > 0 && model.Year >= DateTime.UtcNow.Year;
 
     protected override void OnInitialized()
     {
