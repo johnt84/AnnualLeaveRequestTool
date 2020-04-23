@@ -9,7 +9,7 @@ Simple Blazor Annual Leave Request Tool
 
 ## Overview Page
 
-![Overview Page](Images/OverviewPage.png)
+![](Images/OverviewPage.png)
 
 ## Create Page
 
