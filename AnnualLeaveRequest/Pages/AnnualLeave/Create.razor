@@ -2,6 +2,7 @@
 
 @using AnnualLeaveRequest.Data
 @using AnnualLeaveRequest.Models
+@using AnnualLeaveRequest.Components
 @inject IAnnualLeaveRequestService AnnualLeaveRequestService
 @inject NavigationManager NavigationManager
 
@@ -10,17 +11,7 @@
 <EditForm Model="model" OnValidSubmit="@CreateRequest">
     <DataAnnotationsValidator />
 
-    <div style="color:red; padding-bottom: 20px">
-        @if (ErrorMessages?.Count > 0)
-        {
-            <ul>
-                @foreach (var errorMessage in ErrorMessages)
-                {
-                    <li>@errorMessage</li>
-                }
-            </ul>
-        }
-    </div>
+    <ErrorMessage ErrorMessages="ErrorMessages" />
 
     <div class="form-group">
         <label class="control-label col-md-2">Start Date</label>
@@ -97,7 +88,7 @@
     protected List<string> ErrorMessages { get; set; }
 
     private List<string> PaidLeaveTypes = new List<string>()
-    {
+{
         "Paid",
         "Unpaid"
     }
@@ -105,7 +96,7 @@
     .ToList();
 
     private List<string> LeaveTypes = new List<string>()
-    {
+{
         "Annual Leave",
         "Compassionate Leave",
         "Appointment"
@@ -123,7 +114,7 @@
 
         model = AnnualLeaveRequestService.Create(model);
 
-        if(string.IsNullOrEmpty(model.ErrorMessage))
+        if (string.IsNullOrEmpty(model.ErrorMessage))
         {
             NavigationManager.NavigateTo($"AnnualLeave/Overview/{model.AnnualLeaveRequestID}");
         }
