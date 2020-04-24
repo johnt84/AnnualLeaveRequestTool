@@ -2,6 +2,7 @@
 
 @using AnnualLeaveRequest.Data
 @using AnnualLeaveRequest.Models
+@using AnnualLeaveRequest.Components
 @inject IAnnualLeaveRequestService AnnualLeaveRequestService
 @inject NavigationManager NavigationManager
 
@@ -25,73 +26,7 @@
 }
 
 <div class="container">
-    <div class="row">
-        <dl class="col-md-6 dl-horizontal">
-            <dt>
-                Start Date
-            </dt>
-
-            <dd>
-                @model.StartDate.ToString("dd-MMM-yyyy")
-            </dd>
-
-            <dt>
-                Return Date
-            </dt>
-
-            <dd>
-                @model.ReturnDate.ToString("dd-MMM-yyyy")
-            </dd>
-
-            <dt>
-                Number of Days Requested
-            </dt>
-
-            <dd>
-                @model.NumberOfDaysRequested
-            </dd>
-
-            <dt>
-                Number of Annual Leave Days Requested
-            </dt>
-
-            <dd>
-                @model.NumberOfAnnualLeaveDaysRequested
-            </dd>
-
-            <dt>
-                Number of Public Leave Days Requested
-            </dt>
-
-            <dd>
-                @model.NumberOfPublicLeaveDaysRequested
-            </dd>
-
-            <dt>
-                Paid Leave Type
-            </dt>
-
-            <dd>
-                @model.PaidLeaveType
-            </dd>
-
-            <dt>
-                Leave Type
-            </dt>
-
-            <dd>
-                @model.LeaveType
-            </dd>
-
-            <dt>
-                Notes
-            </dt>
-
-            <dd>
-                @model.Notes
-            </dd>
-        </dl>
-    </div>
+    <DetailRow model="model" />
 
     <div class="form-actions no-color esh-link-list">
         @if (editableRequest)
@@ -114,7 +49,6 @@
 
     private AnnualLeaveRequestOverviewModel model = new AnnualLeaveRequestOverviewModel();
     protected bool editableRequest => model.Year >= DateTime.UtcNow.Year;
-
 
     protected override void OnInitialized()
     {
