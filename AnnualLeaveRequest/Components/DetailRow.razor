@@ -7,7 +7,7 @@
         </dt>
 
         <dd>
-            @model.StartDate.ToString("dd-MMM-yyyy")
+            @Model.StartDate.ToString("dd-MMM-yyyy")
         </dd>
 
         <dt>
@@ -15,7 +15,7 @@
         </dt>
 
         <dd>
-            @model.ReturnDate.ToString("dd-MMM-yyyy")
+            @Model.ReturnDate.ToString("dd-MMM-yyyy")
         </dd>
 
         <dt>
@@ -23,7 +23,7 @@
         </dt>
 
         <dd>
-            @model.NumberOfDaysRequested
+            @Model.NumberOfDaysRequested
         </dd>
 
         <dt>
@@ -31,7 +31,7 @@
         </dt>
 
         <dd>
-            @model.NumberOfAnnualLeaveDaysRequested
+            @Model.NumberOfAnnualLeaveDaysRequested
         </dd>
 
         <dt>
@@ -39,7 +39,7 @@
         </dt>
 
         <dd>
-            @model.NumberOfPublicLeaveDaysRequested
+            @Model.NumberOfPublicLeaveDaysRequested
         </dd>
 
         <dt>
@@ -47,7 +47,7 @@
         </dt>
 
         <dd>
-            @model.PaidLeaveType
+            @Model.PaidLeaveType
         </dd>
 
         <dt>
@@ -55,7 +55,7 @@
         </dt>
 
         <dd>
-            @model.LeaveType
+            @Model.LeaveType
         </dd>
 
         <dt>
@@ -63,12 +63,12 @@
         </dt>
 
         <dd>
-            @model.Notes
+            @Model.Notes
         </dd>
     </dl>
 </div>
 
 @code {
     [Parameter]
-    public AnnualLeaveRequestOverviewModel model { get; set; }
+    public AnnualLeaveRequestOverviewModel Model { get; set; }
 }
