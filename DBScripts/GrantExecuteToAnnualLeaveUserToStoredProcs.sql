@@ -1,0 +1,3 @@
+grant execute on procCreateAnnualLeaveRequest to AnnualLeaveUser
+grant execute on procUpdateAnnualLeaveRequest to AnnualLeaveUser
+grant execute on procDeleteAnnualLeaveRequest to AnnualLeaveUser
