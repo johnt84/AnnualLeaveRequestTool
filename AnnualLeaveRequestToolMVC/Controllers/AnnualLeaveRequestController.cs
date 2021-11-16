@@ -13,7 +13,10 @@ namespace AnnualLeaveRequestToolMVC.Controllers
             new AnnualLeaveRequestOverviewModel()
             {
                 AnnualLeaveRequestID = 1,
+
                 Year = 2021,
+                PaidLeaveType = "Paid",
+                LeaveType = "Annual Leave",
                 StartDate = new DateTime(2021,01,01),
                 ReturnDate = new DateTime(2021,01,06),
                 NumberOfDaysRequested = 4,
@@ -30,6 +33,8 @@ namespace AnnualLeaveRequestToolMVC.Controllers
             new AnnualLeaveRequestOverviewModel()
             {
                 AnnualLeaveRequestID = 2,
+                PaidLeaveType = "Paid",
+                LeaveType = "Annual Leave",
                 Year = 2021,
                 StartDate = new DateTime(2021,07,05),
                 ReturnDate = new DateTime(2021,07,12),
@@ -47,6 +52,8 @@ namespace AnnualLeaveRequestToolMVC.Controllers
              new AnnualLeaveRequestOverviewModel()
             {
                 AnnualLeaveRequestID = 3,
+                PaidLeaveType = "Paid",
+                LeaveType = "Annual Leave",
                 Year = 2021,
                 StartDate = new DateTime(2021,12,20),
                 ReturnDate = new DateTime(2021,12,31),

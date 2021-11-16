@@ -17,6 +17,21 @@
                 <input hidden asp-for="AnnualLeaveRequestID" />
             </div>
             <div class="form-group">
+                <label asp-for="Year" class="control-label"></label>
+                @Html.DisplayFor(model => model.Year)
+                <input hidden asp-for="Year" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PaidLeaveType" class="control-label"></label>
+                <input asp-for="PaidLeaveType" class="form-control" />
+                <span asp-validation-for="PaidLeaveType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaveType" class="control-label"></label>
+                <input asp-for="LeaveType" class="form-control" />
+                <span asp-validation-for="LeaveType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="StartDate" class="control-label"></label>
                 <input asp-for="StartDate" class="form-control" />
                 <span asp-validation-for="StartDate" class="text-danger"></span>
