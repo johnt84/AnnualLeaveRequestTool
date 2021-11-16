@@ -4,37 +4,76 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Person Details</h1>
+<h1>Annu Leave Request Details</h1>
 
-@*<div>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PersonID)
+<div>
+    <dl class="col-md-6 dl-horizontal">
+        <dt>
+            Start Date
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PersonID)
+
+        <dd>
+            @Model.StartDate.ToString("dd-MMM-yyyy")
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
+
+        <dt>
+            Return Date
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
+
+        <dd>
+            @Model.ReturnDate.ToString("dd-MMM-yyyy")
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
+
+        <dt>
+            Number of Days Requested
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
+
+        <dd>
+            @Model.NumberOfDaysRequested
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Age)
+
+        <dt>
+            Number of Annual Leave Days Requested
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Age)
+
+        <dd>
+            @Model.NumberOfAnnualLeaveDaysRequested
+        </dd>
+
+        <dt>
+            Number of Public Leave Days Requested
+        </dt>
+
+        <dd>
+            @Model.NumberOfPublicLeaveDaysRequested
+        </dd>
+
+        <dt>
+            Paid Leave Type
+        </dt>
+
+        <dd>
+            @Model.PaidLeaveType
+        </dd>
+
+        <dt>
+            Leave Type
+        </dt>
+
+        <dd>
+            @Model.LeaveType
+        </dd>
+
+        <dt>
+            Notes
+        </dt>
+
+        <dd>
+            @Model.Notes
         </dd>
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>*@
+    @Html.ActionLink("Edit", "Edit", new {  id = Model.AnnualLeaveRequestID  }) |
+    <a asp-action="Index">Back to Overview</a>
+</div>

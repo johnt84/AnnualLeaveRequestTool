@@ -30,37 +30,37 @@
     @foreach (var item in Model.ToList()) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.StartDate.ToString("dd MMM yyyy"))
+                @item.StartDate.ToString("dd MMM yyyy")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ReturnDate.ToString("dd MMM yyyy"))
+                @item.ReturnDate.ToString("dd MMM yyyy")
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NumberOfDaysRequested)
+                @item.NumberOfDaysRequested
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NumberOfAnnualLeaveDaysRequested)
+                @item.NumberOfAnnualLeaveDaysRequested
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NumberOfPublicLeaveDaysRequested)
+                @item.NumberOfPublicLeaveDaysRequested
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NumberOfDaysLeft)
+                @item.NumberOfDaysLeft
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NumberOfAnnualLeaveDaysLeft)
+                @item.NumberOfAnnualLeaveDaysLeft
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.NumberOfPublicLeaveDaysLeft)
+                @item.NumberOfPublicLeaveDaysLeft
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Notes)
+                @item.Notes
             </td>
-           @* <td>
-                @Html.ActionLink("Edit", "Edit", new {  personID = item.PersonID  }) |
-                @Html.ActionLink("Details", "Details", new { personID = item.PersonID }) |
-                @Html.ActionLink("Delete", "Delete", new { personID = item.PersonID })
-            </td>*@
+           <td>
+                @Html.ActionLink("Edit", "Edit", new { annualLeaveRequestID = item.AnnualLeaveRequestID }) |
+                @Html.ActionLink("Details", "Details", new { annualLeaveRequestID = item.AnnualLeaveRequestID }) |
+                @*@Html.ActionLink("Delete", "Delete", new { annualLeaveRequestID = item.AnnualLeaveRequestID })*@
+            </td>
         </tr>
 }
     </tbody>
