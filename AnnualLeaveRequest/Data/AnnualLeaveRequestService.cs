@@ -10,7 +10,7 @@ namespace AnnualLeaveRequest.Data
 {
     public class AnnualLeaveRequestService : IAnnualLeaveRequestService
     {
-        private readonly SqlConnectionConfiguration _configuration;
+        public readonly SqlConnectionConfiguration _configuration;
 
         private IDbConnection Connection => new SqlConnection(_configuration.Value);
 

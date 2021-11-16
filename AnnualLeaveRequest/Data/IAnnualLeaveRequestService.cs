@@ -4,14 +4,14 @@ using System.Collections.Generic;
 
 namespace AnnualLeaveRequest.Data
 {
-    interface IAnnualLeaveRequestService
+    public interface IAnnualLeaveRequestService
     {
-        List<int> GetYears();
-        List<AnnualLeaveRequestOverviewModel> GetRequestForYear(int year);
-        AnnualLeaveRequestOverviewModel GetRequest(int annualLeaveRequestID);
-        decimal GetDaysBetweenStartDateAndReturnDate(DateTime startDate, DateTime returnDate);
-        AnnualLeaveRequestOverviewModel Create(AnnualLeaveRequestOverviewModel model);
-        AnnualLeaveRequestOverviewModel Update(AnnualLeaveRequestOverviewModel model);
-        void Delete(AnnualLeaveRequestOverviewModel model);
+        public List<int> GetYears();
+        public List<AnnualLeaveRequestOverviewModel> GetRequestForYear(int year);
+        public AnnualLeaveRequestOverviewModel GetRequest(int annualLeaveRequestID);
+        public decimal GetDaysBetweenStartDateAndReturnDate(DateTime startDate, DateTime returnDate);
+        public AnnualLeaveRequestOverviewModel Create(AnnualLeaveRequestOverviewModel model);
+        public AnnualLeaveRequestOverviewModel Update(AnnualLeaveRequestOverviewModel model);
+        public void Delete(AnnualLeaveRequestOverviewModel model);
     }
 }
