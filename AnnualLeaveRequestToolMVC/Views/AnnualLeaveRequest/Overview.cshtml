@@ -27,7 +27,7 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.ToList()) {
+    @foreach (var item in Model.ToList().OrderBy(x => x.StartDate).ToList()) {
         <tr>
             <td>
                 @item.StartDate.ToString("dd MMM yyyy")

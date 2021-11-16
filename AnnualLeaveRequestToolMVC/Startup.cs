@@ -1,3 +1,5 @@
+using AnnualLeaveRequestToolMVC.Interfaces;
+using AnnualLeaveRequestToolMVC.Logic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -24,6 +26,8 @@ namespace AnnualLeaveRequestToolMVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddScoped<IAnnualLeaveRequestLogic, AnnualLeaveRequestLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
