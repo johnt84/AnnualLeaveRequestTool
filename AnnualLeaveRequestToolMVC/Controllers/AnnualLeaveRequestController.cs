@@ -1,5 +1,6 @@
 ﻿using AnnualLeaveRequestToolMVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,7 +75,14 @@ namespace AnnualLeaveRequestToolMVC.Controllers
                                                                                         .Where(x => x.AnnualLeaveRequestID == annualLeaveRequestID)
                                                                                         .FirstOrDefault();
 
-        public IActionResult Index()
+        private readonly ILogger<AnnualLeaveRequestController> _logger;
+
+        public AnnualLeaveRequestController(ILogger<AnnualLeaveRequestController> logger)
+        {
+            _logger = logger;
+        }
+
+        public IActionResult Overview()
         {
             return View(_annualLeaveRequests);
         }
@@ -84,6 +92,30 @@ namespace AnnualLeaveRequestToolMVC.Controllers
             var annualLeaveRequest = GetAnnualLeaveRequest(annualLeaveRequestId);
 
             return View(annualLeaveRequest);
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Create(AnnualLeaveRequestOverviewModel newAnnualLeaveRequest)
+        {
+            if (ModelState.IsValid)
+            {
+                int lastAnnualLeaveRequestID = _annualLeaveRequests.Select(x => x.AnnualLeaveRequestID).LastOrDefault();
+
+                newAnnualLeaveRequest.AnnualLeaveRequestID = lastAnnualLeaveRequestID + 1;
+
+                _annualLeaveRequests.Add(newAnnualLeaveRequest);
+
+                return RedirectToAction("Overview");
+            }
+            else
+            {
+                return View(newAnnualLeaveRequest);
+            }
         }
 
         public IActionResult Edit(int annualLeaveRequestId)
@@ -98,15 +130,32 @@ namespace AnnualLeaveRequestToolMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                int annualLeaveRequestIndex = _annualLeaveRequests.FindIndex(x => x.AnnualLeaveRequestID == editAnnualLeaveRequest.AnnualLeaveRequestID);
+                int annualLeaveRequestIndex = _annualLeaveRequests
+                                                .FindIndex(x => x.AnnualLeaveRequestID == editAnnualLeaveRequest.AnnualLeaveRequestID);
+
                 _annualLeaveRequests[annualLeaveRequestIndex] = editAnnualLeaveRequest;
 
-                return RedirectToAction("Index");
+                return RedirectToAction("Overview");
             }
             else
             {
                 return View(editAnnualLeaveRequest);
             }
+        }
+
+        public IActionResult Delete(int annualLeaveRequestId)
+        {
+            var annualLeaveRequest = GetAnnualLeaveRequest(annualLeaveRequestId);
+
+            return View(annualLeaveRequest);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteConfirmed(int annualLeaveRequestId)
+        {
+            _annualLeaveRequests.RemoveAll(x => x.AnnualLeaveRequestID == annualLeaveRequestId);
+
+            return RedirectToAction("Overview");
         }
     }
 }

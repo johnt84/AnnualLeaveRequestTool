@@ -6,9 +6,9 @@
 
 <h1>Annual Leave Calendar</h1>
 
-@*<p>
+<p>
     <a asp-action="Create">Create New</a>
-</p>*@
+</p>
 <table class="table">
     <thead>
         <tr>
@@ -21,9 +21,9 @@
             <th style="width: 165px;">Number of Annual Leave Days Left</th>
             <th style="width: 165px;">Number of Public Holidays Left</th>
             <th style="width: 150px;">Notes</th>
-         @*   <th>&nbsp;</th>
             <th>&nbsp;</th>
-            <th>&nbsp;</th>*@
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
         </tr>
     </thead>
     <tbody>
@@ -59,7 +59,7 @@
            <td>
                 @Html.ActionLink("Edit", "Edit", new { annualLeaveRequestID = item.AnnualLeaveRequestID }) |
                 @Html.ActionLink("Details", "Details", new { annualLeaveRequestID = item.AnnualLeaveRequestID }) |
-                @*@Html.ActionLink("Delete", "Delete", new { annualLeaveRequestID = item.AnnualLeaveRequestID })*@
+                @Html.ActionLink("Delete", "Delete", new { annualLeaveRequestID = item.AnnualLeaveRequestID })
             </td>
         </tr>
 }
