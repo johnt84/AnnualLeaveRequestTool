@@ -1,0 +1,67 @@
+﻿@model IEnumerable<AnnualLeaveRequestToolMVC.Models.AnnualLeaveRequestOverviewModel>
+
+@{
+    ViewData["Title"] = "Annual Leave Calendar";
+}
+
+<h1>Annual Leave Calendar</h1>
+
+@*<p>
+    <a asp-action="Create">Create New</a>
+</p>*@
+<table class="table">
+    <thead>
+        <tr>
+           <th style="width: 120px;">Start Date</th>
+            <th style="width: 120px;">Return Date</th>
+            <th style="width: 165px;">Number of Days Requested</th>
+            <th style="width: 165px;">Number of Annual Leave Days Requested</th>
+            <th style="width: 165px;">Number of Public Leave Days Requested</th>
+            <th style="width: 165px;">Number of Days Left</th>
+            <th style="width: 165px;">Number of Annual Leave Days Left</th>
+            <th style="width: 165px;">Number of Public Holidays Left</th>
+            <th style="width: 150px;">Notes</th>
+         @*   <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>*@
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.ToList()) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate.ToString("dd MMM yyyy"))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReturnDate.ToString("dd MMM yyyy"))
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfDaysRequested)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfAnnualLeaveDaysRequested)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfPublicLeaveDaysRequested)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfDaysLeft)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfAnnualLeaveDaysLeft)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfPublicLeaveDaysLeft)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Notes)
+            </td>
+           @* <td>
+                @Html.ActionLink("Edit", "Edit", new {  personID = item.PersonID  }) |
+                @Html.ActionLink("Details", "Details", new { personID = item.PersonID }) |
+                @Html.ActionLink("Delete", "Delete", new { personID = item.PersonID })
+            </td>*@
+        </tr>
+}
+    </tbody>
+</table>
