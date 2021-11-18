@@ -1,4 +1,4 @@
-﻿@model IEnumerable<AnnualLeaveRequestToolMVC.Models.AnnualLeaveRequestOverviewModel>
+﻿@model AnnualLeaveRequestToolMVC.Models.ViewModels.AnnualLeaveRequestOverviewViewModel
 
 @{
     ViewData["Title"] = "Annual Leave Calendar";
@@ -9,6 +9,11 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<div style="padding-bottom: 20px">
+    <YearsDropdown YearsViewModel=@Model.YearsViewModel></YearsDropdown>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -27,7 +32,7 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.ToList().OrderBy(x => x.StartDate).ToList()) {
+    @foreach (var item in Model.AnnualLeaveRequestsForYear.OrderBy(x => x.StartDate).ToList()) {
         <tr>
             <td>
                 @item.StartDate.ToString("dd MMM yyyy")
@@ -64,4 +69,33 @@
         </tr>
 }
     </tbody>
+</table>
+
+<br />
+
+<table class="table" style="width: 225px;">
+    <tr>
+        <td>Number of Days</td>
+        <td>@Model.AnnualLeaveRequestOverviewForYear.NumberOfDays</td>
+    </tr>
+    <tr>
+        <td>Number of Annual Leave Days</td>
+        <td>@Model.AnnualLeaveRequestOverviewForYear.NumberOfAnnualLeaveDays</td>
+    </tr>
+    <tr>
+        <td>Number of Public Holidays</td>
+        <td>@Model.AnnualLeaveRequestOverviewForYear.NumberOfPublicLeaveDays</td>
+    </tr>
+    <tr>
+        <td>Number of Days Left</td>
+        <td>@Model.AnnualLeaveRequestOverviewForYear.NumberOfDaysLeft</td>
+    </tr>
+    <tr>
+        <td>Number of Annual Leave Days Left</td>
+        <td>@Model.AnnualLeaveRequestOverviewForYear.NumberOfAnnualLeaveDaysLeft</td>
+    </tr>
+    <tr>
+        <td>Number of Public Days Left</td>
+        <td>@Model.AnnualLeaveRequestOverviewForYear.NumberOfPublicLeaveDaysLeft</td>
+    </tr>
 </table>

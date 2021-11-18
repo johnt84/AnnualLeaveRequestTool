@@ -1,10 +1,9 @@
 ﻿using AnnualLeaveRequestToolMVC.Interfaces;
 using AnnualLeaveRequestToolMVC.Models;
+using AnnualLeaveRequestToolMVC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace AnnualLeaveRequestToolMVC.Controllers
 {
@@ -19,13 +18,13 @@ namespace AnnualLeaveRequestToolMVC.Controllers
             _annualLeaveRequestLogic = annualLeaveRequestLogic;
         }
 
-        public IActionResult Overview()
+        public IActionResult Overview(int selectedYear)
         {
-            int year = DateTime.UtcNow.Year;
+            int yearForOverviewView = selectedYear > 0 ? selectedYear : DateTime.UtcNow.Year;
 
-            var annualLeaveRequests = _annualLeaveRequestLogic.GetRequestsForYear(year);
+            var annualLeaveRequestsForYear = _annualLeaveRequestLogic.GetRequestsForYear(yearForOverviewView);
 
-            return View(annualLeaveRequests);
+            return View(annualLeaveRequestsForYear);
         }
 
         public IActionResult Details(int annualLeaveRequestId)
@@ -41,15 +40,13 @@ namespace AnnualLeaveRequestToolMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(AnnualLeaveRequestOverviewViewModel newAnnualLeaveRequestViewModel)
+        public IActionResult Create(AnnualLeaveRequestCreateViewModel newAnnualLeaveRequestViewModel)
         {
             if (ModelState.IsValid)
             {
-                int year = DateTime.UtcNow.Year;
-
                 var newAnnualLeaveRequest = new AnnualLeaveRequestOverviewModel()
                 {
-                    Year = year,
+                    Year = newAnnualLeaveRequestViewModel.Year,
                     PaidLeaveType = newAnnualLeaveRequestViewModel.PaidLeaveType,
                     LeaveType = newAnnualLeaveRequestViewModel.LeaveType,
                     StartDate = newAnnualLeaveRequestViewModel.StartDate,
@@ -71,7 +68,7 @@ namespace AnnualLeaveRequestToolMVC.Controllers
         {
             var annualLeaveRequest = _annualLeaveRequestLogic.GetRequest(annualLeaveRequestId);
 
-            var editAnnualLeaveRequestViewModel = new AnnualLeaveRequestOverviewViewModel()
+            var editAnnualLeaveRequestViewModel = new AnnualLeaveRequestCreateViewModel()
             {
                 Year = annualLeaveRequest.Year,
                 PaidLeaveType = annualLeaveRequest.PaidLeaveType,
@@ -85,16 +82,14 @@ namespace AnnualLeaveRequestToolMVC.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(AnnualLeaveRequestOverviewViewModel editAnnualLeaveRequestViewModel)
+        public IActionResult Edit(AnnualLeaveRequestCreateViewModel editAnnualLeaveRequestViewModel)
         {
             if (ModelState.IsValid)
             {
-                int year = DateTime.UtcNow.Year;
-
                 var editAnnualLeaveRequest = new AnnualLeaveRequestOverviewModel()
                 {
                     AnnualLeaveRequestID = editAnnualLeaveRequestViewModel.AnnualLeaveRequestID,
-                    Year = year,
+                    Year = editAnnualLeaveRequestViewModel.Year,
                     PaidLeaveType = editAnnualLeaveRequestViewModel.PaidLeaveType,
                     LeaveType = editAnnualLeaveRequestViewModel.LeaveType,
                     StartDate = editAnnualLeaveRequestViewModel.StartDate,
@@ -125,6 +120,12 @@ namespace AnnualLeaveRequestToolMVC.Controllers
             _annualLeaveRequestLogic.Delete(annualLeaveRequestId);
 
             return RedirectToAction("Overview");
+        }
+
+        [HttpPost]
+        public IActionResult YearsDropdown(int selectedYear)
+        {
+            return RedirectToAction("Overview", selectedYear);
         }
     }
 }

@@ -1,6 +1,6 @@
 using System;
 
-namespace AnnualLeaveRequestToolMVC.Models
+namespace AnnualLeaveRequestToolMVC.Models.ViewModels
 {
     public class ErrorViewModel
     {

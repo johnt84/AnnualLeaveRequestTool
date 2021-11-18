@@ -1,5 +1,7 @@
 ﻿using AnnualLeaveRequestToolMVC.Interfaces;
 using AnnualLeaveRequestToolMVC.Models;
+using AnnualLeaveRequestToolMVC.Models.ViewModels;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,26 @@ namespace AnnualLeaveRequestToolMVC.Logic
     {
         private static List<AnnualLeaveRequestOverviewModel> _annualLeaveRequests = new List<AnnualLeaveRequestOverviewModel>()
         {
+            new AnnualLeaveRequestOverviewModel()
+            {
+                AnnualLeaveRequestID = 1,
+
+                Year = 2020,
+                PaidLeaveType = "Paid",
+                LeaveType = "Annual Leave",
+                StartDate = new DateTime(2020,07,13),
+                ReturnDate = new DateTime(2020,07,20),
+                NumberOfDaysRequested = 4,
+                NumberOfAnnualLeaveDaysRequested = 0,
+                NumberOfPublicLeaveDaysRequested = 1,
+                NumberOfDays = 28,
+                NumberOfAnnualLeaveDays = 25,
+                NumberOfPublicLeaveDays = 3,
+                NumberOfDaysLeft = 23,
+                NumberOfAnnualLeaveDaysLeft = 20,
+                NumberOfPublicLeaveDaysLeft = 3,
+                Notes = "Summer Holiday",
+            },
             new AnnualLeaveRequestOverviewModel()
             {
                 AnnualLeaveRequestID = 1,
@@ -68,15 +90,35 @@ namespace AnnualLeaveRequestToolMVC.Logic
                 NumberOfPublicLeaveDaysLeft = 0,
                 Notes = "Xmas and New Year",
             },
+            new AnnualLeaveRequestOverviewModel()
+            {
+                AnnualLeaveRequestID = 1,
+
+                Year = 2022,
+                PaidLeaveType = "Paid",
+                LeaveType = "Annual Leave",
+                StartDate = new DateTime(2022,05,12),
+                ReturnDate = new DateTime(2020,05,16),
+                NumberOfDaysRequested = 2,
+                NumberOfAnnualLeaveDaysRequested = 2,
+                NumberOfPublicLeaveDaysRequested = 0,
+                NumberOfDays = 28,
+                NumberOfAnnualLeaveDays = 25,
+                NumberOfPublicLeaveDays = 3,
+                NumberOfDaysLeft = 26,
+                NumberOfAnnualLeaveDaysLeft = 23,
+                NumberOfPublicLeaveDaysLeft = 3,
+                Notes = "May Hols",
+            },
         };
 
         private AnnualLeaveRequestOverviewModel GetAnnualLeaveRequest(int annualLeaveRequestID) => _annualLeaveRequests
                                                                                         .Where(x => x.AnnualLeaveRequestID == annualLeaveRequestID)
                                                                                         .FirstOrDefault();
 
-        public List<AnnualLeaveRequestOverviewModel> GetRequestsForYear(int year)
+        public AnnualLeaveRequestOverviewViewModel GetRequestsForYear(int selectedYear)
         {
-            var annualLeaveRequestsForYear = _annualLeaveRequests.Where(x => x.Year == year).ToList();
+            var annualLeaveRequestsForYear = _annualLeaveRequests.Where(x => x.Year == selectedYear).ToList();
 
             decimal noOfDaysLeft = annualLeaveRequestsForYear.First().NumberOfDays;
             decimal noOfAnnualLeaveDaysLeft = annualLeaveRequestsForYear.First().NumberOfAnnualLeaveDays;
@@ -93,7 +135,34 @@ namespace AnnualLeaveRequestToolMVC.Logic
                 annualLeaveRequest.NumberOfPublicLeaveDaysLeft = noOfPublicLeaveDaysLeft;
             }
 
-            return annualLeaveRequestsForYear;
+            var lastAnnualeaveRequestForYear = annualLeaveRequestsForYear.OrderBy(x => x.StartDate).Last();
+
+            var years = GetYears();
+
+            var yearsDropdownItems = years.ConvertAll(x =>
+                                        {
+                                            return new ItemList()
+                                            {
+                                                Text = x.ToString(),
+                                                Value = x,
+                                            };
+                                        });
+
+            var yearsViewModel = new YearsViewModel()
+            {
+                SelectedYear = selectedYear,
+                YearsDropdownItems = yearsDropdownItems,
+            };
+
+            return new AnnualLeaveRequestOverviewViewModel()
+            {
+                //SelectedYear = selectedYear,
+                AnnualLeaveRequestsForYear = annualLeaveRequestsForYear,
+                Years = years,
+                AnnualLeaveRequestOverviewForYear = lastAnnualeaveRequestForYear,
+                //YearsDropdownItems = yearsDropdownItems,
+                YearsViewModel = yearsViewModel,
+            };
         }
 
         public AnnualLeaveRequestOverviewModel GetRequest(int annualLeaveRequestID)
@@ -138,6 +207,11 @@ namespace AnnualLeaveRequestToolMVC.Logic
             model.NumberOfDaysRequested = model.NumberOfAnnualLeaveDaysRequested + model.NumberOfPublicLeaveDaysRequested;
 
             return model;
+        }
+
+        private List<int> GetYears()
+        {
+            return _annualLeaveRequests.GroupBy(x => x.Year).Select(x => x.Key).ToList();
         }
     }
 }

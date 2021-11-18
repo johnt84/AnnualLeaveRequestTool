@@ -1,0 +1,7 @@
+﻿@model AnnualLeaveRequestToolMVC.Models.ViewModels.YearsViewModel
+
+<form asp-action="YearsDropdown" asp-controller="AnnualLeaveRequest" method="post"> 
+    <select id="Years" class="form-control" asp-for="@Model.SelectedYear" asp-items="@(new SelectList(Model.YearsDropdownItems, "Value", "Text"))">  
+    </select>  
+    <input asp-for="SelectedYear" /> @*type="hidden"*@
+</form>

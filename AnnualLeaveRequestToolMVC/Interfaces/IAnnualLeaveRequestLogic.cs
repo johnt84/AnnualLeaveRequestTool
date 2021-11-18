@@ -1,11 +1,12 @@
 ﻿using AnnualLeaveRequestToolMVC.Models;
+using AnnualLeaveRequestToolMVC.Models.ViewModels;
 using System.Collections.Generic;
 
 namespace AnnualLeaveRequestToolMVC.Interfaces
 {
     public interface IAnnualLeaveRequestLogic
     {
-        List<AnnualLeaveRequestOverviewModel> GetRequestsForYear(int year);
+        AnnualLeaveRequestOverviewViewModel GetRequestsForYear(int year);
         AnnualLeaveRequestOverviewModel GetRequest(int annualLeaveRequestID);
         AnnualLeaveRequestOverviewModel Create(AnnualLeaveRequestOverviewModel model);
         AnnualLeaveRequestOverviewModel Update(AnnualLeaveRequestOverviewModel model);

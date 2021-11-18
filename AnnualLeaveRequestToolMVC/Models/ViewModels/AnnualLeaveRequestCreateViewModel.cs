@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace AnnualLeaveRequestToolMVC.Models
+namespace AnnualLeaveRequestToolMVC.Models.ViewModels
 {
-    public class AnnualLeaveRequestOverviewViewModel
+    public class AnnualLeaveRequestCreateViewModel
     {
         public int AnnualLeaveRequestID { get; set; }
 
