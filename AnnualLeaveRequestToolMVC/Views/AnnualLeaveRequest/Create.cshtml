@@ -11,6 +11,11 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
+                <label asp-for="Year" class="control-label"></label>
+                @Html.DisplayFor(model => model.Year)
+                <input hidden asp-for="Year" />
+            </div>
+            <div class="form-group">
                 <label asp-for="PaidLeaveType" class="control-label"></label>
                 <input asp-for="PaidLeaveType" class="form-control" />
                 <span asp-validation-for="PaidLeaveType" class="text-danger"></span>
@@ -43,6 +48,6 @@
 </div>
 
 <div>
-    <a asp-action="Overview">Back to Overview</a>
+    @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.Year }) 
 </div>
 

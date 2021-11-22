@@ -34,9 +34,14 @@ namespace AnnualLeaveRequestToolMVC.Controllers
             return View(annualLeaveRequest);
         }
 
-        public IActionResult Create()
+        public IActionResult Create(int selectedYear)
         {
-            return View();
+            var createAnnualLeaveRequest = new AnnualLeaveRequestCreateViewModel()
+            {
+                Year = selectedYear,
+            };
+
+            return View(createAnnualLeaveRequest);
         }
 
         [HttpPost]
@@ -56,7 +61,7 @@ namespace AnnualLeaveRequestToolMVC.Controllers
 
                 newAnnualLeaveRequest = _annualLeaveRequestLogic.Create(newAnnualLeaveRequest);
 
-                return RedirectToAction("Overview");
+                return RedirectToAction("Overview", new { selectedYear = newAnnualLeaveRequest.Year });
             }
             else
             {
@@ -99,7 +104,7 @@ namespace AnnualLeaveRequestToolMVC.Controllers
 
                 editAnnualLeaveRequest = _annualLeaveRequestLogic.Update(editAnnualLeaveRequest);
 
-                return RedirectToAction("Overview");
+                return RedirectToAction("Overview", new { selectedYear = editAnnualLeaveRequest.Year });
             }
             else
             {
@@ -119,13 +124,13 @@ namespace AnnualLeaveRequestToolMVC.Controllers
         {
             _annualLeaveRequestLogic.Delete(annualLeaveRequestId);
 
-            return RedirectToAction("Overview");
+            return RedirectToAction("Overview", new { selectedYear = DateTime.UtcNow.Year });
         }
 
         [HttpPost]
-        public IActionResult YearsDropdown(int selectedYear)
+        public IActionResult ChangeSelectedYear(int selectedYear)
         {
-            return RedirectToAction("Overview", selectedYear);
+            return RedirectToAction("Overview", new { selectedYear = selectedYear });
         }
     }
 }

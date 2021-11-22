@@ -80,3 +80,6 @@
         <a asp-action="Overview">Back to Overview</a>
     </form>
 </div>
+<div>
+    @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.Year }) 
+</div>

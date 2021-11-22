@@ -7,11 +7,19 @@
 <h1>Annual Leave Calendar</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+     @Html.ActionLink("Create New", "Create", new { selectedYear = @Model.SelectedYear })  
 </p>
 
 <div style="padding-bottom: 20px">
-    <YearsDropdown YearsViewModel=@Model.YearsViewModel></YearsDropdown>
+    <form asp-controller="AnnualLeaveRequest" asp-action="ChangeSelectedYear">
+
+        <select asp-for="SelectedYear" 
+                asp-items="@Model.YearsDropdownItems">
+        </select>
+
+        <input type="submit"/>
+
+    </form>
 </div>
 
 <table class="table">

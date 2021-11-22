@@ -75,5 +75,5 @@
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new {  id = Model.AnnualLeaveRequestID  }) |
-    <a asp-action="Overview">Back to Overview</a>
+    @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.Year }) 
 </div>

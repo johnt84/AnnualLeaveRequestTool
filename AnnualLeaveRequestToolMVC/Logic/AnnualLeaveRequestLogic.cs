@@ -15,7 +15,6 @@ namespace AnnualLeaveRequestToolMVC.Logic
             new AnnualLeaveRequestOverviewModel()
             {
                 AnnualLeaveRequestID = 1,
-
                 Year = 2020,
                 PaidLeaveType = "Paid",
                 LeaveType = "Annual Leave",
@@ -34,8 +33,7 @@ namespace AnnualLeaveRequestToolMVC.Logic
             },
             new AnnualLeaveRequestOverviewModel()
             {
-                AnnualLeaveRequestID = 1,
-
+                AnnualLeaveRequestID = 2,
                 Year = 2021,
                 PaidLeaveType = "Paid",
                 LeaveType = "Annual Leave",
@@ -54,7 +52,7 @@ namespace AnnualLeaveRequestToolMVC.Logic
             },
             new AnnualLeaveRequestOverviewModel()
             {
-                AnnualLeaveRequestID = 2,
+                AnnualLeaveRequestID = 3,
                 PaidLeaveType = "Paid",
                 LeaveType = "Annual Leave",
                 Year = 2021,
@@ -73,7 +71,7 @@ namespace AnnualLeaveRequestToolMVC.Logic
             },
              new AnnualLeaveRequestOverviewModel()
             {
-                AnnualLeaveRequestID = 3,
+                AnnualLeaveRequestID = 4,
                 PaidLeaveType = "Paid",
                 LeaveType = "Annual Leave",
                 Year = 2021,
@@ -92,8 +90,7 @@ namespace AnnualLeaveRequestToolMVC.Logic
             },
             new AnnualLeaveRequestOverviewModel()
             {
-                AnnualLeaveRequestID = 1,
-
+                AnnualLeaveRequestID = 5,
                 Year = 2022,
                 PaidLeaveType = "Paid",
                 LeaveType = "Annual Leave",
@@ -137,31 +134,14 @@ namespace AnnualLeaveRequestToolMVC.Logic
 
             var lastAnnualeaveRequestForYear = annualLeaveRequestsForYear.OrderBy(x => x.StartDate).Last();
 
-            var years = GetYears();
-
-            var yearsDropdownItems = years.ConvertAll(x =>
-                                        {
-                                            return new ItemList()
-                                            {
-                                                Text = x.ToString(),
-                                                Value = x,
-                                            };
-                                        });
-
-            var yearsViewModel = new YearsViewModel()
-            {
-                SelectedYear = selectedYear,
-                YearsDropdownItems = yearsDropdownItems,
-            };
+            var yearsDropdownItems = new SelectList(GetYears());
 
             return new AnnualLeaveRequestOverviewViewModel()
             {
-                //SelectedYear = selectedYear,
+                SelectedYear = selectedYear,
                 AnnualLeaveRequestsForYear = annualLeaveRequestsForYear,
-                Years = years,
                 AnnualLeaveRequestOverviewForYear = lastAnnualeaveRequestForYear,
-                //YearsDropdownItems = yearsDropdownItems,
-                YearsViewModel = yearsViewModel,
+                YearsDropdownItems = yearsDropdownItems,
             };
         }
 
