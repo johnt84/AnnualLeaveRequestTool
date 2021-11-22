@@ -77,9 +77,6 @@
     <form asp-action="DeleteConfirmed">
         <input type="hidden" asp-for="AnnualLeaveRequestID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Overview">Back to Overview</a>
+        @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.Year }) 
     </form>
-</div>
-<div>
-    @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.Year }) 
 </div>
