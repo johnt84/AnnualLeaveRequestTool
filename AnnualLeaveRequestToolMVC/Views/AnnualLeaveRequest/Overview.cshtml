@@ -4,22 +4,23 @@
     ViewData["Title"] = "Annual Leave Calendar";
 }
 
-<h1>Annual Leave Calendar</h1>
+<h1>Annual Leave Calendar - @Model.SelectedYear</h1>
 
 <p>
      @Html.ActionLink("Create New", "Create", new { selectedYear = @Model.SelectedYear })  
 </p>
 
 <div style="padding-bottom: 20px">
-    <form asp-controller="AnnualLeaveRequest" asp-action="ChangeSelectedYear">
+    @using (Html.BeginForm("ChangeSelectedYear", "AnnualLeaveRequest", FormMethod.Post, new { id = "frmSelectedYear" }))
+    {
 
-        <select asp-for="SelectedYear" 
-                asp-items="@Model.YearsDropdownItems">
-        </select>
-
-        <input type="submit"/>
-
-    </form>
+          @Html.DropDownList(
+            "SelectedYear", 
+            @Model.YearsDropdownItems, 
+            new{
+                  onchange = "document.getElementById('frmSelectedYear').submit();"
+               })
+    }    
 </div>
 
 <table class="table">
