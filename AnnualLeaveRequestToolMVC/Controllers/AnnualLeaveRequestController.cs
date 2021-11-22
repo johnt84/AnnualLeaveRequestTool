@@ -75,6 +75,7 @@ namespace AnnualLeaveRequestToolMVC.Controllers
 
             var editAnnualLeaveRequestViewModel = new AnnualLeaveRequestCreateViewModel()
             {
+                AnnualLeaveRequestID = annualLeaveRequest.AnnualLeaveRequestID,
                 Year = annualLeaveRequest.Year,
                 PaidLeaveType = annualLeaveRequest.PaidLeaveType,
                 LeaveType = annualLeaveRequest.LeaveType,

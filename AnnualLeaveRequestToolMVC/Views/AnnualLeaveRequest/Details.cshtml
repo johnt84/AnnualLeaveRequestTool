@@ -74,6 +74,10 @@
     </dl>
 </div>
 <div>
-    @Html.ActionLink("Edit", "Edit", new {  id = Model.AnnualLeaveRequestID  }) |
+    @if (Model.EditableRequest)
+    {
+        @Html.ActionLink("Edit", "Edit", new { annualLeaveRequestId = Model.AnnualLeaveRequestID  })
+        <span>|</span>
+    }
     @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.Year }) 
 </div>

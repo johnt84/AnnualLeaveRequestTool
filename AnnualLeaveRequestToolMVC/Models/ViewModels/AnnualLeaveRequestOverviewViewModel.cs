@@ -10,5 +10,6 @@ namespace AnnualLeaveRequestToolMVC.Models.ViewModels
         public List<int> Years { get; set; }
         public AnnualLeaveRequestOverviewModel AnnualLeaveRequestOverviewForYear { get; set; }
         public SelectList YearsDropdownItems { get; set; }
+        public bool EditableYearSelected { get; set; }
     }
 }

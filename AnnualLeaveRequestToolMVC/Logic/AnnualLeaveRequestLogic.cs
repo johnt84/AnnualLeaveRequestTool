@@ -117,6 +117,8 @@ namespace AnnualLeaveRequestToolMVC.Logic
         {
             var annualLeaveRequestsForYear = _annualLeaveRequests.Where(x => x.Year == selectedYear).ToList();
 
+            annualLeaveRequestsForYear.ForEach(x => x.EditableRequest = x.Year >= DateTime.UtcNow.Year);
+
             decimal noOfDaysLeft = annualLeaveRequestsForYear.First().NumberOfDays;
             decimal noOfAnnualLeaveDaysLeft = annualLeaveRequestsForYear.First().NumberOfAnnualLeaveDays;
             decimal noOfPublicLeaveDaysLeft = annualLeaveRequestsForYear.First().NumberOfPublicLeaveDays;
@@ -142,6 +144,7 @@ namespace AnnualLeaveRequestToolMVC.Logic
                 AnnualLeaveRequestsForYear = annualLeaveRequestsForYear,
                 AnnualLeaveRequestOverviewForYear = lastAnnualeaveRequestForYear,
                 YearsDropdownItems = yearsDropdownItems,
+                EditableYearSelected = selectedYear >= DateTime.UtcNow.Year,
             };
         }
 

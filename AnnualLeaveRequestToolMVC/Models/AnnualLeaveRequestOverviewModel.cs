@@ -39,5 +39,6 @@ namespace AnnualLeaveRequestToolMVC.Models
         public decimal NumberOfAnnualLeaveDaysLeftForYear { get; set; }
         public decimal NumberOfPublicLeaveDaysLeftForYear { get; set; }
         public string ErrorMessage { get; set; }
+        public bool EditableRequest { get; set; }
     }
 }

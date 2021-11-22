@@ -7,7 +7,10 @@
 <h1>Annual Leave Calendar - @Model.SelectedYear</h1>
 
 <p>
-     @Html.ActionLink("Create New", "Create", new { selectedYear = @Model.SelectedYear })  
+    @if(Model.EditableYearSelected)
+    {
+        @Html.ActionLink("Create New", "Create", new { selectedYear = @Model.SelectedYear })  
+    }
 </p>
 
 <div style="padding-bottom: 20px">
@@ -71,9 +74,18 @@
                 @item.Notes
             </td>
            <td>
-                @Html.ActionLink("Edit", "Edit", new { annualLeaveRequestID = item.AnnualLeaveRequestID }) |
+                @if(Model.EditableYearSelected)
+                {  
+                    @Html.ActionLink("Edit", "Edit", new { annualLeaveRequestID = item.AnnualLeaveRequestID }) 
+                    <span>|</span>
+                }
+
                 @Html.ActionLink("Details", "Details", new { annualLeaveRequestID = item.AnnualLeaveRequestID }) |
-                @Html.ActionLink("Delete", "Delete", new { annualLeaveRequestID = item.AnnualLeaveRequestID })
+
+                @if(Model.EditableYearSelected)
+                {  
+                    @Html.ActionLink("Delete", "Delete", new { annualLeaveRequestID = item.AnnualLeaveRequestID })
+                }
             </td>
         </tr>
 }
