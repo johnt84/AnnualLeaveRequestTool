@@ -9,9 +9,6 @@ namespace AnnualLeaveRequestToolMVC.Models.ViewModels
         public int AnnualLeaveRequestID { get; set; }
 
         [Required]
-        public int Year { get; set; }
-
-        [Required]
         public string PaidLeaveType { get; set; }
 
         [Required]

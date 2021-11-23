@@ -10,7 +10,7 @@ namespace AnnualLeaveRequestToolMVC.Interfaces
         AnnualLeaveRequestOverviewModel Create(AnnualLeaveRequestOverviewModel model);
         AnnualLeaveRequestOverviewModel Update(AnnualLeaveRequestOverviewModel model);
         void Delete(int annualLeaveRequestId);
-        AnnualLeaveRequestCreateViewModel GetCreateViewModelForCreate(int selectedYear);
+        AnnualLeaveRequestCreateViewModel GetCreateViewModelForCreate();
         AnnualLeaveRequestCreateViewModel GetCreateViewModelForEdit(int annualLeaveRequestID);
     }
 }

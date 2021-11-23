@@ -193,11 +193,10 @@ namespace AnnualLeaveRequestToolMVC.Logic
             _annualLeaveRequests.RemoveAll(x => x.AnnualLeaveRequestID == annualLeaveRequestId);
         }
 
-        public AnnualLeaveRequestCreateViewModel GetCreateViewModelForCreate(int selectedYear)
+        public AnnualLeaveRequestCreateViewModel GetCreateViewModelForCreate()
         {
             return new AnnualLeaveRequestCreateViewModel()
             {
-                Year = selectedYear,
                 PaidLeaveTypes = _paidLeaveTypes,
                 LeaveTypes = _leaveTypes,
             };
@@ -210,7 +209,7 @@ namespace AnnualLeaveRequestToolMVC.Logic
             return new AnnualLeaveRequestCreateViewModel()
             {
                 AnnualLeaveRequestID = annualLeaveRequest.AnnualLeaveRequestID,
-                Year = annualLeaveRequest.Year,
+                //Year = annualLeaveRequest.Year,
                 PaidLeaveType = annualLeaveRequest.PaidLeaveType,
                 LeaveType = annualLeaveRequest.LeaveType,
                 StartDate = annualLeaveRequest.StartDate,

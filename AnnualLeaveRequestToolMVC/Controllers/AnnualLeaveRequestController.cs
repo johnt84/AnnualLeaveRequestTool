@@ -34,9 +34,9 @@ namespace AnnualLeaveRequestToolMVC.Controllers
             return View(annualLeaveRequest);
         }
 
-        public IActionResult Create(int selectedYear)
+        public IActionResult Create()
         {
-            var createAnnualLeaveRequest = _annualLeaveRequestLogic.GetCreateViewModelForCreate(selectedYear);
+            var createAnnualLeaveRequest = _annualLeaveRequestLogic.GetCreateViewModelForCreate();
 
             return View(createAnnualLeaveRequest);
         }
@@ -48,7 +48,7 @@ namespace AnnualLeaveRequestToolMVC.Controllers
             {
                 var newAnnualLeaveRequest = new AnnualLeaveRequestOverviewModel()
                 {
-                    Year = newAnnualLeaveRequestViewModel.Year,
+                    Year = newAnnualLeaveRequestViewModel.StartDate.Year,
                     PaidLeaveType = newAnnualLeaveRequestViewModel.PaidLeaveType,
                     LeaveType = newAnnualLeaveRequestViewModel.LeaveType,
                     StartDate = newAnnualLeaveRequestViewModel.StartDate,
@@ -81,7 +81,7 @@ namespace AnnualLeaveRequestToolMVC.Controllers
                 var editAnnualLeaveRequest = new AnnualLeaveRequestOverviewModel()
                 {
                     AnnualLeaveRequestID = editAnnualLeaveRequestViewModel.AnnualLeaveRequestID,
-                    Year = editAnnualLeaveRequestViewModel.Year,
+                    Year = editAnnualLeaveRequestViewModel.StartDate.Year,
                     PaidLeaveType = editAnnualLeaveRequestViewModel.PaidLeaveType,
                     LeaveType = editAnnualLeaveRequestViewModel.LeaveType,
                     StartDate = editAnnualLeaveRequestViewModel.StartDate,

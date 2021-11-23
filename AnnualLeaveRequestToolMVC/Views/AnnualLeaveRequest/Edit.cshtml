@@ -17,11 +17,6 @@
                 <input hidden asp-for="AnnualLeaveRequestID" />
             </div>
             <div class="form-group">
-                <label asp-for="Year" class="control-label"></label>
-                @Html.DisplayFor(model => model.Year)
-                <input hidden asp-for="Year" />
-            </div>
-            <div class="form-group">
                 <label asp-for="PaidLeaveType" class="control-label"></label>
                 @Html.DropDownList("PaidLeaveType", new SelectList(@Model.PaidLeaveTypes), "Please select the Paid Leave Type")
                 <span asp-validation-for="PaidLeaveType" class="text-danger"></span>
@@ -55,6 +50,6 @@
 
 <div>
     @Html.ActionLink("Details", "Details", new { annualLeaveRequestID = Model.AnnualLeaveRequestID }) |
-    @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.Year })
+    @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.StartDate.Year })
 </div>
 
