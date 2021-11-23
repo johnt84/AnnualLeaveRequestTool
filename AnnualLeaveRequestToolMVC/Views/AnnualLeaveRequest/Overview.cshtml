@@ -16,7 +16,6 @@
 <div style="padding-bottom: 20px">
     @using (Html.BeginForm("ChangeSelectedYear", "AnnualLeaveRequest", FormMethod.Post, new { id = "frmSelectedYear" }))
     {
-
           @Html.DropDownList("SelectedYear", new SelectList(@Model.Years), 
             new{
                   onchange = "document.getElementById('frmSelectedYear').submit();"
