@@ -62,7 +62,9 @@ namespace AnnualLeaveRequestToolMVC.Controllers
             }
             else
             {
-                return View(newAnnualLeaveRequestViewModel);
+                var createAnnualLeaveRequest = _annualLeaveRequestLogic.GetCreateViewModelForCreate();
+
+                return View(createAnnualLeaveRequest);
             }
         }
 
@@ -95,7 +97,9 @@ namespace AnnualLeaveRequestToolMVC.Controllers
             }
             else
             {
-                return View(editAnnualLeaveRequestViewModel);
+                var editAnnualLeaveRequestViewModelInError = _annualLeaveRequestLogic.GetCreateViewModelForEdit(editAnnualLeaveRequestViewModel.AnnualLeaveRequestID);
+
+                return View(editAnnualLeaveRequestViewModelInError);
             }
         }
 

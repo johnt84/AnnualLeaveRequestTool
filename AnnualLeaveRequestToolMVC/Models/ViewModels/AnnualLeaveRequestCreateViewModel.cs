@@ -9,15 +9,19 @@ namespace AnnualLeaveRequestToolMVC.Models.ViewModels
         public int AnnualLeaveRequestID { get; set; }
 
         [Required]
+        [Display(Name = "Paid Leave Type")]
         public string PaidLeaveType { get; set; }
 
         [Required]
+        [Display(Name = "Leave Type")]
         public string LeaveType { get; set; }
 
         [Required]
+        [Display(Name = "Start Date")]
         public DateTime StartDate { get; set; } = DateTime.UtcNow;
 
         [Required]
+        [Display(Name = "Return Date")]
         public DateTime ReturnDate { get; set; } = DateTime.UtcNow;
 
         [Required]
