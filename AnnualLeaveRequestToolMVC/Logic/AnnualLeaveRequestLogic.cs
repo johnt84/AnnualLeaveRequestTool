@@ -1,7 +1,6 @@
 ﻿using AnnualLeaveRequestToolMVC.Interfaces;
 using AnnualLeaveRequestToolMVC.Models;
 using AnnualLeaveRequestToolMVC.Models.ViewModels;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,13 +108,13 @@ namespace AnnualLeaveRequestToolMVC.Logic
             },
         };
 
-        private static List<string> PaidLeaveTypes = new List<string>()
+        private static List<string> _paidLeaveTypes = new List<string>()
         {
             "Paid",
             "Unpaid",
         };
 
-        private static List<string> LeaveTypes = new List<string>()
+        private static List<string> _leaveTypes = new List<string>()
         {
             "Annual Leave",
             "Appointment",
@@ -149,14 +148,12 @@ namespace AnnualLeaveRequestToolMVC.Logic
 
             var lastAnnualeaveRequestForYear = annualLeaveRequestsForYear.OrderBy(x => x.StartDate).Last();
 
-            var yearsDropdownItems = new SelectList(GetYears());
-
             return new AnnualLeaveRequestOverviewViewModel()
             {
                 SelectedYear = selectedYear,
                 AnnualLeaveRequestsForYear = annualLeaveRequestsForYear,
                 AnnualLeaveRequestOverviewForYear = lastAnnualeaveRequestForYear,
-                YearsDropdownItems = yearsDropdownItems,
+                Years = GetYears(),
                 EditableYearSelected = selectedYear >= DateTime.UtcNow.Year,
             };
         }
@@ -201,8 +198,8 @@ namespace AnnualLeaveRequestToolMVC.Logic
             return new AnnualLeaveRequestCreateViewModel()
             {
                 Year = selectedYear,
-                PaidLeaveTypesDropdownItems = new SelectList(PaidLeaveTypes),
-                LeaveTypesDropdownItems = new SelectList(LeaveTypes),
+                PaidLeaveTypes = _paidLeaveTypes,
+                LeaveTypes = _leaveTypes,
             };
         }
         
@@ -219,8 +216,8 @@ namespace AnnualLeaveRequestToolMVC.Logic
                 StartDate = annualLeaveRequest.StartDate,
                 ReturnDate = annualLeaveRequest.ReturnDate,
                 Notes = annualLeaveRequest.Notes,
-                PaidLeaveTypesDropdownItems = new SelectList(PaidLeaveTypes),
-                LeaveTypesDropdownItems = new SelectList(LeaveTypes),
+                PaidLeaveTypes = _paidLeaveTypes,
+                LeaveTypes = _leaveTypes,
             };
         }
 

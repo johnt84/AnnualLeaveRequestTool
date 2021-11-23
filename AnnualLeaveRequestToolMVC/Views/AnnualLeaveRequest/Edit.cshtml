@@ -23,12 +23,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="PaidLeaveType" class="control-label"></label>
-                @Html.DropDownList("PaidLeaveType", @Model.PaidLeaveTypesDropdownItems, "Please select the Paid Leave Type")
+                @Html.DropDownList("PaidLeaveType", new SelectList(@Model.PaidLeaveTypes), "Please select the Paid Leave Type")
                 <span asp-validation-for="PaidLeaveType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="LeaveType" class="control-label"></label>
-                @Html.DropDownList("LeaveType", @Model.LeaveTypesDropdownItems, "Please select the Leave Type")
+                @Html.DropDownList("LeaveType", new SelectList(@Model.LeaveTypes), "Please select the Leave Type")
                 <span asp-validation-for="LeaveType" class="text-danger"></span>
             </div>
             <div class="form-group">

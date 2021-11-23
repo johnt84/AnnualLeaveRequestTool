@@ -1,6 +1,5 @@
 ﻿using AnnualLeaveRequestToolMVC.Models;
 using AnnualLeaveRequestToolMVC.Models.ViewModels;
-using System.Collections.Generic;
 
 namespace AnnualLeaveRequestToolMVC.Interfaces
 {

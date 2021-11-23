@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AnnualLeaveRequestToolMVC.Models.ViewModels
@@ -27,7 +27,7 @@ namespace AnnualLeaveRequestToolMVC.Models.ViewModels
         public DateTime DateCreated { get; set; } = DateTime.UtcNow;
 
         public string Notes { get; set; }
-        public SelectList PaidLeaveTypesDropdownItems { get; set; }
-        public SelectList LeaveTypesDropdownItems { get; set; }
+        public List<string> PaidLeaveTypes { get; set; }
+        public List<string> LeaveTypes { get; set; }
     }
 }
