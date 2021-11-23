@@ -109,6 +109,19 @@ namespace AnnualLeaveRequestToolMVC.Logic
             },
         };
 
+        private static List<string> PaidLeaveTypes = new List<string>()
+        {
+            "Paid",
+            "Unpaid",
+        };
+
+        private static List<string> LeaveTypes = new List<string>()
+        {
+            "Annual Leave",
+            "Appointment",
+            "Compassionate Leave",
+        };
+
         private AnnualLeaveRequestOverviewModel GetAnnualLeaveRequest(int annualLeaveRequestID) => _annualLeaveRequests
                                                                                         .Where(x => x.AnnualLeaveRequestID == annualLeaveRequestID)
                                                                                         .FirstOrDefault();
@@ -181,6 +194,34 @@ namespace AnnualLeaveRequestToolMVC.Logic
         public void Delete(int annualLeaveRequestId)
         {
             _annualLeaveRequests.RemoveAll(x => x.AnnualLeaveRequestID == annualLeaveRequestId);
+        }
+
+        public AnnualLeaveRequestCreateViewModel GetCreateViewModelForCreate(int selectedYear)
+        {
+            return new AnnualLeaveRequestCreateViewModel()
+            {
+                Year = selectedYear,
+                PaidLeaveTypesDropdownItems = new SelectList(PaidLeaveTypes),
+                LeaveTypesDropdownItems = new SelectList(LeaveTypes),
+            };
+        }
+        
+        public AnnualLeaveRequestCreateViewModel GetCreateViewModelForEdit(int annualLeaveRequestID)
+        {
+            var annualLeaveRequest = GetRequest(annualLeaveRequestID);
+
+            return new AnnualLeaveRequestCreateViewModel()
+            {
+                AnnualLeaveRequestID = annualLeaveRequest.AnnualLeaveRequestID,
+                Year = annualLeaveRequest.Year,
+                PaidLeaveType = annualLeaveRequest.PaidLeaveType,
+                LeaveType = annualLeaveRequest.LeaveType,
+                StartDate = annualLeaveRequest.StartDate,
+                ReturnDate = annualLeaveRequest.ReturnDate,
+                Notes = annualLeaveRequest.Notes,
+                PaidLeaveTypesDropdownItems = new SelectList(PaidLeaveTypes),
+                LeaveTypesDropdownItems = new SelectList(LeaveTypes),
+            };
         }
 
         private AnnualLeaveRequestOverviewModel CalculateDaysRequested(AnnualLeaveRequestOverviewModel model)

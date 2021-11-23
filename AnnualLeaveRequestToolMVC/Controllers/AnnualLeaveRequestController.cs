@@ -2,10 +2,8 @@
 using AnnualLeaveRequestToolMVC.Models;
 using AnnualLeaveRequestToolMVC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 
 namespace AnnualLeaveRequestToolMVC.Controllers
 {
@@ -38,25 +36,7 @@ namespace AnnualLeaveRequestToolMVC.Controllers
 
         public IActionResult Create(int selectedYear)
         {
-            var paidLeaveTypesDropdownItems = new SelectList(new List<string>()
-            {
-                "Paid",
-                "Unpaid",
-            });
-
-            var leaveTypesDropdownItems = new SelectList(new List<string>()
-            {
-                "Annual Leave",
-                "Appointment",
-                "Compassionate Leave",
-            });
-
-            var createAnnualLeaveRequest = new AnnualLeaveRequestCreateViewModel()
-            {
-                Year = selectedYear,
-                PaidLeaveTypesDropdownItems = paidLeaveTypesDropdownItems,
-                LeaveTypesDropdownItems = leaveTypesDropdownItems,
-            };
+            var createAnnualLeaveRequest = _annualLeaveRequestLogic.GetCreateViewModelForCreate(selectedYear);
 
             return View(createAnnualLeaveRequest);
         }
@@ -88,33 +68,7 @@ namespace AnnualLeaveRequestToolMVC.Controllers
 
         public IActionResult Edit(int annualLeaveRequestId)
         {
-            var paidLeaveTypesDropdownItems = new SelectList(new List<string>()
-            {
-                "Paid",
-                "Unpaid",
-            });
-
-            var leaveTypesDropdownItems = new SelectList(new List<string>()
-            {
-                "Annual Leave",
-                "Appointment",
-                "Compassionate Leave",
-            });
-
-            var annualLeaveRequest = _annualLeaveRequestLogic.GetRequest(annualLeaveRequestId);
-
-            var editAnnualLeaveRequestViewModel = new AnnualLeaveRequestCreateViewModel()
-            {
-                AnnualLeaveRequestID = annualLeaveRequest.AnnualLeaveRequestID,
-                Year = annualLeaveRequest.Year,
-                PaidLeaveType = annualLeaveRequest.PaidLeaveType,
-                LeaveType = annualLeaveRequest.LeaveType,
-                StartDate = annualLeaveRequest.StartDate,
-                ReturnDate = annualLeaveRequest.ReturnDate,
-                Notes = annualLeaveRequest.Notes,
-                PaidLeaveTypesDropdownItems = paidLeaveTypesDropdownItems,
-                LeaveTypesDropdownItems = leaveTypesDropdownItems,
-            };
+            var editAnnualLeaveRequestViewModel = _annualLeaveRequestLogic.GetCreateViewModelForEdit(annualLeaveRequestId);
 
             return View(editAnnualLeaveRequestViewModel);
         }
