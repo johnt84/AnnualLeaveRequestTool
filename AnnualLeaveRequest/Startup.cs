@@ -1,4 +1,5 @@
-using AnnualLeaveRequest.Data;
+using AnnualLeaveRequest.Shared;
+using AnnualLeaveRequestDAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,10 +31,10 @@ namespace AnnualLeaveRequest
                     options.DetailedErrors = Convert.ToBoolean(Configuration["DetailedErrors"]); 
                 });
 
-            services.AddScoped<IAnnualLeaveRequestService, AnnualLeaveRequestService>();
-
             var sqlConnectionConfiguration = new SqlConnectionConfiguration(Configuration.GetConnectionString("AnnualLeaveRequestDB"));
             services.AddSingleton(sqlConnectionConfiguration);
+
+            services.AddSingleton<AnnualLeaveRequestLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

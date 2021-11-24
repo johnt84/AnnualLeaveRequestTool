@@ -1,9 +1,9 @@
 ﻿@page  "/AnnualLeave/Create"
 
-@using AnnualLeaveRequest.Data
-@using AnnualLeaveRequest.Models
+@using AnnualLeaveRequest.Shared
+@using AnnualLeaveRequestDAL
 @using AnnualLeaveRequest.Components
-@inject IAnnualLeaveRequestService AnnualLeaveRequestService
+@inject AnnualLeaveRequestDAL.AnnualLeaveRequestLogic AnnualLeaveRequestLogic
 @inject NavigationManager NavigationManager
 
 <h2>Create Annual Leave Request</h2>
@@ -112,7 +112,7 @@
     {
         DateRequested = DateTime.UtcNow;
 
-        model = AnnualLeaveRequestService.Create(model);
+        model = AnnualLeaveRequestLogic.Create(model);
 
         if (string.IsNullOrEmpty(model.ErrorMessage))
         {
@@ -132,7 +132,7 @@
 
     private decimal GetNumberOfDaysRequested()
     {
-        model.NumberOfAnnualLeaveDaysRequested = AnnualLeaveRequestService.GetDaysBetweenStartDateAndReturnDate(model.StartDate, model.ReturnDate);
+        model.NumberOfAnnualLeaveDaysRequested = AnnualLeaveRequestLogic.GetDaysBetweenStartDateAndReturnDate(model.StartDate, model.ReturnDate);
         return model.NumberOfAnnualLeaveDaysRequested;
     }
 }

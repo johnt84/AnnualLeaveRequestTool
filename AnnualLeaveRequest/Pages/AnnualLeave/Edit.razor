@@ -1,9 +1,9 @@
 ﻿@page  "/AnnualLeave/Edit/{AnnualLeaveRequestID:int}"
 
-@using AnnualLeaveRequest.Data
-@using AnnualLeaveRequest.Models
+@using AnnualLeaveRequest.Shared
+@using AnnualLeaveRequestDAL
 @using AnnualLeaveRequest.Components
-@inject IAnnualLeaveRequestService AnnualLeaveRequestService
+@inject AnnualLeaveRequestDAL.AnnualLeaveRequestLogic AnnualLeaveRequestLogic
 @inject NavigationManager NavigationManager
 
 <h2>Edit Annual Leave Request</h2>
@@ -145,14 +145,14 @@
 
     protected override void OnInitialized()
     {
-        model = AnnualLeaveRequestService.GetRequest(AnnualLeaveRequestID);
+        model = AnnualLeaveRequestLogic.GetRequest(AnnualLeaveRequestID);
     }
 
     private void EditRequest()
     {
         DateRequested = DateTime.UtcNow;
 
-        model = AnnualLeaveRequestService.Update(model);
+        model = AnnualLeaveRequestLogic.Update(model);
 
         if (string.IsNullOrEmpty(model.ErrorMessage))
         {
@@ -172,7 +172,7 @@
 
     private decimal GetNumberOfDaysRequested()
     {
-        model.NumberOfAnnualLeaveDaysRequested = AnnualLeaveRequestService.GetDaysBetweenStartDateAndReturnDate(model.StartDate, model.ReturnDate);
+        model.NumberOfAnnualLeaveDaysRequested = AnnualLeaveRequestLogic.GetDaysBetweenStartDateAndReturnDate(model.StartDate, model.ReturnDate);
         return model.NumberOfAnnualLeaveDaysRequested;
     }
 }

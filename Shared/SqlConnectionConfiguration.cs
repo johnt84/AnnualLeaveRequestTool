@@ -1,4 +1,4 @@
-﻿namespace AnnualLeaveRequest.Data
+﻿namespace AnnualLeaveRequest.Shared
 {
     public class SqlConnectionConfiguration
     {

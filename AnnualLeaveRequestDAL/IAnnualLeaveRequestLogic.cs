@@ -1,10 +1,10 @@
-﻿using AnnualLeaveRequest.Models;
+﻿using AnnualLeaveRequest.Shared;
 using System;
 using System.Collections.Generic;
 
-namespace AnnualLeaveRequest.Data
+namespace AnnualLeaveRequestDAL
 {
-    interface IAnnualLeaveRequestService
+    interface IAnnualLeaveRequestLogic
     {
         List<int> GetYears();
         List<AnnualLeaveRequestOverviewModel> GetRequestForYear(int year);

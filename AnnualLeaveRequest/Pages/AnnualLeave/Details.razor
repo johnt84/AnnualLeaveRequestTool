@@ -1,9 +1,9 @@
 ﻿@page  "/AnnualLeave/Details/{AnnualLeaveRequestID:int}"
 
-@using AnnualLeaveRequest.Data
-@using AnnualLeaveRequest.Models
+@using AnnualLeaveRequest.Shared
+@using AnnualLeaveRequestDAL
 @using AnnualLeaveRequest.Components
-@inject IAnnualLeaveRequestService AnnualLeaveRequestService
+@inject AnnualLeaveRequestDAL.AnnualLeaveRequestLogic AnnualLeaveRequestLogic
 @inject NavigationManager NavigationManager
 
 <h2 class="esh-body-title">Details</h2>
@@ -52,6 +52,6 @@
 
     protected override void OnInitialized()
     {
-        model = AnnualLeaveRequestService.GetRequest(AnnualLeaveRequestID);
+        model = AnnualLeaveRequestLogic.GetRequest(AnnualLeaveRequestID);
     }
 }

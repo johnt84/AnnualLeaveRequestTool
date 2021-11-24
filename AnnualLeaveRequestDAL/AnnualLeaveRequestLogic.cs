@@ -1,4 +1,4 @@
-﻿using AnnualLeaveRequest.Models;
+﻿using AnnualLeaveRequest.Shared;
 using Dapper;
 using Microsoft.Data.SqlClient;
 using System;
@@ -6,15 +6,15 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace AnnualLeaveRequest.Data
+namespace AnnualLeaveRequestDAL
 {
-    public class AnnualLeaveRequestService : IAnnualLeaveRequestService
+    public class AnnualLeaveRequestLogic : IAnnualLeaveRequestLogic
     {
         private readonly SqlConnectionConfiguration _configuration;
 
         private IDbConnection Connection => new SqlConnection(_configuration.Value);
 
-        public AnnualLeaveRequestService(SqlConnectionConfiguration configuration)
+        public AnnualLeaveRequestLogic(SqlConnectionConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -25,11 +25,11 @@ namespace AnnualLeaveRequest.Data
             {
                 connection.Open();
                 var years = connection.
-                                            Query<int>(
-                                                "Select t.Year from AnnualLeaveRequestsOverview t group by t.Year"
-                                                ).
-                                            OrderBy(x => x).
-                                            ToList();
+                                    Query<int>(
+                                        "Select t.Year from AnnualLeaveRequestsOverview t group by t.Year"
+                                        ).
+                                    OrderBy(x => x).
+                                    ToList();
 
 
                 return years;
@@ -44,7 +44,7 @@ namespace AnnualLeaveRequest.Data
 
                 var annualLeaveRequests = connection.
                                             Query<AnnualLeaveRequestOverviewModel>(
-                                                "Select * from AnnualLeaveRequestsOverview t where t.Year = @year", 
+                                                "Select * from AnnualLeaveRequestsOverview t where t.Year = @year",
                                                 new { year }).
                                             OrderBy(x => x.StartDate).
                                             ToList();
@@ -53,7 +53,7 @@ namespace AnnualLeaveRequest.Data
                 decimal noOfAnnualLeaveDaysLeft = annualLeaveRequests.First().NumberOfAnnualLeaveDays;
                 decimal noOfPublicLeaveDaysLeft = annualLeaveRequests.First().NumberOfPublicLeaveDays;
 
-                foreach(var annualLeaveRequest in annualLeaveRequests.OrderBy(x => x.StartDate).ToList())
+                foreach (var annualLeaveRequest in annualLeaveRequests.OrderBy(x => x.StartDate).ToList())
                 {
                     noOfDaysLeft = noOfDaysLeft - annualLeaveRequest.NumberOfDaysRequested;
                     noOfAnnualLeaveDaysLeft = noOfAnnualLeaveDaysLeft - annualLeaveRequest.NumberOfAnnualLeaveDaysRequested;
@@ -88,9 +88,9 @@ namespace AnnualLeaveRequest.Data
 
         public decimal GetDaysBetweenStartDateAndReturnDate(DateTime startDate, DateTime returnDate)
         {
-            var emptyDate = new DateTime(2010,01,01);
-            
-            if(startDate < emptyDate || returnDate < emptyDate)
+            var emptyDate = new DateTime(2010, 01, 01);
+
+            if (startDate < emptyDate || returnDate < emptyDate)
             {
                 return 0;
             }
@@ -127,7 +127,7 @@ namespace AnnualLeaveRequest.Data
 
                     model.ErrorMessage = string.Empty;
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     model.ErrorMessage = ex.Message;
                 }

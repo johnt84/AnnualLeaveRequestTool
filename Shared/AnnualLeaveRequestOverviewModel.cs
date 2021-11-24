@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace AnnualLeaveRequest.Models
+namespace AnnualLeaveRequest.Shared
 {
     public class AnnualLeaveRequestOverviewModel
     {

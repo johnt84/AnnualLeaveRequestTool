@@ -1,9 +1,10 @@
 ﻿@page  "/AnnualLeave/Overview/"
 @page  "/AnnualLeave/Overview/{AnnualLeaveRequestID:int}"
 
-@using AnnualLeaveRequest.Data
-@using AnnualLeaveRequest.Models
-@inject IAnnualLeaveRequestService AnnualLeaveRequestService
+@using AnnualLeaveRequest.Shared
+@using AnnualLeaveRequestDAL
+@using AnnualLeaveRequest.Components
+@inject AnnualLeaveRequestDAL.AnnualLeaveRequestLogic AnnualLeaveRequestLogic
 @inject NavigationManager NavigationManager
 
 <div style="padding-bottom: 20px">
@@ -150,11 +151,11 @@
     {
         if (AnnualLeaveRequestID > 0)
         {
-            Year = AnnualLeaveRequestService.GetRequest(AnnualLeaveRequestID)?.Year ?? DateTime.UtcNow.Year;
+            Year = AnnualLeaveRequestLogic.GetRequest(AnnualLeaveRequestID)?.Year ?? DateTime.UtcNow.Year;
         }
 
-        years = AnnualLeaveRequestService.GetYears();
-        annualLeaveRequests = AnnualLeaveRequestService.GetRequestForYear(Year);
+        years = AnnualLeaveRequestLogic.GetYears();
+        annualLeaveRequests = AnnualLeaveRequestLogic.GetRequestForYear(Year);
 
         if (annualLeaveRequests.Count > 0)
         {
