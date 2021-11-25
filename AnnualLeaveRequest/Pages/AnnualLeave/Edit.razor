@@ -1,9 +1,9 @@
 ﻿@page  "/AnnualLeave/Edit/{AnnualLeaveRequestID:int}"
 
 @using AnnualLeaveRequest.Shared
-@using AnnualLeaveRequestDAL
+@using AnnualLeaveRequest.Data
 @using AnnualLeaveRequest.Components
-@inject AnnualLeaveRequestDAL.AnnualLeaveRequestLogic AnnualLeaveRequestLogic
+@inject IAnnualLeaveRequestLogic AnnualLeaveRequestLogic
 @inject NavigationManager NavigationManager
 
 <h2>Edit Annual Leave Request</h2>

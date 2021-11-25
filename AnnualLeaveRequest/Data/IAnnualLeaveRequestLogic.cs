@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AnnualLeaveRequestDAL
+namespace AnnualLeaveRequest.Data
 {
     interface IAnnualLeaveRequestLogic
     {

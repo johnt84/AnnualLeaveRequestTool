@@ -1,9 +1,9 @@
 ﻿@page  "/AnnualLeave/Details/{AnnualLeaveRequestID:int}"
 
 @using AnnualLeaveRequest.Shared
-@using AnnualLeaveRequestDAL
+@using AnnualLeaveRequest.Data
 @using AnnualLeaveRequest.Components
-@inject AnnualLeaveRequestDAL.AnnualLeaveRequestLogic AnnualLeaveRequestLogic
+@inject IAnnualLeaveRequestLogic AnnualLeaveRequestLogic
 @inject NavigationManager NavigationManager
 
 <h2 class="esh-body-title">Details</h2>

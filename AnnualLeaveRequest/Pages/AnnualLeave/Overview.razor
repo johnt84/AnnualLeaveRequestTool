@@ -2,9 +2,9 @@
 @page  "/AnnualLeave/Overview/{AnnualLeaveRequestID:int}"
 
 @using AnnualLeaveRequest.Shared
-@using AnnualLeaveRequestDAL
+@using AnnualLeaveRequest.Data
 @using AnnualLeaveRequest.Components
-@inject AnnualLeaveRequestDAL.AnnualLeaveRequestLogic AnnualLeaveRequestLogic
+@inject IAnnualLeaveRequestLogic AnnualLeaveRequestLogic
 @inject NavigationManager NavigationManager
 
 <div style="padding-bottom: 20px">

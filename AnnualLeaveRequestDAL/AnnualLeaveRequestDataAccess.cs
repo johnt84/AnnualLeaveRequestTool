@@ -8,13 +8,13 @@ using System.Linq;
 
 namespace AnnualLeaveRequestDAL
 {
-    public class AnnualLeaveRequestLogic : IAnnualLeaveRequestLogic
+    public class AnnualLeaveRequestDataAccess : IAnnualLeaveRequestDataAccess
     {
         private readonly SqlConnectionConfiguration _configuration;
 
         private IDbConnection Connection => new SqlConnection(_configuration.Value);
 
-        public AnnualLeaveRequestLogic(SqlConnectionConfiguration configuration)
+        public AnnualLeaveRequestDataAccess(SqlConnectionConfiguration configuration)
         {
             _configuration = configuration;
         }
