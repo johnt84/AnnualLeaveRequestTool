@@ -3,7 +3,7 @@ using AnnualLeaveRequestDAL;
 using System;
 using System.Collections.Generic;
 
-namespace AnnualLeaveRequest.Data
+namespace AnnualLeaveRequestToolBlazorServer.Data
 {
     public class AnnualLeaveRequestLogic : IAnnualLeaveRequestLogic
     {

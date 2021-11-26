@@ -1,6 +1,6 @@
-using AnnualLeaveRequest.Data;
 using AnnualLeaveRequest.Shared;
 using AnnualLeaveRequestDAL;
+using AnnualLeaveRequestToolBlazorServer.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 
-namespace AnnualLeaveRequest
+namespace AnnualLeaveRequestToolBlazorServer
 {
     public class Startup
     {
@@ -24,10 +24,10 @@ namespace AnnualLeaveRequest
             services.AddRazorPages();
 
             services.AddServerSideBlazor()
-                .AddCircuitOptions(options => 
-                { 
+                .AddCircuitOptions(options =>
+                {
                     //can toggle detailed errors on or off from app settings
-                    options.DetailedErrors = Convert.ToBoolean(Configuration["DetailedErrors"]); 
+                    options.DetailedErrors = Convert.ToBoolean(Configuration["DetailedErrors"]);
                 });
 
             var sqlConnectionConfiguration = new SqlConnectionConfiguration(Configuration.GetConnectionString("AnnualLeaveRequestDB"));

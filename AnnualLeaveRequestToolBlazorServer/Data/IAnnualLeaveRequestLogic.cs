@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AnnualLeaveRequest.Data
+namespace AnnualLeaveRequestToolBlazorServer.Data
 {
     interface IAnnualLeaveRequestLogic
     {
