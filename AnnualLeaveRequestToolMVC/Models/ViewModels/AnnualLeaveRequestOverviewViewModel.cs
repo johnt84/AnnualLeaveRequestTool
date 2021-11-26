@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using AnnualLeaveRequest.Shared;
+using System.Collections.Generic;
 
 namespace AnnualLeaveRequestToolMVC.Models.ViewModels
 {

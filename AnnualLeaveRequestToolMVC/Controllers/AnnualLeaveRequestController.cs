@@ -1,5 +1,5 @@
-﻿using AnnualLeaveRequestToolMVC.Interfaces;
-using AnnualLeaveRequestToolMVC.Models;
+﻿using AnnualLeaveRequest.Shared;
+using AnnualLeaveRequestToolMVC.Interfaces;
 using AnnualLeaveRequestToolMVC.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,7 +31,13 @@ namespace AnnualLeaveRequestToolMVC.Controllers
         {
             var annualLeaveRequest = _annualLeaveRequestLogic.GetRequest(annualLeaveRequestId);
 
-            return View(annualLeaveRequest);
+            var annualLeaveRequestDetailsViewModel = new AnnualLeaveRequestDetailsViewModel()
+            {
+                AnnualLeaveRequest = annualLeaveRequest,
+                IsEditable = annualLeaveRequest.Year >= DateTime.UtcNow.Year,
+            };
+
+            return View(annualLeaveRequestDetailsViewModel);
         }
 
         public IActionResult Create()
