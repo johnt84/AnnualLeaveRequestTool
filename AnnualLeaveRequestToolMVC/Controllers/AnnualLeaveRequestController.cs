@@ -12,6 +12,9 @@ namespace AnnualLeaveRequestToolMVC.Controllers
         private readonly ILogger<AnnualLeaveRequestController> _logger;
         private readonly IAnnualLeaveRequestLogic _annualLeaveRequestLogic;
 
+        private bool IsValidAnnualLeaveRequest(AnnualLeaveRequestOverviewModel annualLeaveRequest) => annualLeaveRequest != null 
+                                                                        && string.IsNullOrEmpty(annualLeaveRequest.ErrorMessage);
+
         public AnnualLeaveRequestController(ILogger<AnnualLeaveRequestController> logger, IAnnualLeaveRequestLogic annualLeaveRequestLogic)
         {
             _logger = logger;
@@ -63,8 +66,17 @@ namespace AnnualLeaveRequestToolMVC.Controllers
                 };
 
                 newAnnualLeaveRequest = _annualLeaveRequestLogic.Create(newAnnualLeaveRequest);
+                
+                if(IsValidAnnualLeaveRequest(newAnnualLeaveRequest))
+                {
+                    return RedirectToAction("Overview", new { selectedYear = newAnnualLeaveRequest.Year });
+                }
+                else
+                {
+                    var createAnnualLeaveRequest = _annualLeaveRequestLogic.GetCreateViewModelForCreate(errorMessage: newAnnualLeaveRequest?.ErrorMessage ?? string.Empty);
 
-                return RedirectToAction("Overview", new { selectedYear = newAnnualLeaveRequest.Year });
+                    return View(createAnnualLeaveRequest);
+                }  
             }
             else
             {
@@ -99,7 +111,18 @@ namespace AnnualLeaveRequestToolMVC.Controllers
 
                 editAnnualLeaveRequest = _annualLeaveRequestLogic.Update(editAnnualLeaveRequest);
 
-                return RedirectToAction("Overview", new { selectedYear = editAnnualLeaveRequest.Year });
+                if (IsValidAnnualLeaveRequest(editAnnualLeaveRequest))
+                {
+                    return RedirectToAction("Overview", new { selectedYear = editAnnualLeaveRequest.Year });
+                }
+                else
+                {
+                    string errorMessage = editAnnualLeaveRequest?.ErrorMessage ?? string.Empty;
+
+                    var editAnnualLeaveRequestViewModelInError = _annualLeaveRequestLogic.GetCreateViewModelForEdit(editAnnualLeaveRequestViewModel.AnnualLeaveRequestID, errorMessage: errorMessage);
+
+                    return View(editAnnualLeaveRequestViewModelInError);
+                }
             }
             else
             {

@@ -6,6 +6,7 @@ namespace AnnualLeaveRequestToolMVC.Models.ViewModels
 {
     public class AnnualLeaveRequestCreateViewModel
     {
+        [Display(Name = "Annual Leave Request ID")]
         public int AnnualLeaveRequestID { get; set; }
 
         [Required]
@@ -30,5 +31,6 @@ namespace AnnualLeaveRequestToolMVC.Models.ViewModels
         public string Notes { get; set; }
         public List<string> PaidLeaveTypes { get; set; }
         public List<string> LeaveTypes { get; set; }
+        public ErrorMessageViewModel ErrorMessageViewModel { get; set; }
     }
 }

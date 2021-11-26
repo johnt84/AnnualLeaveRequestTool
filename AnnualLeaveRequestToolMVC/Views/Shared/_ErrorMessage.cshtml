@@ -1,0 +1,13 @@
+﻿@model AnnualLeaveRequestToolMVC.Models.ViewModels.ErrorMessageViewModel
+
+@if (Model.ErrorMessages != null && Model.ErrorMessages.Count > 0)
+{
+    <div style="color:red;">
+        <ul>
+            @foreach (var errorMessage in Model.ErrorMessages)
+            {
+                <li>@errorMessage</li>
+            }
+        </ul>
+    </div>
+}

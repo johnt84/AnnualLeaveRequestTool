@@ -6,6 +6,8 @@
 
 <h1>Create Annual Leave Request</h1>
 
+@await Html.PartialAsync("_ErrorMessage", model: @Model.ErrorMessageViewModel)
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">

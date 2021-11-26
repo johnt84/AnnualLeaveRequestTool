@@ -73,18 +73,23 @@ namespace AnnualLeaveRequestToolMVC.Logic
             _annualLeaveRequestDataAccess.Delete(model);
         }
 
-        public AnnualLeaveRequestCreateViewModel GetCreateViewModelForCreate()
+        public AnnualLeaveRequestCreateViewModel GetCreateViewModelForCreate(string errorMessage = "")
         {
+            var errorMessageViewModel = GetErrorMesssageViewModel(errorMessage);
+
             return new AnnualLeaveRequestCreateViewModel()
             {
                 PaidLeaveTypes = _paidLeaveTypes,
                 LeaveTypes = _leaveTypes,
+                ErrorMessageViewModel = errorMessageViewModel,
             };
         }
         
-        public AnnualLeaveRequestCreateViewModel GetCreateViewModelForEdit(int annualLeaveRequestID)
+        public AnnualLeaveRequestCreateViewModel GetCreateViewModelForEdit(int annualLeaveRequestID, string errorMessage = "")
         {
             var annualLeaveRequest = GetRequest(annualLeaveRequestID);
+
+            var errorMessageViewModel = GetErrorMesssageViewModel(errorMessage);
 
             return new AnnualLeaveRequestCreateViewModel()
             {
@@ -96,7 +101,23 @@ namespace AnnualLeaveRequestToolMVC.Logic
                 Notes = annualLeaveRequest.Notes,
                 PaidLeaveTypes = _paidLeaveTypes,
                 LeaveTypes = _leaveTypes,
+                ErrorMessageViewModel = errorMessageViewModel,
             };
+        }
+
+        private ErrorMessageViewModel GetErrorMesssageViewModel(string errorMessage)
+        {
+            var errorMessageViewModel = new ErrorMessageViewModel();
+
+            if (!string.IsNullOrEmpty(errorMessage))
+            {
+                var errorMessages = errorMessage.Split("\\n").ToList();
+                errorMessages.RemoveAll(x => string.IsNullOrEmpty(x));
+
+                errorMessageViewModel.ErrorMessages = errorMessages;
+            }
+
+            return errorMessageViewModel;
         }
     }
 }
