@@ -1,4 +1,4 @@
-﻿@model AnnualLeaveRequestToolMVC.Models.AnnualLeaveRequestOverviewModel
+﻿@model AnnualLeaveRequestToolMVC.Models.ViewModels.AnnualLeaveRequestDetailsViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -13,7 +13,7 @@
         </dt>
 
         <dd>
-            @Model.StartDate.ToString("dd-MMM-yyyy")
+            @Model.AnnualLeaveRequest.StartDate.ToString("dd-MMM-yyyy")
         </dd>
 
         <dt>
@@ -21,7 +21,7 @@
         </dt>
 
         <dd>
-            @Model.ReturnDate.ToString("dd-MMM-yyyy")
+            @Model.AnnualLeaveRequest.ReturnDate.ToString("dd-MMM-yyyy")
         </dd>
 
         <dt>
@@ -29,7 +29,7 @@
         </dt>
 
         <dd>
-            @Model.NumberOfDaysRequested
+            @Model.AnnualLeaveRequest.NumberOfDaysRequested
         </dd>
 
         <dt>
@@ -37,7 +37,7 @@
         </dt>
 
         <dd>
-            @Model.NumberOfAnnualLeaveDaysRequested
+            @Model.AnnualLeaveRequest.NumberOfAnnualLeaveDaysRequested
         </dd>
 
         <dt>
@@ -45,7 +45,7 @@
         </dt>
 
         <dd>
-            @Model.NumberOfPublicLeaveDaysRequested
+            @Model.AnnualLeaveRequest.NumberOfPublicLeaveDaysRequested
         </dd>
 
         <dt>
@@ -53,7 +53,7 @@
         </dt>
 
         <dd>
-            @Model.PaidLeaveType
+            @Model.AnnualLeaveRequest.PaidLeaveType
         </dd>
 
         <dt>
@@ -61,7 +61,7 @@
         </dt>
 
         <dd>
-            @Model.LeaveType
+            @Model.AnnualLeaveRequest.LeaveType
         </dd>
 
         <dt>
@@ -69,15 +69,15 @@
         </dt>
 
         <dd>
-            @Model.Notes
+            @Model.AnnualLeaveRequest.Notes
         </dd>
     </dl>
 </div>
 <div>
-    @if (Model.EditableRequest)
+    @if (Model.IsEditable)
     {
-        @Html.ActionLink("Edit", "Edit", new { annualLeaveRequestId = Model.AnnualLeaveRequestID  })
+        @Html.ActionLink("Edit", "Edit", new { annualLeaveRequestId = Model.AnnualLeaveRequest.AnnualLeaveRequestID  })
         <span>|</span>
     }
-    @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.Year }) 
+    @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.AnnualLeaveRequest.Year }) 
 </div>
