@@ -6,6 +6,21 @@
 
 <h1>Annual Leave Calendar - @Model.SelectedYear</h1>
 
+@if (Model == null || Model.AnnualLeaveRequestsForYear == null || Model.AnnualLeaveRequestsForYear.Count == 0)
+{
+    <div style="color:red;">
+        <ul>
+            <li>Cannot view Annual Leave Requests for this year</li>
+        </ul>
+    </div>
+
+    <div class="form-actions no-color esh-link-list" style="padding-top: 20px">
+       @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.SelectedYear }) 
+    </div>
+
+    return;
+}
+
 <p>
     @if(Model.EditableYearSelected)
     {

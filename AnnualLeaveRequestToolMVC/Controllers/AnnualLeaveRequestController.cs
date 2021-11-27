@@ -34,10 +34,13 @@ namespace AnnualLeaveRequestToolMVC.Controllers
         {
             var annualLeaveRequest = _annualLeaveRequestLogic.GetRequest(annualLeaveRequestId);
 
+            int year = annualLeaveRequest?.Year ?? DateTime.UtcNow.Year;
+
             var annualLeaveRequestDetailsViewModel = new AnnualLeaveRequestDetailsViewModel()
             {
+                Year = year,
                 AnnualLeaveRequest = annualLeaveRequest,
-                IsEditable = annualLeaveRequest.Year >= DateTime.UtcNow.Year,
+                IsEditable = year >= DateTime.UtcNow.Year,
             };
 
             return View(annualLeaveRequestDetailsViewModel);
@@ -136,7 +139,16 @@ namespace AnnualLeaveRequestToolMVC.Controllers
         {
             var annualLeaveRequest = _annualLeaveRequestLogic.GetRequest(annualLeaveRequestId);
 
-            return View(annualLeaveRequest);
+            int year = annualLeaveRequest?.Year ?? DateTime.UtcNow.Year;
+
+            var annualLeaveRequestDeleteViewModel = new AnnualLeaveRequestDeleteViewModel()
+            {
+                Year = year,
+                AnnualLeaveRequest = annualLeaveRequest,
+                IsDeletable = year >= DateTime.UtcNow.Year,
+            };
+
+            return View(annualLeaveRequestDeleteViewModel);
         }
 
         [HttpPost]

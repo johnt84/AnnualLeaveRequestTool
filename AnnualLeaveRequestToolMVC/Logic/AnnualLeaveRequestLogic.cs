@@ -39,7 +39,9 @@ namespace AnnualLeaveRequestToolMVC.Logic
         {
             var annualLeaveRequestsForYear = _annualLeaveRequestDataAccess.GetRequestForYear(selectedYear);
 
-            var lastAnnualeaveRequestForYear = annualLeaveRequestsForYear.OrderBy(x => x.StartDate).Last();
+            var lastAnnualeaveRequestForYear = annualLeaveRequestsForYear != null && annualLeaveRequestsForYear.Count > 0 
+                                                ? annualLeaveRequestsForYear.OrderBy(x => x.StartDate).Last() 
+                                                : null;
 
             return new AnnualLeaveRequestOverviewViewModel()
             {
@@ -89,19 +91,27 @@ namespace AnnualLeaveRequestToolMVC.Logic
         {
             var annualLeaveRequest = GetRequest(annualLeaveRequestID);
 
+            var editAnnualLeaveRequest = annualLeaveRequest != null 
+                                            ? annualLeaveRequest 
+                                            : new AnnualLeaveRequestOverviewModel();
+
+            int year = annualLeaveRequest?.Year ?? DateTime.UtcNow.Year;
+
             var errorMessageViewModel = GetErrorMesssageViewModel(errorMessage);
 
             return new AnnualLeaveRequestCreateViewModel()
             {
-                AnnualLeaveRequestID = annualLeaveRequest.AnnualLeaveRequestID,
-                PaidLeaveType = annualLeaveRequest.PaidLeaveType,
-                LeaveType = annualLeaveRequest.LeaveType,
-                StartDate = annualLeaveRequest.StartDate,
-                ReturnDate = annualLeaveRequest.ReturnDate,
-                Notes = annualLeaveRequest.Notes,
+                AnnualLeaveRequestID = editAnnualLeaveRequest.AnnualLeaveRequestID,
+                PaidLeaveType = editAnnualLeaveRequest.PaidLeaveType,
+                LeaveType = editAnnualLeaveRequest.LeaveType,
+                StartDate = editAnnualLeaveRequest.StartDate,
+                ReturnDate = editAnnualLeaveRequest.ReturnDate,
+                Notes = editAnnualLeaveRequest.Notes,
                 PaidLeaveTypes = _paidLeaveTypes,
                 LeaveTypes = _leaveTypes,
                 ErrorMessageViewModel = errorMessageViewModel,
+                Year = year,
+                IsEditable = year >= DateTime.UtcNow.Year,
             };
         }
 

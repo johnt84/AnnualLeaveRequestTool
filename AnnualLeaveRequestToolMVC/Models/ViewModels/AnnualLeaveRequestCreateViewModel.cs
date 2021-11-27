@@ -32,5 +32,7 @@ namespace AnnualLeaveRequestToolMVC.Models.ViewModels
         public List<string> PaidLeaveTypes { get; set; }
         public List<string> LeaveTypes { get; set; }
         public ErrorMessageViewModel ErrorMessageViewModel { get; set; }
+        public bool IsEditable { get; set; }
+        public int Year { get; set; }
     }
 }

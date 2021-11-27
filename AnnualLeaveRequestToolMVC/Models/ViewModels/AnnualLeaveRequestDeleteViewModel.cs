@@ -2,10 +2,10 @@
 
 namespace AnnualLeaveRequestToolMVC.Models.ViewModels
 {
-    public class AnnualLeaveRequestDetailsViewModel
+    public class AnnualLeaveRequestDeleteViewModel
     {
         public int Year { get; set; }
         public AnnualLeaveRequestOverviewModel AnnualLeaveRequest { get; set; }
-        public bool IsEditable { get; set; }
+        public bool IsDeletable { get; set; }
     }
 }

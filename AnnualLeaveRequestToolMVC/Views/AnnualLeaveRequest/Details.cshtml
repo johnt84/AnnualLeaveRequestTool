@@ -6,6 +6,21 @@
 
 <h1>Annual Leave Request Details</h1>
 
+@if (Model == null || Model.AnnualLeaveRequest == null || Model.AnnualLeaveRequest.AnnualLeaveRequestID == 0)
+{
+    <div style="color:red;">
+        <ul>
+            <li>Cannot view this Annual Leave Request</li>
+        </ul>
+    </div>
+
+    <div class="form-actions no-color esh-link-list" style="padding-top: 20px">
+        @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.Year }) 
+    </div>
+
+    return;
+}
+
 <div>
     <dl class="col-md-6 dl-horizontal">
         <dt>
@@ -79,5 +94,5 @@
         @Html.ActionLink("Edit", "Edit", new { annualLeaveRequestId = Model.AnnualLeaveRequest.AnnualLeaveRequestID  })
         <span>|</span>
     }
-    @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.AnnualLeaveRequest.Year }) 
+    @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.Year }) 
 </div>
