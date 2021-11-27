@@ -7,7 +7,7 @@ Simple Annual Leave Request Tool
 * There are db scripts used to set up an AnnualLeave DB on SSMS which can be used by the Annual Leave Request tool
 * Live web app is deployed to an Azure web app and the database is deployed to an Azure SQL Database
 
-##Blazor Server App
+## Blazor Server App
 
 ### Overview Page
 
