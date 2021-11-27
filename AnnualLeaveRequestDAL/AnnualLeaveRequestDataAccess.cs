@@ -49,6 +49,11 @@ namespace AnnualLeaveRequestDAL
                                             OrderBy(x => x.StartDate).
                                             ToList();
 
+                if(annualLeaveRequests == null || annualLeaveRequests.Count == 0)
+                {
+                    return null;
+                }
+
                 decimal noOfDaysLeft = annualLeaveRequests.First().NumberOfDays;
                 decimal noOfAnnualLeaveDaysLeft = annualLeaveRequests.First().NumberOfAnnualLeaveDays;
                 decimal noOfPublicLeaveDaysLeft = annualLeaveRequests.First().NumberOfPublicLeaveDays;

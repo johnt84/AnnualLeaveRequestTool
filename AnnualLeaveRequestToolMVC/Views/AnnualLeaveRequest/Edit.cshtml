@@ -1,0 +1,78 @@
+﻿@model AnnualLeaveRequestToolMVC.Models.ViewModels.AnnualLeaveRequestCreateViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Annual Leave Request</h1>
+
+@if (Model == null || !Model.IsEditable || Model.AnnualLeaveRequestID == 0)
+{
+    <div style="color:red;">
+        <ul>
+            <li>Cannot update this Annual Leave Request</li>
+        </ul>
+    </div>
+
+    <div class="form-actions no-color esh-link-list" style="padding-top: 20px">
+        @if (Model?.AnnualLeaveRequestID > 0)
+        {
+            @Html.ActionLink("Details", "Details", new { annualLeaveRequestID = Model.AnnualLeaveRequestID })
+            <label>|</label>
+        }
+
+        @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.StartDate.Year })
+    </div>
+
+    return;
+}
+
+@await Html.PartialAsync("_ErrorMessage", model: @Model.ErrorMessageViewModel)
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AnnualLeaveRequestID" class="control-label"></label>
+                @Html.DisplayFor(model => model.AnnualLeaveRequestID)
+                <input hidden asp-for="AnnualLeaveRequestID" />
+            </div>
+            <div class="form-group">
+                <label asp-for="PaidLeaveType" class="control-label"></label>
+                @Html.DropDownList("PaidLeaveType", new SelectList(@Model.PaidLeaveTypes), "Please select the Paid Leave Type")
+                <span asp-validation-for="PaidLeaveType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="LeaveType" class="control-label"></label>
+                @Html.DropDownList("LeaveType", new SelectList(@Model.LeaveTypes), "Please select the Leave Type")
+                <span asp-validation-for="LeaveType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReturnDate" class="control-label"></label>
+                <input asp-for="ReturnDate" class="form-control" />
+                <span asp-validation-for="ReturnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Details", "Details", new { annualLeaveRequestID = Model.AnnualLeaveRequestID }) |
+    @Html.ActionLink("Back to Overview", "Overview", new { selectedYear = @Model.StartDate.Year })
+</div>
+
