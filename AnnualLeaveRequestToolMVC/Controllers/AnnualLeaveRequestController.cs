@@ -144,6 +144,7 @@ namespace AnnualLeaveRequestToolMVC.Controllers
             var annualLeaveRequestDeleteViewModel = new AnnualLeaveRequestDeleteViewModel()
             {
                 Year = year,
+                AnnualLeaveRequestID = annualLeaveRequest.AnnualLeaveRequestID,
                 AnnualLeaveRequest = annualLeaveRequest,
                 IsDeletable = year >= DateTime.UtcNow.Year,
             };
