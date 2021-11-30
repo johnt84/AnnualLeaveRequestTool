@@ -34,6 +34,7 @@ namespace AnnualLeaveRequestAPI.Logic
         {
             var annnualLeaveRequestOverviewModel = new AnnualLeaveRequestOverviewModel()
             {
+                Year = model.Year,
                 PaidLeaveType = model.PaidLeaveType,
                 LeaveType = model.LeaveType,
                 StartDate = model.StartDate,
@@ -46,11 +47,13 @@ namespace AnnualLeaveRequestAPI.Logic
             return new AnnualLeaveRequestCRUDModel()
             {
                 AnnualLeaveRequestID = newAnnnualLeaveRequestOverviewModel.AnnualLeaveRequestID,
+                Year = newAnnnualLeaveRequestOverviewModel.Year,
                 PaidLeaveType = newAnnnualLeaveRequestOverviewModel.PaidLeaveType,
                 LeaveType = newAnnnualLeaveRequestOverviewModel.LeaveType,
                 StartDate = newAnnnualLeaveRequestOverviewModel.StartDate,
                 ReturnDate = newAnnnualLeaveRequestOverviewModel.ReturnDate,
                 Notes = newAnnnualLeaveRequestOverviewModel.Notes,
+                ErrorMessage = newAnnnualLeaveRequestOverviewModel.ErrorMessage,
             };
         }
 
@@ -59,6 +62,7 @@ namespace AnnualLeaveRequestAPI.Logic
             var annnualLeaveRequestOverviewModel = new AnnualLeaveRequestOverviewModel()
             {
                 AnnualLeaveRequestID = model.AnnualLeaveRequestID,
+                Year = model.Year,
                 PaidLeaveType = model.PaidLeaveType,
                 LeaveType = model.LeaveType,
                 StartDate = model.StartDate,
@@ -71,11 +75,13 @@ namespace AnnualLeaveRequestAPI.Logic
             return new AnnualLeaveRequestCRUDModel()
             {
                 AnnualLeaveRequestID = updateAnnnualLeaveRequestOverviewModel.AnnualLeaveRequestID,
+                Year = updateAnnnualLeaveRequestOverviewModel.Year,
                 PaidLeaveType = updateAnnnualLeaveRequestOverviewModel.PaidLeaveType,
                 LeaveType = updateAnnnualLeaveRequestOverviewModel.LeaveType,
                 StartDate = updateAnnnualLeaveRequestOverviewModel.StartDate,
                 ReturnDate = updateAnnnualLeaveRequestOverviewModel.ReturnDate,
                 Notes = updateAnnnualLeaveRequestOverviewModel.Notes,
+                ErrorMessage = updateAnnnualLeaveRequestOverviewModel.ErrorMessage,
             };
         }
 
