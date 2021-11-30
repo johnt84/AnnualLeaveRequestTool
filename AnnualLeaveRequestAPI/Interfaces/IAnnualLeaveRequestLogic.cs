@@ -1,4 +1,5 @@
 ﻿using AnnualLeaveRequest.Shared;
+using AnnualLeaveRequestAPI.Models;
 using System.Collections.Generic;
 
 namespace AnnualLeaveRequestAPI.Interfaces
@@ -8,8 +9,8 @@ namespace AnnualLeaveRequestAPI.Interfaces
         List<AnnualLeaveRequestOverviewModel> GetRequestsForYear(int year);
         AnnualLeaveRequestOverviewModel GetRequest(int year, int annualLeaveRequestID);
         AnnualLeaveRequestOverviewModel GetRequest(int annualLeaveRequestID);
-        AnnualLeaveRequestOverviewModel Create(AnnualLeaveRequestOverviewModel model);
-        AnnualLeaveRequestOverviewModel Update(AnnualLeaveRequestOverviewModel model);
+        AnnualLeaveRequestCRUDModel Create(AnnualLeaveRequestCRUDModel model);
+        AnnualLeaveRequestCRUDModel Update(AnnualLeaveRequestCRUDModel model);
         void Delete(int annualLeaveRequestId);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AnnualLeaveRequest.Shared;
 using AnnualLeaveRequestAPI.Interfaces;
+using AnnualLeaveRequestAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -29,15 +30,15 @@ namespace AnnualLeaveRequestAPI.Controllers
         }
 
         [HttpPost]
-        public int Create(AnnualLeaveRequestOverviewModel annualLeaveRequestOverviewModel)
+        public int Create(AnnualLeaveRequestCRUDModel createAnnualLeaveRequestCRUDModel)
         {
-            var newAnnnualLeaveRequestModel = _annualLeaveRequestLogic.Create(annualLeaveRequestOverviewModel);
+            var annualLeaveRequestCreated = _annualLeaveRequestLogic.Create(createAnnualLeaveRequestCRUDModel);
 
-            return newAnnnualLeaveRequestModel.AnnualLeaveRequestID;
+            return annualLeaveRequestCreated.AnnualLeaveRequestID;
         }
 
         [HttpPut]
-        public void Update(AnnualLeaveRequestOverviewModel annualLeaveRequestOverviewModel)
+        public void Update(AnnualLeaveRequestCRUDModel annualLeaveRequestOverviewModel)
         {
             _annualLeaveRequestLogic.Update(annualLeaveRequestOverviewModel);
         }
