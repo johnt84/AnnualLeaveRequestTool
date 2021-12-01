@@ -37,11 +37,16 @@ namespace AnnualLeaveRequestToolMVC.Logic
 
         public AnnualLeaveRequestOverviewViewModel GetRequestsForYear(int selectedYear)
         {
-            var annualLeaveRequestsForYear = _annualLeaveRequestDataAccess.GetRequestForYear(selectedYear);
+            var annualLeaveRequestsForYear = _annualLeaveRequestDataAccess.GetRequestsForYear(selectedYear);
 
-            var lastAnnualeaveRequestForYear = annualLeaveRequestsForYear != null && annualLeaveRequestsForYear.Count > 0 
-                                                ? annualLeaveRequestsForYear.OrderBy(x => x.StartDate).Last() 
-                                                : null;
+            if(annualLeaveRequestsForYear == null || annualLeaveRequestsForYear.Count == 0)
+            {
+                return null;
+            }
+
+            var lastAnnualeaveRequestForYear = annualLeaveRequestsForYear.OrderBy(x => x.StartDate).Last();
+
+            annualLeaveRequestsForYear.RemoveAll(x => x.AnnualLeaveRequestID == 0);
 
             return new AnnualLeaveRequestOverviewViewModel()
             {

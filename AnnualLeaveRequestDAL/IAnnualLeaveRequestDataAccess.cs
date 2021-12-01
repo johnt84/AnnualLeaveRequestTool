@@ -7,7 +7,7 @@ namespace AnnualLeaveRequestDAL
     interface IAnnualLeaveRequestDataAccess
     {
         List<int> GetYears();
-        List<AnnualLeaveRequestOverviewModel> GetRequestForYear(int year);
+        List<AnnualLeaveRequestOverviewModel> GetRequestsForYear(int year);
         AnnualLeaveRequestOverviewModel GetRequest(int annualLeaveRequestID);
         AnnualLeaveRequestOverviewModel GetRequest(int year, int annualLeaveRequestID);
         decimal GetDaysBetweenStartDateAndReturnDate(DateTime startDate, DateTime returnDate);
