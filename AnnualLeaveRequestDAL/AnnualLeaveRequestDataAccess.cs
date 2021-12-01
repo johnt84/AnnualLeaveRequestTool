@@ -36,7 +36,7 @@ namespace AnnualLeaveRequestDAL
             }
         }
 
-        public List<AnnualLeaveRequestOverviewModel> GetRequestForYear(int year)
+        public List<AnnualLeaveRequestOverviewModel> GetRequestsForYear(int year)
         {
             using (IDbConnection connection = Connection)
             {

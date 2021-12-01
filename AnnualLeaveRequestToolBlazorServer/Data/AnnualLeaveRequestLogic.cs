@@ -19,9 +19,9 @@ namespace AnnualLeaveRequestToolBlazorServer.Data
             return _annualLeaveRequestDataAccess.GetYears();
         }
 
-        public List<AnnualLeaveRequestOverviewModel> GetRequestForYear(int year)
+        public List<AnnualLeaveRequestOverviewModel> GetRequestsForYear(int year)
         {
-            return _annualLeaveRequestDataAccess.GetRequestForYear(year);   
+            return _annualLeaveRequestDataAccess.GetRequestsForYear(year);   
         }
 
         public AnnualLeaveRequestOverviewModel GetRequest(int annualLeaveRequestID)

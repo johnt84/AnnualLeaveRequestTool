@@ -51,36 +51,36 @@
         <th>&nbsp;</th>
         <th>&nbsp;</th>
     </tr>
-    @foreach (var annualLeaveRequest in annualLeaveRequests)
+    @foreach (var annualLeaveRequestForYear in annualLeaveRequestsForYear)
     {
-    <tr style="@(annualLeaveRequest.AnnualLeaveRequestID == AnnualLeaveRequestID ? "background-color: #ffff99;" : string.Empty)">
-        <td>@annualLeaveRequest.StartDate.ToString("dd MMM yyyy")</td>
-        <td>@annualLeaveRequest.ReturnDate.ToString("dd MMM yyyy")</td>
-        <td>@annualLeaveRequest.NumberOfDaysRequested</td>
-        <td>@annualLeaveRequest.NumberOfAnnualLeaveDaysRequested</td>
-        <td>@annualLeaveRequest.NumberOfPublicLeaveDaysRequested</td>
-        <td>@annualLeaveRequest.NumberOfDaysLeft</td>
-        <td>@annualLeaveRequest.NumberOfAnnualLeaveDaysLeft</td>
-        <td>@annualLeaveRequest.NumberOfPublicLeaveDaysLeft</td>
-        <td>@annualLeaveRequest.Notes</td>
+    <tr style="@(annualLeaveRequestForYear.AnnualLeaveRequestID == AnnualLeaveRequestID ? "background-color: #ffff99;" : string.Empty)">
+        <td>@annualLeaveRequestForYear.StartDate.ToString("dd MMM yyyy")</td>
+        <td>@annualLeaveRequestForYear.ReturnDate.ToString("dd MMM yyyy")</td>
+        <td>@annualLeaveRequestForYear.NumberOfDaysRequested</td>
+        <td>@annualLeaveRequestForYear.NumberOfAnnualLeaveDaysRequested</td>
+        <td>@annualLeaveRequestForYear.NumberOfPublicLeaveDaysRequested</td>
+        <td>@annualLeaveRequestForYear.NumberOfDaysLeft</td>
+        <td>@annualLeaveRequestForYear.NumberOfAnnualLeaveDaysLeft</td>
+        <td>@annualLeaveRequestForYear.NumberOfPublicLeaveDaysLeft</td>
+        <td>@annualLeaveRequestForYear.Notes</td>
 
         <td>
             @if(editableYearSelected)
             {
-                <a href="@($"AnnualLeave/Edit/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
+                <a href="@($"AnnualLeave/Edit/{annualLeaveRequestForYear.AnnualLeaveRequestID}")" class="esh-table-link">
                     Edit
                 </a>
             }
         </td>
         <td>
-            <a href="@($"AnnualLeave/Details/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
+            <a href="@($"AnnualLeave/Details/{annualLeaveRequestForYear.AnnualLeaveRequestID}")" class="esh-table-link">
                 Details
             </a>
         </td>
         <td>
             @if(editableYearSelected)
             {
-                <a href="@($"AnnualLeave/Delete/{annualLeaveRequest.AnnualLeaveRequestID}")" class="esh-table-link">
+                <a href="@($"AnnualLeave/Delete/{annualLeaveRequestForYear.AnnualLeaveRequestID}")" class="esh-table-link">
                     Delete
                 </a>
             }
@@ -132,7 +132,7 @@
 
     protected bool editableYearSelected => Year >= DateTime.UtcNow.Year;
 
-    private List<AnnualLeaveRequestOverviewModel> annualLeaveRequests;
+    private List<AnnualLeaveRequestOverviewModel> annualLeaveRequestsForYear;
     protected List<int> years;
 
     protected async override Task OnInitializedAsync()
@@ -155,19 +155,23 @@
         }
 
         years = AnnualLeaveRequestLogic.GetYears();
-        annualLeaveRequests = AnnualLeaveRequestLogic.GetRequestForYear(Year);
+        annualLeaveRequestsForYear = AnnualLeaveRequestLogic.GetRequestsForYear(Year);
 
-        if (annualLeaveRequests.Count > 0)
+        if (annualLeaveRequestsForYear.Count > 0)
         {
-            NumberOfDays = annualLeaveRequests.Last().NumberOfDays;
-            NumberOfAnnualLeaveDays = annualLeaveRequests.Last().NumberOfAnnualLeaveDays;
-            NumberOfPublicLeaveDays = annualLeaveRequests.Last().NumberOfPublicLeaveDays;
-            NumberOfDaysLeft = annualLeaveRequests.Last().NumberOfDaysLeftForYear;
-            NumberOfAnnualLeaveDaysLeft = annualLeaveRequests.Last().NumberOfAnnualLeaveDaysLeftForYear;
-            NumberOfPublicDaysLeft = annualLeaveRequests.Last().NumberOfPublicLeaveDaysLeftForYear;
+            var lastAnnualeaveRequestForYear = annualLeaveRequestsForYear
+                                                .OrderBy(x => x.StartDate)
+                                                .Last();
+            
+            NumberOfDays = lastAnnualeaveRequestForYear.NumberOfDays;
+            NumberOfAnnualLeaveDays = lastAnnualeaveRequestForYear.NumberOfAnnualLeaveDays;
+            NumberOfPublicLeaveDays = lastAnnualeaveRequestForYear.NumberOfPublicLeaveDays;
+            NumberOfDaysLeft = lastAnnualeaveRequestForYear.NumberOfDaysLeftForYear;
+            NumberOfAnnualLeaveDaysLeft = lastAnnualeaveRequestForYear.NumberOfAnnualLeaveDaysLeftForYear;
+            NumberOfPublicDaysLeft = lastAnnualeaveRequestForYear.NumberOfPublicLeaveDaysLeftForYear;
         }
 
-        annualLeaveRequests = annualLeaveRequests.Where(x => x.AnnualLeaveRequestID > 0).ToList();
+        annualLeaveRequestsForYear.RemoveAll(x => x.AnnualLeaveRequestID == 0);
 
         //used to highlight the annual leave request which has been changed for a short time
         //to show the user which annual leave request has changed
