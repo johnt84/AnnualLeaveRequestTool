@@ -17,7 +17,7 @@ namespace AnnualLeaveRequestAPI.Logic
 
         public List<AnnualLeaveRequestOverviewModel> GetRequestsForYear(int year)
         {
-            return _annualLeaveRequestDataAccess.GetRequestForYear(year);
+            return _annualLeaveRequestDataAccess.GetRequestsForYear(year);
         }
 
         public AnnualLeaveRequestOverviewModel GetRequest(int year, int annualLeaveRequestID)
