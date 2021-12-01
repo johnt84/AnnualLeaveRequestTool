@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestToolBlazo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestToolMVC", "AnnualLeaveRequestToolMVC\AnnualLeaveRequestToolMVC.csproj", "{7D507151-649F-4442-A28B-F1CCE0C39863}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnnualLeaveRequestAPI", "AnnualLeaveRequestAPI\AnnualLeaveRequestAPI.csproj", "{300B8880-4BF8-4AF6-9420-9D7525E98497}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestAPI", "AnnualLeaveRequestAPI\AnnualLeaveRequestAPI.csproj", "{300B8880-4BF8-4AF6-9420-9D7525E98497}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnnualLeaveRequestToolBlazorWASM", "AnnualLeaveRequestToolBlazorWASM\AnnualLeaveRequestToolBlazorWASM.csproj", "{3A9D3672-EDFD-445C-BC46-8380E047C0CE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{300B8880-4BF8-4AF6-9420-9D7525E98497}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{300B8880-4BF8-4AF6-9420-9D7525E98497}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{300B8880-4BF8-4AF6-9420-9D7525E98497}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A9D3672-EDFD-445C-BC46-8380E047C0CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A9D3672-EDFD-445C-BC46-8380E047C0CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A9D3672-EDFD-445C-BC46-8380E047C0CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A9D3672-EDFD-445C-BC46-8380E047C0CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
