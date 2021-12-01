@@ -91,6 +91,29 @@ namespace AnnualLeaveRequestDAL
             }
         }
 
+        public AnnualLeaveRequestOverviewModel GetRequest(int year, int annualLeaveRequestID)
+        {
+            using (IDbConnection connection = Connection)
+            {
+                connection.Open();
+                var annualLeaveRequest = connection.
+                                            Query<AnnualLeaveRequestOverviewModel>(
+                                                @"Select * 
+                                                    from AnnualLeaveRequestsOverview t 
+                                                    where t.year = @year
+                                                    and t.annualLeaveRequestID = @annualLeaveRequestID",
+                                                new 
+                                                { 
+                                                    year,
+                                                    annualLeaveRequestID
+                                                }).
+                                            FirstOrDefault();
+
+
+                return annualLeaveRequest;
+            }
+        }
+
         public decimal GetDaysBetweenStartDateAndReturnDate(DateTime startDate, DateTime returnDate)
         {
             var emptyDate = new DateTime(2010, 01, 01);
