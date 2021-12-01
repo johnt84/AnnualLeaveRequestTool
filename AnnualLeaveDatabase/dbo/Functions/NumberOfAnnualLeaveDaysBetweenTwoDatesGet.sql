@@ -1,8 +1,8 @@
 ﻿
 CREATE FUNCTION [dbo].[NumberOfAnnualLeaveDaysBetweenTwoDatesGet] 
 (	
-	@StartDate datetime --= '2020-01-01'
-	,@ReturnDate datetime --= '2020-01-02'
+	@StartDate date --= '2020-01-01'
+	,@ReturnDate date --= '2020-01-02'
 )
 RETURNS @numberOfAnnualLeaveDays TABLE
 (
