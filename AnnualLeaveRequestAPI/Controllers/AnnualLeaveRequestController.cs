@@ -110,7 +110,7 @@ namespace AnnualLeaveRequestAPI.Controllers
         }
 
         [HttpPost]
-        public ActionResult<AnnualLeaveRequestCRUDModel> Create(AnnualLeaveRequestCRUDModel createAnnualLeaveRequestCRUDModel)
+        public IActionResult Create(AnnualLeaveRequestCRUDModel createAnnualLeaveRequestCRUDModel)
         {
             try
             {
