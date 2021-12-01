@@ -2,6 +2,7 @@
 using AnnualLeaveRequestAPI.Interfaces;
 using AnnualLeaveRequestAPI.Models;
 using AnnualLeaveRequestDAL;
+using System;
 using System.Collections.Generic;
 
 namespace AnnualLeaveRequestAPI.Logic
@@ -15,19 +16,24 @@ namespace AnnualLeaveRequestAPI.Logic
             _annualLeaveRequestDataAccess = annualLeaveRequestDataAccess;
         }
 
+        public List<int> GetYears()
+        {
+            return _annualLeaveRequestDataAccess.GetYears();
+        }
+
         public List<AnnualLeaveRequestOverviewModel> GetRequestsForYear(int year)
         {
             return _annualLeaveRequestDataAccess.GetRequestsForYear(year);
         }
 
-        public AnnualLeaveRequestOverviewModel GetRequest(int year, int annualLeaveRequestID)
-        {
-            return _annualLeaveRequestDataAccess.GetRequest(year, annualLeaveRequestID);
-        }
-
         public AnnualLeaveRequestOverviewModel GetRequest(int annualLeaveRequestID)
         {
             return _annualLeaveRequestDataAccess.GetRequest(annualLeaveRequestID);
+        }
+
+        public decimal GetDaysBetweenStartDateAndReturnDate(DateTime startDate, DateTime returnDate)
+        {
+            return _annualLeaveRequestDataAccess.GetDaysBetweenStartDateAndReturnDate(startDate, returnDate);
         }
 
         public AnnualLeaveRequestCRUDModel Create(AnnualLeaveRequestCRUDModel model)

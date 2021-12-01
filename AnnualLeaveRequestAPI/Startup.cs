@@ -20,8 +20,19 @@ namespace AnnualLeaveRequestAPI
 
         public IConfiguration Configuration { get; }
 
+        private readonly string _policyName = "CorsPolicy";
+
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy(name: _policyName, builder =>
+                {
+                    builder.AllowAnyOrigin()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+                });
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -49,6 +60,8 @@ namespace AnnualLeaveRequestAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors(_policyName);
 
             app.UseAuthorization();
 

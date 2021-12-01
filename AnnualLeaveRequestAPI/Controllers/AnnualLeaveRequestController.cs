@@ -17,7 +17,30 @@ namespace AnnualLeaveRequestAPI.Controllers
             _annualLeaveRequestLogic = annualLeaveRequestLogic;
         }
 
-        [HttpGet("{year:int}")]
+        [HttpGet("GetYears")]
+        public IActionResult GetYears()
+        {
+            try
+            {
+                var years = _annualLeaveRequestLogic.GetYears();
+
+                if (years != null && years.Count > 0)
+                {
+                    return Ok(years);
+                }
+                else
+                {
+                    return BadRequest($"Could not retrieve any years");
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                   $"Error retrieving years");
+            }
+        }
+
+        [HttpGet("GetRequestsForYear/{year:int}")]
         public IActionResult GetRequestsForYear(int year)
         {
             try
@@ -40,26 +63,49 @@ namespace AnnualLeaveRequestAPI.Controllers
             }
         }
 
-        [HttpGet("{year:int}/{annualLeaveRequestID:int}")]
-        public IActionResult Get(int year, int annualLeaveRequestID)
+        [HttpGet("Get/{annualLeaveRequestID:int}")]
+        public IActionResult Get(int annualLeaveRequestID)
         {
             try
             {
-                var annualLeaveRequest = _annualLeaveRequestLogic.GetRequest(year, annualLeaveRequestID);
+                var annualLeaveRequest = _annualLeaveRequestLogic.GetRequest(annualLeaveRequestID);
 
-                if (annualLeaveRequest != null && annualLeaveRequest.Year == year)
+                if (annualLeaveRequest != null && annualLeaveRequest.Year > 0)
                 {
                     return Ok(annualLeaveRequest);
                 }
                 else
                 {
-                    return BadRequest($"No annual leave request exists for year: {year} and annualLeaveRequestID: {annualLeaveRequestID}");
+                    return BadRequest($"No annual leave request exists for annualLeaveRequestID: {annualLeaveRequestID}");
                 }
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                   $"Error retrieving the annual leave request for year: {year} and annualLeaveRequestID: {annualLeaveRequestID}");
+                   $"Error retrieving the annual leave request for annualLeaveRequestID: {annualLeaveRequestID}");
+            }
+        }
+
+        [HttpGet("GetDaysBetweenStartDateAndEndDate/{startDate:DateTime}/{returnDate:DateTime}")]
+        public IActionResult GetDaysBetweenStartDateAndEndDate(DateTime startDate, DateTime returnDate)
+        {
+            try
+            {
+                decimal daysBetweenStartDateAndReturnDate = _annualLeaveRequestLogic.GetDaysBetweenStartDateAndReturnDate(startDate, returnDate);
+
+                if (daysBetweenStartDateAndReturnDate > 0)
+                {
+                    return Ok(daysBetweenStartDateAndReturnDate);
+                }
+                else
+                {
+                    return BadRequest($"Could not calculate number of days between {startDate} and {returnDate}");
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                   $"Error calculating number of days between {startDate} and {returnDate}");
             }
         }
 
@@ -100,7 +146,7 @@ namespace AnnualLeaveRequestAPI.Controllers
         }
 
         [HttpPut]
-        public IActionResult Update(AnnualLeaveRequestCRUDModel updateAnnualLeaveRequestCRUDModel)
+        public ActionResult<AnnualLeaveRequestCRUDModel> Update(AnnualLeaveRequestCRUDModel updateAnnualLeaveRequestCRUDModel)
         {
             try
             {
@@ -109,7 +155,7 @@ namespace AnnualLeaveRequestAPI.Controllers
                 if (annualLeaveRequestUpdated != null && annualLeaveRequestUpdated.Year == updateAnnualLeaveRequestCRUDModel.Year 
                     && string.IsNullOrEmpty(annualLeaveRequestUpdated.ErrorMessage))
                 {
-                    return Ok();
+                    return Ok(annualLeaveRequestUpdated);
                 }
                 else
                 {
