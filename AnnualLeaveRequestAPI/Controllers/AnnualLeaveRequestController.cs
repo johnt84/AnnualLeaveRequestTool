@@ -30,13 +30,13 @@ namespace AnnualLeaveRequestAPI.Controllers
                 }
                 else
                 {
-                    return BadRequest($"No requests exist for year: {year}");
+                    return BadRequest($"No annual leave requests exist for year: {year}");
                 }
             }
             catch(Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                   $"Error retrieving requests for year: {year}");
+                   $"Error retrieving annual leave requests for year: {year}");
             }
         }
 
@@ -53,16 +53,14 @@ namespace AnnualLeaveRequestAPI.Controllers
                 }
                 else
                 {
-                    return BadRequest($"No request exists for year: {year} and annualLeaveRequestID: {annualLeaveRequestID}");
+                    return BadRequest($"No annual leave request exists for year: {year} and annualLeaveRequestID: {annualLeaveRequestID}");
                 }
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                   $"Error retrieving request for year: {year} and annualLeaveRequestID: {annualLeaveRequestID}");
+                   $"Error retrieving the annual leave request for year: {year} and annualLeaveRequestID: {annualLeaveRequestID}");
             }
-
-            
         }
 
         [HttpPost]
@@ -72,7 +70,8 @@ namespace AnnualLeaveRequestAPI.Controllers
             {
                 var annualLeaveRequestCreated = _annualLeaveRequestLogic.Create(createAnnualLeaveRequestCRUDModel);
 
-                if (annualLeaveRequestCreated != null && annualLeaveRequestCreated.Year == createAnnualLeaveRequestCRUDModel.Year)
+                if (annualLeaveRequestCreated != null && annualLeaveRequestCreated.Year == createAnnualLeaveRequestCRUDModel.Year
+                        && string.IsNullOrEmpty(annualLeaveRequestCreated.ErrorMessage))
                 {
                     return CreatedAtAction(nameof(Create),
                         new { id = annualLeaveRequestCreated.AnnualLeaveRequestID }, annualLeaveRequestCreated);
@@ -81,11 +80,11 @@ namespace AnnualLeaveRequestAPI.Controllers
                 {
                     if (annualLeaveRequestCreated == null || annualLeaveRequestCreated.Year != createAnnualLeaveRequestCRUDModel.Year)
                     {
-                        return BadRequest($"Annual Leave Request not created");
+                        return BadRequest($"Annual Leave Request was not created");
                     }
                     else if (!string.IsNullOrEmpty(annualLeaveRequestCreated.ErrorMessage))
                     {
-                        return BadRequest($"Annual Leave Request not created.  Error Messages: {annualLeaveRequestCreated.ErrorMessage}");
+                        return BadRequest($"Annual Leave Request was not created.  Error Messages: {annualLeaveRequestCreated.ErrorMessage}");
                     }
                     else
                     {
@@ -98,19 +97,57 @@ namespace AnnualLeaveRequestAPI.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError,
                    "Error creating the annual leave request");
             }
-
         }
 
         [HttpPut]
-        public void Update(AnnualLeaveRequestCRUDModel annualLeaveRequestOverviewModel)
+        public IActionResult Update(AnnualLeaveRequestCRUDModel updateAnnualLeaveRequestCRUDModel)
         {
-            _annualLeaveRequestLogic.Update(annualLeaveRequestOverviewModel);
+            try
+            {
+                var annualLeaveRequestUpdated = _annualLeaveRequestLogic.Update(updateAnnualLeaveRequestCRUDModel);
+
+                if (annualLeaveRequestUpdated != null && annualLeaveRequestUpdated.Year == updateAnnualLeaveRequestCRUDModel.Year 
+                    && string.IsNullOrEmpty(annualLeaveRequestUpdated.ErrorMessage))
+                {
+                    return Ok();
+                }
+                else
+                {
+                    if (annualLeaveRequestUpdated == null || annualLeaveRequestUpdated.Year != updateAnnualLeaveRequestCRUDModel.Year)
+                    {
+                        return BadRequest($"Annual Leave Request was not updated");
+                    }
+                    else if (!string.IsNullOrEmpty(annualLeaveRequestUpdated.ErrorMessage))
+                    {
+                        return BadRequest($"Annual Leave Request was not updated.  Error Messages: {annualLeaveRequestUpdated.ErrorMessage}");
+                    }
+                    else
+                    {
+                        return BadRequest($"Annual leave request was not updated");
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                   "Error updating the annual leave request");
+            }
         }
 
         [HttpDelete("{annualLeaveRequestID}")]
-        public void Delete(int annualLeaveRequestID)
+        public IActionResult Delete(int annualLeaveRequestID)
         {
-            _annualLeaveRequestLogic.Delete(annualLeaveRequestID);  
+            try
+            {
+                _annualLeaveRequestLogic.Delete(annualLeaveRequestID);
+
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError,
+                   "Error deleting the annual leave request");
+            }
         }
     }
 }
