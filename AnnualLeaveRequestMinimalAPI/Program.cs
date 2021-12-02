@@ -1,9 +1,3 @@
-using AnnualLeaveRequest.Shared;
-using AnnualLeaveRequestDAL;
-using AnnualLeaveRequestMinimalAPI.Interfaces;
-using AnnualLeaveRequestMinimalAPI.Logic;
-using AnnualLeaveRequestMinimalAPI.Models;
-
 var builder = WebApplication.CreateBuilder(args);
 
 var sqlConnectionConfiguration = new SqlConnectionConfiguration(builder.Configuration.GetConnectionString("AnnualLeaveRequestDB"));
