@@ -1,43 +1,75 @@
+using AnnualLeaveRequest.Shared;
+using AnnualLeaveRequestDAL;
+using AnnualLeaveRequestMinimalAPI.Interfaces;
+using AnnualLeaveRequestMinimalAPI.Logic;
+using AnnualLeaveRequestMinimalAPI.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+var sqlConnectionConfiguration = new SqlConnectionConfiguration(builder.Configuration.GetConnectionString("AnnualLeaveRequestDB"));
+builder.Services.AddSingleton(sqlConnectionConfiguration);
+
+builder.Services.AddSingleton<AnnualLeaveRequestDataAccess>();
+
+builder.Services.AddSingleton<IAnnualLeaveRequestLogic, AnnualLeaveRequestLogic>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors();
+
+builder.Services.AddAuthorization();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseCors(p =>
+{
+    p.AllowAnyOrigin();
+    p.AllowAnyHeader();
+    p.AllowAnyMethod();
+});
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AnnualLeaveRequestAPI v1"));
 }
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
+app.MapGet("/api/AnnualLeaveRequest/GetYears", (IAnnualLeaveRequestLogic annualLeaveRequestLogic) =>
 {
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+    return annualLeaveRequestLogic.GetYears();
+});
 
-app.MapGet("/weatherforecast", () =>
+app.MapGet("/api/AnnualLeaveRequest/GetRequestsForYear/{year:int}", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, int year) =>
 {
-    var forecast = Enumerable.Range(1, 5).Select(index =>
-       new WeatherForecast
-       (
-           DateTime.Now.AddDays(index),
-           Random.Shared.Next(-20, 55),
-           summaries[Random.Shared.Next(summaries.Length)]
-       ))
-        .ToArray();
-    return forecast;
-})
-.WithName("GetWeatherForecast");
+    return annualLeaveRequestLogic.GetRequestsForYear(year);
+});
+
+app.MapGet("/api/AnnualLeaveRequest/Get/{annualLeaveRequestID:int}", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, int annualLeaveRequestID) =>
+{
+    return annualLeaveRequestLogic.GetRequest(annualLeaveRequestID);
+});
+
+app.MapGet("/api/AnnualLeaveRequest/GetDaysBetweenStartDateAndEndDate/{startDate:DateTime}/{returnDate:DateTime}", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, DateTime startDate, DateTime returnDate) =>
+{
+    return annualLeaveRequestLogic.GetDaysBetweenStartDateAndReturnDate(startDate, returnDate);
+});
+
+app.MapPost("/api/AnnualLeaveRequest", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, AnnualLeaveRequestCRUDModel createAnnualLeaveRequestCRUDModel) =>
+{
+    return annualLeaveRequestLogic.Create(createAnnualLeaveRequestCRUDModel);
+});
+
+app.MapPut("/api/AnnualLeaveRequest", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, AnnualLeaveRequestCRUDModel createAnnualLeaveRequestCRUDModel) =>
+{
+    return annualLeaveRequestLogic.Update(createAnnualLeaveRequestCRUDModel);
+});
+
+app.MapDelete("/api/AnnualLeaveRequest/{annualLeaveRequestID}", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, int annualLeaveRequestID) =>
+{
+    annualLeaveRequestLogic.Delete(annualLeaveRequestID);
+});
 
 app.Run();
-
-internal record WeatherForecast(DateTime Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
