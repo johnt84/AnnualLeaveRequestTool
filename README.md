@@ -11,7 +11,7 @@ Simple Annual Leave Request Tool
   * .Net 5 with controllers
   * .Net 6 Minimal API
 * There is a SQLServer database project which can be used to set up an AnnualLeave DB on SSMS which can be used by the Annual Leave Request tool
-* Live web app is deployed to an Azure web app and the database is deployed to an Azure SQL Database
+* Live Blazor Server web app is deployed to an Azure web app and the database is deployed to an Azure SQL Database
 
 ## Blazor Server App
 
