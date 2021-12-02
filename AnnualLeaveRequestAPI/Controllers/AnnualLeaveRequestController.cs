@@ -30,13 +30,13 @@ namespace AnnualLeaveRequestAPI.Controllers
                 }
                 else
                 {
-                    return BadRequest($"Could not retrieve any years");
+                    return BadRequest("Could not retrieve any years");
                 }
             }
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError,
-                   $"Error retrieving years");
+                   "Error retrieving years");
             }
         }
 
@@ -126,7 +126,7 @@ namespace AnnualLeaveRequestAPI.Controllers
                 {
                     if (annualLeaveRequestCreated == null || annualLeaveRequestCreated.Year != createAnnualLeaveRequestCRUDModel.Year)
                     {
-                        return BadRequest($"Annual Leave Request was not created");
+                        return BadRequest("Annual Leave Request was not created");
                     }
                     else if (!string.IsNullOrEmpty(annualLeaveRequestCreated.ErrorMessage))
                     {
@@ -134,7 +134,7 @@ namespace AnnualLeaveRequestAPI.Controllers
                     }
                     else
                     {
-                        return BadRequest($"Annual leave request was not created");
+                        return BadRequest("Annual leave request was not created");
                     }
                 }
             }
@@ -161,7 +161,7 @@ namespace AnnualLeaveRequestAPI.Controllers
                 {
                     if (annualLeaveRequestUpdated == null || annualLeaveRequestUpdated.Year != updateAnnualLeaveRequestCRUDModel.Year)
                     {
-                        return BadRequest($"Annual Leave Request was not updated");
+                        return BadRequest("Annual Leave Request was not updated");
                     }
                     else if (!string.IsNullOrEmpty(annualLeaveRequestUpdated.ErrorMessage))
                     {
@@ -169,7 +169,7 @@ namespace AnnualLeaveRequestAPI.Controllers
                     }
                     else
                     {
-                        return BadRequest($"Annual leave request was not updated");
+                        return BadRequest("Annual leave request was not updated");
                     }
                 }
             }
