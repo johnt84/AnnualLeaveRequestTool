@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestToolBlazo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestMinimalAPI", "AnnualLeaveRequestMinimalAPI\AnnualLeaveRequestMinimalAPI.csproj", "{CC3D4941-2C48-45BA-97DC-C1D825CD91FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnnualLeaveRequestToolRazorPages", "AnnualLeaveRequestToolRazorPages\AnnualLeaveRequestToolRazorPages.csproj", "{0AEBB4F0-2A42-4267-BB0B-6BE19B61E0A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestToolRazorPages", "AnnualLeaveRequestToolRazorPages\AnnualLeaveRequestToolRazorPages.csproj", "{0AEBB4F0-2A42-4267-BB0B-6BE19B61E0A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

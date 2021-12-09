@@ -1,0 +1,102 @@
+﻿@page
+@model AnnualLeaveRequestToolRazorPages.Pages.AnnualLeaveRequest.OverviewModel
+@{
+    ViewData["Title"] = "Annual Leave Calendar";
+}
+<h1>@ViewData["Title"] - @Model.AnnualLeaveRequestOverviewModel.SelectedYear</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+           <th style="width: 120px;">Start Date</th>
+            <th style="width: 120px;">Return Date</th>
+            <th style="width: 165px;">Number of Days Requested</th>
+            <th style="width: 165px;">Number of Annual Leave Days Requested</th>
+            <th style="width: 165px;">Number of Public Leave Days Requested</th>
+            <th style="width: 165px;">Number of Days Left</th>
+            <th style="width: 165px;">Number of Annual Leave Days Left</th>
+            <th style="width: 165px;">Number of Public Holidays Left</th>
+            <th style="width: 150px;">Notes</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model.AnnualLeaveRequestOverviewModel.AnnualLeaveRequestsForYear.OrderBy(x => x.StartDate).ToList()) {
+        <tr>
+            <td>
+                @item.StartDate.ToString("dd MMM yyyy")
+            </td>
+            <td>
+                @item.ReturnDate.ToString("dd MMM yyyy")
+            </td>
+            <td>
+                @item.NumberOfDaysRequested
+            </td>
+            <td>
+                @item.NumberOfAnnualLeaveDaysRequested
+            </td>
+            <td>
+                @item.NumberOfPublicLeaveDaysRequested
+            </td>
+            <td>
+                @item.NumberOfDaysLeft
+            </td>
+            <td>
+                @item.NumberOfAnnualLeaveDaysLeft
+            </td>
+            <td>
+                @item.NumberOfPublicLeaveDaysLeft
+            </td>
+            <td>
+                @item.Notes
+            </td>
+           <td>
+                @if(Model.AnnualLeaveRequestOverviewModel.EditableYearSelected)
+                {  
+                    @Html.ActionLink("Edit", "Edit", new { annualLeaveRequestID = item.AnnualLeaveRequestID }) 
+                    <span>|</span>
+                }
+
+                @Html.ActionLink("Details", "Details", new { annualLeaveRequestID = item.AnnualLeaveRequestID }) |
+
+                @if(Model.AnnualLeaveRequestOverviewModel.EditableYearSelected)
+                {  
+                    @Html.ActionLink("Delete", "Delete", new { annualLeaveRequestID = item.AnnualLeaveRequestID })
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
+<br />
+
+<table class="table" style="width: 225px;">
+    <tr>
+        <td>Number of Days</td>
+        <td>@Model.AnnualLeaveRequestOverviewModel.AnnualLeaveRequestOverviewForYear.NumberOfDays</td>
+    </tr>
+    <tr>
+        <td>Number of Annual Leave Days</td>
+        <td>@Model.AnnualLeaveRequestOverviewModel.AnnualLeaveRequestOverviewForYear.NumberOfAnnualLeaveDays</td>
+    </tr>
+    <tr>
+        <td>Number of Public Holidays</td>
+        <td>@Model.AnnualLeaveRequestOverviewModel.AnnualLeaveRequestOverviewForYear.NumberOfPublicLeaveDays</td>
+    </tr>
+    <tr>
+        <td>Number of Days Left</td>
+        <td>@Model.AnnualLeaveRequestOverviewModel.AnnualLeaveRequestOverviewForYear.NumberOfDaysLeft</td>
+    </tr>
+    <tr>
+        <td>Number of Annual Leave Days Left</td>
+        <td>@Model.AnnualLeaveRequestOverviewModel.AnnualLeaveRequestOverviewForYear.NumberOfAnnualLeaveDaysLeft</td>
+    </tr>
+    <tr>
+        <td>Number of Public Days Left</td>
+        <td>@Model.AnnualLeaveRequestOverviewModel.AnnualLeaveRequestOverviewForYear.NumberOfPublicLeaveDaysLeft</td>
+    </tr>
+</table>
