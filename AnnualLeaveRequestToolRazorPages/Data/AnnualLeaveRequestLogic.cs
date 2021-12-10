@@ -25,6 +25,9 @@ namespace AnnualLeaveRequestToolRazorPages.Data
             "Compassionate Leave",
         };
 
+        public bool IsValidAnnualLeaveRequest(AnnualLeaveRequestOverviewModel annualLeaveRequest) => annualLeaveRequest != null
+                                                                       && string.IsNullOrEmpty(annualLeaveRequest.ErrorMessage);
+
         public AnnualLeaveRequestLogic(AnnualLeaveRequestDataAccess annualLeaveRequestDataAccess)
         {
             _annualLeaveRequestDataAccess = annualLeaveRequestDataAccess;

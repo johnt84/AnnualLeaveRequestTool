@@ -6,6 +6,7 @@ namespace AnnualLeaveRequestToolRazorPages.Interfaces
 {
     public interface IAnnualLeaveRequestLogic
     {
+        bool IsValidAnnualLeaveRequest(AnnualLeaveRequestOverviewModel annualLeaveRequest);
         List<int> GetYears();
         AnnualLeaveRequestOverviewViewModel GetRequestsForYear(int year);
         AnnualLeaveRequestOverviewModel GetRequest(int annualLeaveRequestID);

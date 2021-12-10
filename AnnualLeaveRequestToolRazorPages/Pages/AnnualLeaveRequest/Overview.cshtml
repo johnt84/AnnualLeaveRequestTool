@@ -1,9 +1,28 @@
 ﻿@page
 @model AnnualLeaveRequestToolRazorPages.Pages.AnnualLeaveRequest.OverviewModel
+
 @{
     ViewData["Title"] = "Annual Leave Calendar";
 }
-<h1>@ViewData["Title"] - @Model.AnnualLeaveRequestOverviewModel.SelectedYear</h1>
+
+<h1>Annual Leave Calendar - @Model.AnnualLeaveRequestOverviewViewModel.SelectedYear</h1>
+
+<p>
+    @if(Model.AnnualLeaveRequestOverviewViewModel.EditableYearSelected)
+    {
+        <a asp-page="Create">Create New</a> 
+    }
+</p>
+
+<div style="padding-bottom: 20px">
+    @using (Html.BeginForm("ChangeSelectedYear", "AnnualLeaveRequest", FormMethod.Post, new { id = "frmSelectedYear" }))
+    {
+        @Html.DropDownList("ID", new SelectList(@Model.AnnualLeaveRequestOverviewViewModel.Years), 
+        new{
+                onchange = "document.getElementById('frmSelectedYear').submit();"
+            })
+    }    
+</div>
 
 <table class="table">
     <thead>
@@ -23,7 +42,7 @@
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.AnnualLeaveRequestOverviewModel.AnnualLeaveRequestsForYear.OrderBy(x => x.StartDate).ToList()) {
+    @foreach (var item in Model.AnnualLeaveRequestOverviewViewModel.AnnualLeaveRequestsForYear.OrderBy(x => x.StartDate).ToList()) {
         <tr>
             <td>
                 @item.StartDate.ToString("dd MMM yyyy")
@@ -53,17 +72,16 @@
                 @item.Notes
             </td>
            <td>
-                @if(Model.AnnualLeaveRequestOverviewModel.EditableYearSelected)
-                {  
-                    @Html.ActionLink("Edit", "Edit", new { annualLeaveRequestID = item.AnnualLeaveRequestID }) 
-                    <span>|</span>
-                }
+               @if(Model.AnnualLeaveRequestOverviewViewModel.EditableYearSelected)
+               {
+                    <a asp-page="Edit" asp-route-id="@item.AnnualLeaveRequestID">Edit</a><span> |</span>
+               }
+                    
+                <a asp-page="Details" asp-route-id="@item.AnnualLeaveRequestID">Details</a> |
 
-                @Html.ActionLink("Details", "Details", new { annualLeaveRequestID = item.AnnualLeaveRequestID }) |
-
-                @if(Model.AnnualLeaveRequestOverviewModel.EditableYearSelected)
-                {  
-                    @Html.ActionLink("Delete", "Delete", new { annualLeaveRequestID = item.AnnualLeaveRequestID })
+                @if(Model.AnnualLeaveRequestOverviewViewModel.EditableYearSelected)
+                {
+                    <a asp-page="Delete" asp-route-id="@item.AnnualLeaveRequestID">Delete</a>
                 }
             </td>
         </tr>
@@ -77,26 +95,26 @@
 <table class="table" style="width: 225px;">
     <tr>
         <td>Number of Days</td>
-        <td>@Model.AnnualLeaveRequestOverviewModel.AnnualLeaveRequestOverviewForYear.NumberOfDays</td>
+        <td>@Model.AnnualLeaveRequestOverviewViewModel.AnnualLeaveRequestOverviewForYear.NumberOfDays</td>
     </tr>
     <tr>
         <td>Number of Annual Leave Days</td>
-        <td>@Model.AnnualLeaveRequestOverviewModel.AnnualLeaveRequestOverviewForYear.NumberOfAnnualLeaveDays</td>
+        <td>@Model.AnnualLeaveRequestOverviewViewModel.AnnualLeaveRequestOverviewForYear.NumberOfAnnualLeaveDays</td>
     </tr>
     <tr>
         <td>Number of Public Holidays</td>
-        <td>@Model.AnnualLeaveRequestOverviewModel.AnnualLeaveRequestOverviewForYear.NumberOfPublicLeaveDays</td>
+        <td>@Model.AnnualLeaveRequestOverviewViewModel.AnnualLeaveRequestOverviewForYear.NumberOfPublicLeaveDays</td>
     </tr>
     <tr>
         <td>Number of Days Left</td>
-        <td>@Model.AnnualLeaveRequestOverviewModel.AnnualLeaveRequestOverviewForYear.NumberOfDaysLeft</td>
+        <td>@Model.AnnualLeaveRequestOverviewViewModel.AnnualLeaveRequestOverviewForYear.NumberOfDaysLeft</td>
     </tr>
     <tr>
         <td>Number of Annual Leave Days Left</td>
-        <td>@Model.AnnualLeaveRequestOverviewModel.AnnualLeaveRequestOverviewForYear.NumberOfAnnualLeaveDaysLeft</td>
+        <td>@Model.AnnualLeaveRequestOverviewViewModel.AnnualLeaveRequestOverviewForYear.NumberOfAnnualLeaveDaysLeft</td>
     </tr>
     <tr>
         <td>Number of Public Days Left</td>
-        <td>@Model.AnnualLeaveRequestOverviewModel.AnnualLeaveRequestOverviewForYear.NumberOfPublicLeaveDaysLeft</td>
+        <td>@Model.AnnualLeaveRequestOverviewViewModel.AnnualLeaveRequestOverviewForYear.NumberOfPublicLeaveDaysLeft</td>
     </tr>
 </table>
