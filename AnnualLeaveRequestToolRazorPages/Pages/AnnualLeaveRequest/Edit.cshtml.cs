@@ -19,8 +19,15 @@ namespace AnnualLeaveRequestToolRazorPages.Pages.AnnualLeaveRequest
             _annualLeaveRequestLogic = annualLeaveRequestLogic;
         }
 
-        public void OnGet(int id)
+        public void OnGet(int id, string errorMessage)
         {
+            if (!string.IsNullOrWhiteSpace(errorMessage))
+            {
+                AnnualLeaveRequestEditViewModel = _annualLeaveRequestLogic.GetCreateViewModelForEdit(id, errorMessage: errorMessage);
+
+                return;
+            }
+
             AnnualLeaveRequestEditViewModel = _annualLeaveRequestLogic.GetCreateViewModelForEdit(id);
         }
 
@@ -43,22 +50,16 @@ namespace AnnualLeaveRequestToolRazorPages.Pages.AnnualLeaveRequest
 
                 if (_annualLeaveRequestLogic.IsValidAnnualLeaveRequest(editAnnualLeaveRequest))
                 {
-                    return RedirectToPage("Overview", new { id = editAnnualLeaveRequest.Year });
+                    return RedirectToPage("Overview", new { SelectedYear = editAnnualLeaveRequest.Year });
                 }
                 else
                 {
-                    string errorMessage = editAnnualLeaveRequest?.ErrorMessage ?? string.Empty;
-
-                    var editAnnualLeaveRequestViewModelInError = _annualLeaveRequestLogic.GetCreateViewModelForEdit(AnnualLeaveRequestEditViewModel.AnnualLeaveRequestID, errorMessage: errorMessage);
-
-                    return RedirectToPage("Edit", new { editAnnualLeaveRequestViewModelInError });
+                    return RedirectToPage("Edit", new { errorMessage = editAnnualLeaveRequest?.ErrorMessage ?? string.Empty });
                 }
             }
             else
             {
-                var editAnnualLeaveRequestViewModelInError = _annualLeaveRequestLogic.GetCreateViewModelForEdit(AnnualLeaveRequestEditViewModel.AnnualLeaveRequestID);
-
-                return RedirectToPage("Edit", new { editAnnualLeaveRequestViewModelInError });
+                return NotFound();
             }
         }
     }

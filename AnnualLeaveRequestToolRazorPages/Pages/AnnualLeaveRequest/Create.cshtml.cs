@@ -3,7 +3,6 @@ using AnnualLeaveRequestToolRazorPages.Interfaces;
 using AnnualLeaveRequestToolRazorPages.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
 
 namespace AnnualLeaveRequestToolRazorPages.Pages.AnnualLeaveRequest
 {
@@ -12,9 +11,6 @@ namespace AnnualLeaveRequestToolRazorPages.Pages.AnnualLeaveRequest
         [BindProperty(SupportsGet = true)]
         public AnnualLeaveRequestCreateViewModel AnnualLeaveRequestCreateViewModel { get; set; }
 
-        [BindProperty]
-        protected List<string> ErrorMessages { get; set; }
-
         private readonly IAnnualLeaveRequestLogic _annualLeaveRequestLogic;
 
         public CreateModel(IAnnualLeaveRequestLogic annualLeaveRequestLogic)
@@ -22,8 +18,15 @@ namespace AnnualLeaveRequestToolRazorPages.Pages.AnnualLeaveRequest
             _annualLeaveRequestLogic = annualLeaveRequestLogic;
         }
 
-        public void OnGet()
+        public void OnGet(string errorMessage)
         {
+            if (!string.IsNullOrWhiteSpace(errorMessage))
+            {
+                AnnualLeaveRequestCreateViewModel = _annualLeaveRequestLogic.GetCreateViewModelForCreate(errorMessage: errorMessage);
+
+                return;
+            }
+
             AnnualLeaveRequestCreateViewModel = _annualLeaveRequestLogic.GetCreateViewModelForCreate();
         }
 
@@ -49,16 +52,12 @@ namespace AnnualLeaveRequestToolRazorPages.Pages.AnnualLeaveRequest
                 }
                 else
                 {
-                    var createAnnualLeaveRequest = _annualLeaveRequestLogic.GetCreateViewModelForCreate(errorMessage: newAnnualLeaveRequest?.ErrorMessage ?? string.Empty);
-
-                    return RedirectToPage("Create", new { createAnnualLeaveRequest });
+                    return RedirectToPage("Create", new { errorMessage = newAnnualLeaveRequest?.ErrorMessage ?? string.Empty });
                 }
             }
             else
             {
-                var createAnnualLeaveRequest = _annualLeaveRequestLogic.GetCreateViewModelForCreate();
-
-                return RedirectToPage("Create", new { createAnnualLeaveRequest });
+                return NotFound();
             }
         }
     }

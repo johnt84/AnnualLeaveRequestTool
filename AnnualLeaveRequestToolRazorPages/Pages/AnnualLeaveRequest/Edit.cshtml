@@ -43,14 +43,12 @@
             </div>
             <div class="form-group">
                 <label asp-for="AnnualLeaveRequestEditViewModel.PaidLeaveType" class="control-label"></label>
-                @*@Html.DropDownList("PaidLeaveType", new SelectList(@Model.AnnualLeaveRequestEditViewModel.PaidLeaveTypes), "Please select the Paid Leave Type")*@
-                <input asp-for="AnnualLeaveRequestEditViewModel.PaidLeaveType" class="form-control" />
+                @Html.DropDownList("AnnualLeaveRequestEditViewModel.PaidLeaveType", new SelectList(@Model.AnnualLeaveRequestEditViewModel.PaidLeaveTypes), "Please select the Paid Leave Type")
                 <span asp-validation-for="AnnualLeaveRequestEditViewModel.PaidLeaveType" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="AnnualLeaveRequestEditViewModel.LeaveType" class="control-label"></label>
-                @*@Html.DropDownList("LeaveType", new SelectList(@Model.AnnualLeaveRequestEditViewModel.LeaveTypes), "Please select the Leave Type")*@
-                <input asp-for="AnnualLeaveRequestEditViewModel.LeaveType" class="form-control" />
+                @Html.DropDownList("AnnualLeaveRequestEditViewModel.LeaveType", new SelectList(@Model.AnnualLeaveRequestEditViewModel.LeaveTypes), "Please select the Leave Type")
                 <span asp-validation-for="AnnualLeaveRequestEditViewModel.LeaveType" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -79,3 +77,7 @@
     <a asp-page="Details" asp-route-id="@Model.AnnualLeaveRequestEditViewModel.AnnualLeaveRequestID">Details</a> |
     <a asp-page="Overview" asp-route-id="@Model.AnnualLeaveRequestEditViewModel.Year">Back to Overview</a>
 </div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

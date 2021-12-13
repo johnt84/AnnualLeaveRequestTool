@@ -23,72 +23,9 @@
 }
 
 <div>
-    <dl class="col-md-6 dl-horizontal">
-        <dt>
-            Start Date
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequestDetailsViewModel.AnnualLeaveRequest.StartDate.ToString("dd-MMM-yyyy")
-        </dd>
-
-        <dt>
-            Return Date
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequestDetailsViewModel.AnnualLeaveRequest.ReturnDate.ToString("dd-MMM-yyyy")
-        </dd>
-
-        <dt>
-            Number of Days Requested
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequestDetailsViewModel.AnnualLeaveRequest.NumberOfDaysRequested
-        </dd>
-
-        <dt>
-            Number of Annual Leave Days Requested
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequestDetailsViewModel.AnnualLeaveRequest.NumberOfAnnualLeaveDaysRequested
-        </dd>
-
-        <dt>
-            Number of Public Leave Days Requested
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequestDetailsViewModel.AnnualLeaveRequest.NumberOfPublicLeaveDaysRequested
-        </dd>
-
-        <dt>
-            Paid Leave Type
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequestDetailsViewModel.AnnualLeaveRequest.PaidLeaveType
-        </dd>
-
-        <dt>
-            Leave Type
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequestDetailsViewModel.AnnualLeaveRequest.LeaveType
-        </dd>
-
-        <dt>
-            Notes
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequestDetailsViewModel.AnnualLeaveRequest.Notes
-        </dd>
-    </dl>
+    @await Html.PartialAsync("_DetailRow", model: @Model)
 </div>
+
 <div>
     @if (Model.AnnualLeaveRequestDetailsViewModel.IsEditable)
     {
