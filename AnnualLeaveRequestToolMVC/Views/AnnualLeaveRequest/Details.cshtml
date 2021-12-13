@@ -22,71 +22,7 @@
 }
 
 <div>
-    <dl class="col-md-6 dl-horizontal">
-        <dt>
-            Start Date
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequest.StartDate.ToString("dd-MMM-yyyy")
-        </dd>
-
-        <dt>
-            Return Date
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequest.ReturnDate.ToString("dd-MMM-yyyy")
-        </dd>
-
-        <dt>
-            Number of Days Requested
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequest.NumberOfDaysRequested
-        </dd>
-
-        <dt>
-            Number of Annual Leave Days Requested
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequest.NumberOfAnnualLeaveDaysRequested
-        </dd>
-
-        <dt>
-            Number of Public Leave Days Requested
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequest.NumberOfPublicLeaveDaysRequested
-        </dd>
-
-        <dt>
-            Paid Leave Type
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequest.PaidLeaveType
-        </dd>
-
-        <dt>
-            Leave Type
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequest.LeaveType
-        </dd>
-
-        <dt>
-            Notes
-        </dt>
-
-        <dd>
-            @Model.AnnualLeaveRequest.Notes
-        </dd>
-    </dl>
+    @await Html.PartialAsync("_DetailRow", model: @Model)
 </div>
 <div>
     @if (Model.IsEditable)
