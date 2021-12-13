@@ -1,0 +1,83 @@
+﻿@page "{id:int}"
+@model AnnualLeaveRequestToolRazorPages.Pages.AnnualLeaveRequest.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit Annual Leave Request</h1>
+
+@if (Model == null || !Model.AnnualLeaveRequestEditViewModel.IsEditable || Model.AnnualLeaveRequestEditViewModel.AnnualLeaveRequestID == 0)
+{
+    <div style="color:red;">
+        <ul>
+            <li>Cannot update this Annual Leave Request</li>
+        </ul>
+    </div>
+
+    <div class="form-actions no-color esh-link-list" style="padding-top: 20px">
+        @if (Model?.AnnualLeaveRequestEditViewModel?.AnnualLeaveRequestID > 0)
+        {
+            <a asp-page="Details" asp-route-id="annualLeaveRequestID = Model.AnnualLeaveRequestID">Details</a>
+
+            <label>|</label>
+        }
+
+        <a asp-page="Overview" asp-route-id="selectedYear = @Model.AnnualLeaveRequestEditViewModel.Year">Back to Overview</a>
+    </div>
+
+    return;
+}
+
+@await Html.PartialAsync("_ErrorMessage", model: @Model.AnnualLeaveRequestEditViewModel.ErrorMessageViewModel)
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AnnualLeaveRequestEditViewModel.AnnualLeaveRequestID" class="control-label"></label>
+                @Html.DisplayFor(model => model.AnnualLeaveRequestEditViewModel.AnnualLeaveRequestID)
+                <input hidden asp-for="AnnualLeaveRequestEditViewModel.AnnualLeaveRequestID" />
+            </div>
+            <div class="form-group">
+                <label asp-for="AnnualLeaveRequestEditViewModel.PaidLeaveType" class="control-label"></label>
+                @Html.DropDownList("AnnualLeaveRequestEditViewModel.PaidLeaveType", new SelectList(@Model.AnnualLeaveRequestEditViewModel.PaidLeaveTypes), "Please select the Paid Leave Type")
+                <span asp-validation-for="AnnualLeaveRequestEditViewModel.PaidLeaveType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnnualLeaveRequestEditViewModel.LeaveType" class="control-label"></label>
+                @Html.DropDownList("AnnualLeaveRequestEditViewModel.LeaveType", new SelectList(@Model.AnnualLeaveRequestEditViewModel.LeaveTypes), "Please select the Leave Type")
+                <span asp-validation-for="AnnualLeaveRequestEditViewModel.LeaveType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnnualLeaveRequestEditViewModel.StartDate" class="control-label"></label>
+                <input asp-for="AnnualLeaveRequestEditViewModel.StartDate" class="form-control" />
+                <span asp-validation-for="AnnualLeaveRequestEditViewModel.StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnnualLeaveRequestEditViewModel.ReturnDate" class="control-label"></label>
+                <input asp-for="AnnualLeaveRequestEditViewModel.ReturnDate" class="form-control" />
+                <span asp-validation-for="AnnualLeaveRequestEditViewModel.ReturnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnnualLeaveRequestEditViewModel.Notes" class="control-label"></label>
+                <input asp-for="AnnualLeaveRequestEditViewModel.Notes" class="form-control" />
+                <span asp-validation-for="AnnualLeaveRequestEditViewModel.Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Details" asp-route-id="@Model.AnnualLeaveRequestEditViewModel.AnnualLeaveRequestID">Details</a> |
+    <a asp-page="Overview" asp-route-id="@Model.AnnualLeaveRequestEditViewModel.Year">Back to Overview</a>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

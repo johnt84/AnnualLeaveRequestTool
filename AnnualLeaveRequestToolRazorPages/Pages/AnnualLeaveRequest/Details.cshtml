@@ -1,0 +1,36 @@
+﻿@page "{id:int}"
+@model AnnualLeaveRequestToolRazorPages.Pages.AnnualLeaveRequest.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Annual Leave Request Details</h1>
+
+@if (Model == null || Model.AnnualLeaveRequestDetailsViewModel.AnnualLeaveRequest == null || Model.AnnualLeaveRequestDetailsViewModel.AnnualLeaveRequest.AnnualLeaveRequestID == 0)
+{
+    <div style="color:red;">
+        <ul>
+            <li>Cannot view this Annual Leave Request</li>
+        </ul>
+    </div>
+
+    <div class="form-actions no-color esh-link-list" style="padding-top: 20px">
+        <a asp-page="Overview" asp-route-id="selectedYear = @Model.AnnualLeaveRequestDetailsViewModel.Year">Back to Overview</a>
+    </div>
+
+    return;
+}
+
+<div>
+    @await Html.PartialAsync("_DetailRow", model: @Model)
+</div>
+
+<div>
+    @if (Model.AnnualLeaveRequestDetailsViewModel.IsEditable)
+    {
+        <a asp-page="Edit" asp-route-id="@Model.AnnualLeaveRequestDetailsViewModel.AnnualLeaveRequest.AnnualLeaveRequestID">Edit</a>
+        <span>|</span>
+    }
+    <a asp-page="Overview" asp-route-id="@Model.AnnualLeaveRequestDetailsViewModel.Year">Back to Overview</a>
+</div>

@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestAPI", "An
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestToolBlazorWASM", "AnnualLeaveRequestToolBlazorWASM\AnnualLeaveRequestToolBlazorWASM.csproj", "{3A9D3672-EDFD-445C-BC46-8380E047C0CE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnnualLeaveRequestMinimalAPI", "AnnualLeaveRequestMinimalAPI\AnnualLeaveRequestMinimalAPI.csproj", "{CC3D4941-2C48-45BA-97DC-C1D825CD91FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestMinimalAPI", "AnnualLeaveRequestMinimalAPI\AnnualLeaveRequestMinimalAPI.csproj", "{CC3D4941-2C48-45BA-97DC-C1D825CD91FB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestToolRazorPages", "AnnualLeaveRequestToolRazorPages\AnnualLeaveRequestToolRazorPages.csproj", "{0AEBB4F0-2A42-4267-BB0B-6BE19B61E0A0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +61,10 @@ Global
 		{CC3D4941-2C48-45BA-97DC-C1D825CD91FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC3D4941-2C48-45BA-97DC-C1D825CD91FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC3D4941-2C48-45BA-97DC-C1D825CD91FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AEBB4F0-2A42-4267-BB0B-6BE19B61E0A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AEBB4F0-2A42-4267-BB0B-6BE19B61E0A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AEBB4F0-2A42-4267-BB0B-6BE19B61E0A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AEBB4F0-2A42-4267-BB0B-6BE19B61E0A0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

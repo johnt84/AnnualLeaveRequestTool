@@ -1,0 +1,54 @@
+﻿@page
+@model AnnualLeaveRequestToolRazorPages.Pages.AnnualLeaveRequest.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Annual Leave Request</h1>
+
+@await Html.PartialAsync("_ErrorMessage", model: @Model.AnnualLeaveRequestCreateViewModel.ErrorMessageViewModel)
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AnnualLeaveRequestCreateViewModel.PaidLeaveType" class="control-label"></label>
+                @Html.DropDownList("AnnualLeaveRequestCreateViewModel.PaidLeaveType", new SelectList(@Model.AnnualLeaveRequestCreateViewModel.PaidLeaveTypes), "Please select the Paid Leave Type")
+                <span asp-validation-for="AnnualLeaveRequestCreateViewModel.PaidLeaveType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnnualLeaveRequestCreateViewModel.LeaveType" class="control-label"></label>
+                @Html.DropDownList("AnnualLeaveRequestCreateViewModel.LeaveType", new SelectList(@Model.AnnualLeaveRequestCreateViewModel.LeaveTypes), "Please select the Leave Type")
+                <span asp-validation-for="AnnualLeaveRequestCreateViewModel.LeaveType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnnualLeaveRequestCreateViewModel.StartDate" class="control-label"></label>
+                <input asp-for="AnnualLeaveRequestCreateViewModel.StartDate" class="form-control" />
+                <span asp-validation-for="AnnualLeaveRequestCreateViewModel.StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnnualLeaveRequestCreateViewModel.ReturnDate" class="control-label"></label>
+                <input asp-for="AnnualLeaveRequestCreateViewModel.ReturnDate" class="form-control" />
+                <span asp-validation-for="AnnualLeaveRequestCreateViewModel.ReturnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AnnualLeaveRequestCreateViewModel.Notes" class="control-label"></label>
+                <input asp-for="AnnualLeaveRequestCreateViewModel.Notes" class="form-control" />
+                <span asp-validation-for="AnnualLeaveRequestCreateViewModel.Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Overview" asp-route-id="@Model.AnnualLeaveRequestCreateViewModel.StartDate.Year">Back to Overview</a> 
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}
