@@ -1,6 +1,5 @@
 using AnnualLeaveRequestToolRazorPages.Interfaces;
 using AnnualLeaveRequestToolRazorPages.Models.ViewModels;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System;
 
