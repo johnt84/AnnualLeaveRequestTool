@@ -28,10 +28,8 @@ namespace AnnualLeaveRequestAPI.Controllers
                 {
                     return Ok(years);
                 }
-                else
-                {
-                    return BadRequest("Could not retrieve any years");
-                }
+
+                return NoContent();
             }
             catch (Exception)
             {
@@ -51,10 +49,8 @@ namespace AnnualLeaveRequestAPI.Controllers
                 {
                     return Ok(annualLeaveRequestsForYear);
                 }
-                else
-                {
-                    return BadRequest($"No annual leave requests exist for year: {year}");
-                }
+
+                return NoContent();
             }
             catch(Exception)
             {
@@ -74,10 +70,8 @@ namespace AnnualLeaveRequestAPI.Controllers
                 {
                     return Ok(annualLeaveRequest);
                 }
-                else
-                {
-                    return BadRequest($"No annual leave request exists for annualLeaveRequestID: {annualLeaveRequestID}");
-                }
+
+                return NoContent();
             }
             catch (Exception)
             {
@@ -97,10 +91,8 @@ namespace AnnualLeaveRequestAPI.Controllers
                 {
                     return Ok(daysBetweenStartDateAndReturnDate);
                 }
-                else
-                {
-                    return BadRequest($"Could not calculate number of days between {startDate} and {returnDate}");
-                }
+
+                return NoContent();
             }
             catch (Exception)
             {
@@ -126,15 +118,15 @@ namespace AnnualLeaveRequestAPI.Controllers
                 {
                     if (annualLeaveRequestCreated == null || annualLeaveRequestCreated.Year != createAnnualLeaveRequestCRUDModel.Year)
                     {
-                        return BadRequest("Annual Leave Request was not created");
+                        return UnprocessableEntity("Annual Leave Request was not created");
                     }
                     else if (!string.IsNullOrEmpty(annualLeaveRequestCreated.ErrorMessage))
                     {
-                        return BadRequest($"Annual Leave Request was not created.  Error Messages: {annualLeaveRequestCreated.ErrorMessage}");
+                        return UnprocessableEntity($"Annual Leave Request was not created.  Error Messages: {annualLeaveRequestCreated.ErrorMessage}");
                     }
                     else
                     {
-                        return BadRequest("Annual leave request was not created");
+                        return UnprocessableEntity("Annual leave request was not created");
                     }
                 }
             }
@@ -161,15 +153,15 @@ namespace AnnualLeaveRequestAPI.Controllers
                 {
                     if (annualLeaveRequestUpdated == null || annualLeaveRequestUpdated.Year != updateAnnualLeaveRequestCRUDModel.Year)
                     {
-                        return BadRequest("Annual Leave Request was not updated");
+                        return UnprocessableEntity("Annual Leave Request was not updated");
                     }
                     else if (!string.IsNullOrEmpty(annualLeaveRequestUpdated.ErrorMessage))
                     {
-                        return BadRequest($"Annual Leave Request was not updated.  Error Messages: {annualLeaveRequestUpdated.ErrorMessage}");
+                        return UnprocessableEntity($"Annual Leave Request was not updated.  Error Messages: {annualLeaveRequestUpdated.ErrorMessage}");
                     }
                     else
                     {
-                        return BadRequest("Annual leave request was not updated");
+                        return UnprocessableEntity("Annual leave request was not updated");
                     }
                 }
             }
@@ -187,7 +179,7 @@ namespace AnnualLeaveRequestAPI.Controllers
             {
                 _annualLeaveRequestLogic.Delete(annualLeaveRequestID);
 
-                return Ok();
+                return NoContent();
             }
             catch (Exception)
             {
