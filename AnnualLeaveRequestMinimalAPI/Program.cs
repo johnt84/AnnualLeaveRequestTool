@@ -32,24 +32,24 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.MapGet("/api/AnnualLeaveRequest/GetYears", (IAnnualLeaveRequestLogic annualLeaveRequestLogic) =>
-    annualLeaveRequestLogic.GetYears() is List<int> years 
-                                ? Results.Ok(years) 
-                                : Results.NotFound("Could not retrieve any years"));
+    annualLeaveRequestLogic.GetYears() is List<int> years
+                                ? Results.Ok(years)
+                                : Results.NoContent());
 
 app.MapGet("/api/AnnualLeaveRequest/GetRequestsForYear/{year:int}", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, int year) =>
     annualLeaveRequestLogic.GetRequestsForYear(year) is List<AnnualLeaveRequestOverviewModel> annualLeaveRequestsForYear 
-                                ? Results.Ok(annualLeaveRequestsForYear) 
-                                : Results.NotFound($"No annual leave requests exist for year: {year}"));
+                                ? Results.Ok(annualLeaveRequestsForYear)
+                                : Results.NoContent());
 
 app.MapGet("/api/AnnualLeaveRequest/Get/{annualLeaveRequestID:int}", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, int annualLeaveRequestID) =>
     annualLeaveRequestLogic.GetRequest(annualLeaveRequestID) is AnnualLeaveRequestOverviewModel annualLeaveRequest
                                 ? Results.Ok(annualLeaveRequest)
-                                : Results.NotFound($"No annual leave request exists for annualLeaveRequestID: {annualLeaveRequestID}"));
+                                : Results.NoContent());
 
 app.MapGet("/api/AnnualLeaveRequest/GetDaysBetweenStartDateAndEndDate/{startDate:DateTime}/{returnDate:DateTime}", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, DateTime startDate, DateTime returnDate) =>
     annualLeaveRequestLogic.GetDaysBetweenStartDateAndReturnDate(startDate, returnDate) is decimal daysBetweenStartDateAndReturnDate
                                 ? Results.Ok(daysBetweenStartDateAndReturnDate)
-                                : Results.NotFound($"Could not calculate number of days between {startDate} and {returnDate}"));
+                                : Results.NoContent());
 
 app.MapPost("/api/AnnualLeaveRequest", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, AnnualLeaveRequestCRUDModel createAnnualLeaveRequestCRUDModel) =>
 {
@@ -64,15 +64,15 @@ app.MapPost("/api/AnnualLeaveRequest", (IAnnualLeaveRequestLogic annualLeaveRequ
     {
         if (annualLeaveRequestCreated == null || annualLeaveRequestCreated.Year != createAnnualLeaveRequestCRUDModel.Year)
         {
-            return Results.NotFound("Annual Leave Request was not created");
+            return Results.UnprocessableEntity("Annual Leave Request was not created");
         }
         else if (!string.IsNullOrEmpty(annualLeaveRequestCreated.ErrorMessage))
         {
-            return Results.NotFound($"Annual Leave Request was not created.  Error Messages: {annualLeaveRequestCreated.ErrorMessage}");
+            return Results.UnprocessableEntity($"Annual Leave Request was not created.  Error Messages: {annualLeaveRequestCreated.ErrorMessage}");
         }
         else
         {
-            return Results.NotFound("Annual leave request was not created");
+            return Results.UnprocessableEntity("Annual leave request was not created");
         }
     }
 }).Accepts<AnnualLeaveRequestCRUDModel>("application/json").Produces(201, typeof(AnnualLeaveRequestCRUDModel));
@@ -90,15 +90,15 @@ app.MapPut("/api/AnnualLeaveRequest", (IAnnualLeaveRequestLogic annualLeaveReque
     {
         if (annualLeaveRequestUpdated == null || annualLeaveRequestUpdated.Year != updateAnnualLeaveRequestCRUDModel.Year)
         {
-            return Results.NotFound("Annual Leave Request was not updated");
+            return Results.UnprocessableEntity("Annual Leave Request was not updated");
         }
         else if (!string.IsNullOrEmpty(annualLeaveRequestUpdated.ErrorMessage))
         {
-            return Results.NotFound($"Annual Leave Request was not updated.  Error Messages: {annualLeaveRequestUpdated.ErrorMessage}");
+            return Results.UnprocessableEntity($"Annual Leave Request was not updated.  Error Messages: {annualLeaveRequestUpdated.ErrorMessage}");
         }
         else
         {
-            return Results.NotFound("Annual leave request was not updated");
+            return Results.UnprocessableEntity("Annual leave request was not updated");
         }
     }
 }).Accepts<AnnualLeaveRequestCRUDModel>("application/json").Produces(201, typeof(AnnualLeaveRequestCRUDModel)).ProducesProblem(404);
