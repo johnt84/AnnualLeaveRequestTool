@@ -13,13 +13,15 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = "Overview";
+
             annualLeaveRequestLogic = new AnnualLeaveRequestLogic();
 
             if(!Page.IsPostBack)
             {
                 if (!string.IsNullOrEmpty(Request.QueryString["selectedyear"]))
                 {
-                    bool isValidSelectedYear = Int32.TryParse(Request.QueryString["selectedyear"], out SelectedYear);
+                    bool isValidSelectedYear = int.TryParse(Request.QueryString["selectedyear"], out SelectedYear);
 
                     if (!isValidSelectedYear)
                     {

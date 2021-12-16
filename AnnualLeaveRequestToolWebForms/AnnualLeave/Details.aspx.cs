@@ -1,17 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using AnnualLeaveRequestToolWebForms.Data;
+using AnnualLeaveRequestToolWebForms.Models;
+using System;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace AnnualLeaveRequestToolWebForms.AnnualLeave
 {
-    public partial class Details : System.Web.UI.Page
+    public partial class Details : Page
     {
+        protected AnnualLeaveRequestOverviewModel Model;
+        protected bool EditableRequest;
+
+        private IAnnualLeaveRequestLogic annualLeaveRequestLogic;
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = "Details";
 
+            annualLeaveRequestLogic = new AnnualLeaveRequestLogic();
+
+            if (!Page.IsPostBack)
+            {
+                if (string.IsNullOrEmpty(Request.QueryString["annualLeaveRequestID"]))
+                {
+                    return;
+                }
+
+                int annualLeaveRequestID = 0;
+
+                bool isValidAnnualLeaveRequestID = int.TryParse(Request.QueryString["annualLeaveRequestID"], out annualLeaveRequestID);
+
+                if (!isValidAnnualLeaveRequestID)
+                {
+                    return;
+                }
+
+                Model = annualLeaveRequestLogic.GetRequest(annualLeaveRequestID);
+                EditableRequest = Model.StartDate.Year >= DateTime.UtcNow.Year;
+            }
         }
     }
 }

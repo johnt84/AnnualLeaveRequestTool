@@ -1,17 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using AnnualLeaveRequestToolWebForms.Data;
+using AnnualLeaveRequestToolWebForms.Models;
+using System;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace AnnualLeaveRequestToolWebForms.AnnualLeave
 {
-    public partial class Delete : System.Web.UI.Page
+    public partial class Delete : Page
     {
+        protected AnnualLeaveRequestOverviewModel Model;
+
+        private IAnnualLeaveRequestLogic annualLeaveRequestLogic;
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            Page.Title = "Delete";
 
+            annualLeaveRequestLogic = new AnnualLeaveRequestLogic();
+
+            if (string.IsNullOrEmpty(Request.QueryString["annualLeaveRequestID"]))
+            {
+                return;
+            }
+
+            int annualLeaveRequestID = 0;
+
+            bool isValidAnnualLeaveRequestID = int.TryParse(Request.QueryString["annualLeaveRequestID"], out annualLeaveRequestID);
+
+            if (!isValidAnnualLeaveRequestID)
+            {
+                return;
+            }
+
+            Model = annualLeaveRequestLogic.GetRequest(annualLeaveRequestID);
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            annualLeaveRequestLogic.Delete(Model);
+            Response.Redirect($@"Overview?selectedyear={Model.Year}");
         }
     }
 }

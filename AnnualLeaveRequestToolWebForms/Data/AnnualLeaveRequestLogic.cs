@@ -120,6 +120,10 @@ namespace AnnualLeaveRequestToolWebForms.Data
         {
            _annualLeaveRequests.Add(model);
 
+            model.Year = model.StartDate.Year;
+
+            model.AnnualLeaveRequestID = _annualLeaveRequests.Max(x => x.AnnualLeaveRequestID) + 1;
+
             return GetRequest(model.AnnualLeaveRequestID);
         }
 
