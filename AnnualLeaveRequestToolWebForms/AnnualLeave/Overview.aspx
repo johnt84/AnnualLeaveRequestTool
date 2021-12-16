@@ -1,6 +1,8 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Overview.aspx.cs" Inherits="AnnualLeaveRequestToolWebForms.AnnualLeave.Overview" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <link rel="stylesheet" type="text/css" href="/content/jquery.dataTables.min.css">
+
     <div>
         <div style="padding-bottom: 20px">
             <h1>Annual Leave Calendar - <%= SelectedYear %></h1>
@@ -83,4 +85,12 @@
         </asp:Repeater>
     </div>
 
+    <script type="text/javascript" charset="utf8" src="/Scripts/jquery.dataTables.min.js"></script>
+    <script type="text/javascript">
+        $("#datatableformat").dataTable({
+            "bPaginate": false,
+            "ordering": true,
+            "order": [[0, "asc"]]
+        });
+    </script>
 </asp:Content>
