@@ -36,26 +36,38 @@ namespace AnnualLeaveRequestToolBlazorWASM.Logic
         public async Task<AnnualLeaveRequestOverviewModel> CreateAnnualLeaveRequest(AnnualLeaveRequestOverviewModel annualLeaveRequest)
         {
             var response = await _httpClient.PostAsJsonAsync(CONTROLLER_NAME, annualLeaveRequest);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                string errorResponse = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorResponse);
+            }
+
             return await response.Content.ReadFromJsonAsync<AnnualLeaveRequestOverviewModel>();
         }
 
         public async Task<AnnualLeaveRequestOverviewModel> UpdateAnnualLeaveRequest(AnnualLeaveRequestOverviewModel annualLeaveRequest)
         {
-            try
+            var response = await _httpClient.PutAsJsonAsync(CONTROLLER_NAME, annualLeaveRequest);
+
+            if (!response.IsSuccessStatusCode)
             {
-                var response = await _httpClient.PutAsJsonAsync(CONTROLLER_NAME, annualLeaveRequest);
-                return await response.Content.ReadFromJsonAsync<AnnualLeaveRequestOverviewModel>();
+                string errorResponse = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorResponse);
             }
-            catch (Exception)
-            {
-                return null;
-            }
+
+            return await response.Content.ReadFromJsonAsync<AnnualLeaveRequestOverviewModel>();
         }
 
         public async Task DeleteAnnualLeaveRequest(int annualLeaveRequestID)
         {
             var response = await _httpClient.DeleteAsync($"{CONTROLLER_NAME}/{annualLeaveRequestID}");
-            response.EnsureSuccessStatusCode();
+
+            if (!response.IsSuccessStatusCode)
+            {
+                string errorResponse = await response.Content.ReadAsStringAsync();
+                throw new ApplicationException(errorResponse);
+            }
         }
     }
 }
