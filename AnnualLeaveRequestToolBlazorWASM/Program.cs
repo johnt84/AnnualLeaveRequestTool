@@ -20,6 +20,8 @@ namespace AnnualLeaveRequestToolBlazorWASM
             builder.Services.AddHttpClient<IAnnualLeaveRequestClient, AnnualLeaveRequestClient>
                 (client => client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress));
 
+            builder.Services.AddScoped<IErrorMessageHandler, ErrorMessageHandler>();
+
             await builder.Build().RunAsync();
         }
     }

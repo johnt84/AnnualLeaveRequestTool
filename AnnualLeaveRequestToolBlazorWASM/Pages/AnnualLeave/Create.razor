@@ -4,6 +4,7 @@
 @using AnnualLeaveRequestToolBlazorWASM.Contracts
 @using AnnualLeaveRequestToolBlazorWASM.Components
 @inject IAnnualLeaveRequestClient AnnualLeaveRequestClient
+@inject IErrorMessageHandler ErrorMessageHandler;
 @inject NavigationManager NavigationManager
 
 <h2>Create Annual Leave Request</h2>
@@ -102,15 +103,23 @@
     {
         DateRequested = DateTime.UtcNow;
 
-        model = await AnnualLeaveRequestClient.CreateAnnualLeaveRequest(model);
+        try
+        {
+            model = await AnnualLeaveRequestClient.CreateAnnualLeaveRequest(model);
 
-        if (string.IsNullOrEmpty(model.ErrorMessage))
-        {
-            NavigationManager.NavigateTo($"AnnualLeave/Overview/{model.AnnualLeaveRequestID}");
+            if (string.IsNullOrEmpty(model.ErrorMessage))
+            {
+                NavigationManager.NavigateTo($"AnnualLeave/Overview/{model.AnnualLeaveRequestID}");
+            }
+            else
+            {
+                ErrorMessages = model.ErrorMessage.Split("\\n").ToList();
+                ErrorMessages.RemoveAll(x => string.IsNullOrEmpty(x));
+            }
         }
-        else
+        catch(Exception ex)
         {
-            ErrorMessages = model.ErrorMessage.Split("\\n").ToList();
+            ErrorMessages = ErrorMessageHandler.GetErrorMessagesForDisplay(ex.Message).Split("\\n").ToList();
             ErrorMessages.RemoveAll(x => string.IsNullOrEmpty(x));
         }
     }
