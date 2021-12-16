@@ -7,20 +7,29 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AnnualLeaveRequestToolWebForms
+namespace AnnualLeaveRequestToolWebForms.AnnualLeave
 {
 
 
-    public partial class SiteMaster
+    public partial class Overview
     {
 
         /// <summary>
-        /// MainContent control.
+        /// ddlYears control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.DropDownList ddlYears;
+
+        /// <summary>
+        /// rptAnnualLeaveRequestForYear control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptAnnualLeaveRequestForYear;
     }
 }
