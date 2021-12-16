@@ -15,9 +15,9 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
         {
             Page.Title = "Overview";
 
-            annualLeaveRequestLogic = new AnnualLeaveRequestLogic();
+            annualLeaveRequestLogic = GlobalSettings.Container.GetInstance<IAnnualLeaveRequestLogic>();
 
-            if(!Page.IsPostBack)
+            if (!Page.IsPostBack)
             {
                 if (!string.IsNullOrEmpty(Request.QueryString["selectedyear"]))
                 {

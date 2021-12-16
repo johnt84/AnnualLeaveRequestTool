@@ -33,7 +33,7 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
         {
             Page.Title = "Create";
 
-            annualLeaveRequestLogic = new AnnualLeaveRequestLogic();
+            annualLeaveRequestLogic = GlobalSettings.Container.GetInstance<IAnnualLeaveRequestLogic>();
 
             if (!IsPostBack)
             {

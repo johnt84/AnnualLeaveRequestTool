@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using AnnualLeaveRequestToolWebForms.Data;
+using SimpleInjector;
+using SimpleInjector.Integration.Web;
+using System;
 using System.Web;
 using System.Web.Optimization;
 using System.Web.Routing;
-using System.Web.Security;
-using System.Web.SessionState;
 
 namespace AnnualLeaveRequestToolWebForms
 {
@@ -16,6 +15,19 @@ namespace AnnualLeaveRequestToolWebForms
             // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            ConfigureServices();
+        }
+
+        private void ConfigureServices()
+        {
+            GlobalSettings.Container = new Container();
+
+            GlobalSettings.Container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
+
+            GlobalSettings.Container.Register<IAnnualLeaveRequestLogic, AnnualLeaveRequestLogic>(Lifestyle.Singleton);
+     
+            GlobalSettings.Container.Verify();
         }
     }
 }

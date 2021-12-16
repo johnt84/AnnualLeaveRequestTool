@@ -35,9 +35,7 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
         {
             Page.Title = "Edit";
 
-            annualLeaveRequestLogic = new AnnualLeaveRequestLogic();
-
-            annualLeaveRequestLogic = new AnnualLeaveRequestLogic();
+            annualLeaveRequestLogic = GlobalSettings.Container.GetInstance<IAnnualLeaveRequestLogic>();
 
             if (string.IsNullOrEmpty(Request.QueryString["annualLeaveRequestID"]))
             {

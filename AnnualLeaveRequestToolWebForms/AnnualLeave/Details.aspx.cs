@@ -16,7 +16,7 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
         {
             Page.Title = "Details";
 
-            annualLeaveRequestLogic = new AnnualLeaveRequestLogic();
+            annualLeaveRequestLogic = GlobalSettings.Container.GetInstance<IAnnualLeaveRequestLogic>();
 
             if (!Page.IsPostBack)
             {

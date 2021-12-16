@@ -15,7 +15,7 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
         {
             Page.Title = "Delete";
 
-            annualLeaveRequestLogic = new AnnualLeaveRequestLogic();
+            annualLeaveRequestLogic = GlobalSettings.Container.GetInstance<IAnnualLeaveRequestLogic>();
 
             if (string.IsNullOrEmpty(Request.QueryString["annualLeaveRequestID"]))
             {
