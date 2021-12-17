@@ -30,6 +30,8 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
                 .OrderBy(x => x)
                 .ToList();
 
+        protected bool IsError;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             Page.Title = "Create";
@@ -39,6 +41,7 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
             if (!IsPostBack)
             {
                 PopulateDropdowns();
+                IsError = false;
             }
         }
 
@@ -61,9 +64,16 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
                 Notes = txtNotes.Text,
             };
 
-            var newAnnualLeaveRequest = await annualLeaveRequestLogic.CreateAsync(annualLeaveRequest);
+            try
+            {
+                var newAnnualLeaveRequest = await annualLeaveRequestLogic.CreateAsync(annualLeaveRequest);
 
-            Response.Redirect($@"Overview?selectedyear={newAnnualLeaveRequest.Year}");
+                Response.Redirect($@"Overview?selectedyear={newAnnualLeaveRequest.Year}");
+            }
+            catch (Exception ex)
+            {
+                DisplayErrorMessage(ex.Message);
+            }
         }
 
         private void PopulateDropdowns()
@@ -92,6 +102,12 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
             {
                 Text = "Please select",
             });
+        }
+
+        private void DisplayErrorMessage(string errorMessage)
+        {
+            lbErrorMessage.Text = errorMessage;
+            IsError = true;
         }
     }
 }
