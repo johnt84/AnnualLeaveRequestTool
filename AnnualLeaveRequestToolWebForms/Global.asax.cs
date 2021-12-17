@@ -2,6 +2,7 @@
 using SimpleInjector;
 using SimpleInjector.Integration.Web;
 using System;
+using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Web;
@@ -14,7 +15,6 @@ namespace AnnualLeaveRequestToolWebForms
     {
         void Application_Start(object sender, EventArgs e)
         {
-            // Code that runs on application startup
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
@@ -23,18 +23,20 @@ namespace AnnualLeaveRequestToolWebForms
 
         private void ConfigureServices()
         {
-            var httpClient = new HttpClient();
+            var httpClient = HttpClientFactory.Create();
+
+            var annualLeaveRequestURL = new Uri(ConfigurationManager.AppSettings["AnnualLeaveRequestAPI"].ToString());
 
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+            httpClient.BaseAddress = annualLeaveRequestURL;
+
+            GlobalSettings.HttpClient = httpClient;
 
             GlobalSettings.Container = new Container();
 
             GlobalSettings.Container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
 
             GlobalSettings.Container.Register<IAnnualLeaveRequestLogic, AnnualLeaveRequestClient>(Lifestyle.Singleton);
-
-            //GlobalSettings.Container.Register<HttpClient>(Lifestyle.Singleton);
-            GlobalSettings.HttpClient = httpClient;
 
             GlobalSettings.Container.Verify();
         }

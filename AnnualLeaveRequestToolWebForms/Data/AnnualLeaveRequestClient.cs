@@ -2,11 +2,9 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace AnnualLeaveRequestToolWebForms.Data
 {
@@ -14,16 +12,12 @@ namespace AnnualLeaveRequestToolWebForms.Data
     {
         private readonly HttpClient _httpClient;
 
-        private static string APIURL = "https://localhost:7117/api/";
-
         private static string CONTROLLER_NAME = "AnnualLeaveRequest";
 
         public AnnualLeaveRequestClient() //HttpClient client
         {
             //_httpClient = client;
             _httpClient = GlobalSettings.HttpClient;
-
-            _httpClient.BaseAddress = new Uri(APIURL);
         }
 
         public async Task<List<int>> GetYearsAsync()
