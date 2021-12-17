@@ -1,17 +1,18 @@
 ﻿using AnnualLeaveRequestToolWebForms.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace AnnualLeaveRequestToolWebForms.Data
 {
     interface IAnnualLeaveRequestLogic
     {
-        List<int> GetYears();
-        List<AnnualLeaveRequestOverviewModel> GetRequestsForYear(int year);
-        AnnualLeaveRequestOverviewModel GetRequest(int annualLeaveRequestID);
-        decimal GetDaysBetweenStartDateAndReturnDate(DateTime startDate, DateTime returnDate);
-        AnnualLeaveRequestOverviewModel Create(AnnualLeaveRequestOverviewModel model);
-        AnnualLeaveRequestOverviewModel Update(AnnualLeaveRequestOverviewModel model);
-        void Delete(AnnualLeaveRequestOverviewModel model);
+        Task<List<int>> GetYearsAsync();
+        Task<List<AnnualLeaveRequestOverviewModel>> GetRequestsForYearAsync(int year);
+        Task<AnnualLeaveRequestOverviewModel> GetRequestAsync(int annualLeaveRequestID);
+        //Task<decimal> GetDaysBetweenStartDateAndReturnDate(DateTime startDate, DateTime returnDate);
+        Task<AnnualLeaveRequestOverviewModel> CreateAsync(AnnualLeaveRequestOverviewModel model);
+        Task<AnnualLeaveRequestOverviewModel> UpdateAsync(AnnualLeaveRequestOverviewModel model);
+        Task DeleteAsync(AnnualLeaveRequestOverviewModel model);
     }
 }

@@ -3,6 +3,7 @@ using AnnualLeaveRequestToolWebForms.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -51,7 +52,20 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
                 return;
             }
 
-            Model = annualLeaveRequestLogic.GetRequest(annualLeaveRequestID);
+            Page.RegisterAsyncTask(new PageAsyncTask(() =>
+            {
+                return PopulatePageAsync(annualLeaveRequestID);
+            }));
+        }
+
+        protected void btnSubmit_Click(object sender, EventArgs e)
+        {
+            Page.RegisterAsyncTask(new PageAsyncTask(SubmitButtonClickAsync));
+        }
+
+        private async Task PopulatePageAsync(int annualLeaveRequestID)
+        {
+            Model = await annualLeaveRequestLogic.GetRequestAsync(annualLeaveRequestID);
 
             if (!IsPostBack)
             {
@@ -59,15 +73,18 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
             }
         }
 
-        protected void btnSubmit_Click(object sender, EventArgs e)
+        private async Task SubmitButtonClickAsync()
         {
+            DateTime startDate = DateTime.Parse(txtStartDate.Text);
+
+            Model.Year = startDate.Year;
             Model.StartDate = DateTime.Parse(txtStartDate.Text);
             Model.ReturnDate = DateTime.Parse(txtReturnDate.Text);
             Model.PaidLeaveType = ddlPaidLeaveType.SelectedValue;
             Model.LeaveType = ddlLeaveType.SelectedValue;
             Model.Notes = txtNotes.Text;
 
-            var editAnnualLeaveRequest = annualLeaveRequestLogic.Update(Model);
+            var editAnnualLeaveRequest = await annualLeaveRequestLogic.UpdateAsync(Model);
 
             Response.Redirect($@"Overview?selectedyear={editAnnualLeaveRequest.Year}");
         }

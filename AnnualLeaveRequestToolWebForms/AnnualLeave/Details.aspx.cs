@@ -1,6 +1,7 @@
 ﻿using AnnualLeaveRequestToolWebForms.Data;
 using AnnualLeaveRequestToolWebForms.Models;
 using System;
+using System.Threading.Tasks;
 using System.Web.UI;
 
 namespace AnnualLeaveRequestToolWebForms.AnnualLeave
@@ -34,9 +35,17 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
                     return;
                 }
 
-                Model = annualLeaveRequestLogic.GetRequest(annualLeaveRequestID);
-                EditableRequest = Model.StartDate.Year >= DateTime.UtcNow.Year;
+                Page.RegisterAsyncTask(new PageAsyncTask(() =>
+                {
+                    return PopulatePageAsync(annualLeaveRequestID);
+                }));
             }
+        }
+
+        private async Task PopulatePageAsync(int annualLeaveRequestID)
+        {
+            Model = await annualLeaveRequestLogic.GetRequestAsync(annualLeaveRequestID);
+            EditableRequest = Model.StartDate.Year >= DateTime.UtcNow.Year;
         }
     }
 }

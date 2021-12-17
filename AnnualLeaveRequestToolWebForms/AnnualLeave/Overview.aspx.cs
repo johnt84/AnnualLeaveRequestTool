@@ -1,5 +1,6 @@
 ﻿using AnnualLeaveRequestToolWebForms.Data;
 using System;
+using System.Threading.Tasks;
 using System.Web.UI;
 
 namespace AnnualLeaveRequestToolWebForms.AnnualLeave
@@ -33,9 +34,7 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
                     SelectedYear = DateTime.UtcNow.Year;
                 }
 
-                PopulateYearsDropdown();
-
-                RefreshAnnualLeaveRequestsForYear();
+                Page.RegisterAsyncTask(new PageAsyncTask(PopulatePageAsync));
             }
         }
 
@@ -43,12 +42,18 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
         {
             SelectedYear = Convert.ToInt32(ddlYears.SelectedValue);
 
-            RefreshAnnualLeaveRequestsForYear();
+            Page.RegisterAsyncTask(new PageAsyncTask(RefreshAnnualLeaveRequestsForYear));
         }
 
-        private void RefreshAnnualLeaveRequestsForYear()
+        private async Task PopulatePageAsync()
         {
-            var annualLeaveRequestsForYear = annualLeaveRequestLogic.GetRequestsForYear(SelectedYear);
+            await PopulateYearsDropdownAsync();
+            await RefreshAnnualLeaveRequestsForYear();
+        }
+
+        private async Task RefreshAnnualLeaveRequestsForYear()
+        {
+            var annualLeaveRequestsForYear = await annualLeaveRequestLogic.GetRequestsForYearAsync(SelectedYear);
 
             rptAnnualLeaveRequestForYear.DataSource = annualLeaveRequestsForYear;
             rptAnnualLeaveRequestForYear.DataBind();
@@ -56,9 +61,9 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
             EditableYearSelected = SelectedYear >= DateTime.UtcNow.Year;
         }
 
-        private void PopulateYearsDropdown()
+        private async Task PopulateYearsDropdownAsync()
         {
-            ddlYears.DataSource = annualLeaveRequestLogic.GetYears();
+            ddlYears.DataSource = await annualLeaveRequestLogic.GetYearsAsync();
             ddlYears.DataBind();
 
             ddlYears.SelectedValue = SelectedYear.ToString();

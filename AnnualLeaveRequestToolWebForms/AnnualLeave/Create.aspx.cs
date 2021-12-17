@@ -3,6 +3,7 @@ using AnnualLeaveRequestToolWebForms.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -43,16 +44,24 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
 
         protected void btnSubmit_Click(object sender, EventArgs e)
         {
+            Page.RegisterAsyncTask(new PageAsyncTask(SubmitButtonClickAsync));
+        }
+
+        private async Task SubmitButtonClickAsync()
+        {
+            DateTime startDate = DateTime.Parse(txtStartDate.Text);
+
             var annualLeaveRequest = new AnnualLeaveRequestOverviewModel()
             {
-                StartDate = DateTime.Parse(txtStartDate.Text),
+                Year = startDate.Year,
+                StartDate = startDate,
                 ReturnDate = DateTime.Parse(txtReturnDate.Text),
                 PaidLeaveType = ddlPaidLeaveType.SelectedValue,
                 LeaveType = ddlLeaveType.SelectedValue,
                 Notes = txtNotes.Text,
             };
 
-            var newAnnualLeaveRequest = annualLeaveRequestLogic.Create(annualLeaveRequest);
+            var newAnnualLeaveRequest = await annualLeaveRequestLogic.CreateAsync(annualLeaveRequest);
 
             Response.Redirect($@"Overview?selectedyear={newAnnualLeaveRequest.Year}");
         }
