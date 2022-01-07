@@ -46,7 +46,7 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
         private async Task PopulatePageAsync(int annualLeaveRequestID)
         {
             Model = await annualLeaveRequestLogic.GetRequestAsync(annualLeaveRequestID);
-            DetailRow.DisplayDetailRow(Model);
+            DetailRow.Model = Model;
         }
 
         private async Task DeleteButtonClickAsync()
