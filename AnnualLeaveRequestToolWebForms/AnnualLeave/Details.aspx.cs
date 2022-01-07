@@ -46,6 +46,7 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
         {
             Model = await annualLeaveRequestLogic.GetRequestAsync(annualLeaveRequestID);
             EditableRequest = Model.StartDate.Year >= DateTime.UtcNow.Year;
+            DetailRow.DisplayDetailRow(Model);
         }
     }
 }

@@ -32,6 +32,8 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
 
         protected AnnualLeaveRequestOverviewModel Model;
 
+        protected bool IsError;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             Page.Title = "Edit";
@@ -84,9 +86,16 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
             Model.LeaveType = ddlLeaveType.SelectedValue;
             Model.Notes = txtNotes.Text;
 
-            var editAnnualLeaveRequest = await annualLeaveRequestLogic.UpdateAsync(Model);
+            try
+            {
+                var editAnnualLeaveRequest = await annualLeaveRequestLogic.UpdateAsync(Model);
 
-            Response.Redirect($@"Overview?selectedyear={editAnnualLeaveRequest.Year}");
+                Response.Redirect($@"Overview?selectedyear={editAnnualLeaveRequest.Year}");
+            }
+            catch (Exception ex)
+            {
+                DisplayErrorMessage(ex.Message);
+            }
         }
 
         private void PopulateControls()
@@ -126,6 +135,12 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
             {
                 Text = "Please select",
             });
+        }
+
+        private void DisplayErrorMessage(string errorMessage)
+        {
+            IsError = true;
+            ErrorMessage.DisplayErrorMessage(errorMessage);
         }
     }
 }

@@ -106,8 +106,8 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
 
         private void DisplayErrorMessage(string errorMessage)
         {
-            lbErrorMessage.Text = errorMessage;
             IsError = true;
+            ErrorMessage.DisplayErrorMessage(errorMessage);
         }
     }
 }

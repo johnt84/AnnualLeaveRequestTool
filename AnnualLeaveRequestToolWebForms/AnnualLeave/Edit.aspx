@@ -1,5 +1,7 @@
 ﻿<%@ Page Async="true" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Edit.aspx.cs" Inherits="AnnualLeaveRequestToolWebForms.AnnualLeave.Edit" %>
 
+<%@ Register TagPrefix="uc" TagName="ErrorMessage" Src="~/Controls/ErrorMessage.ascx" %>
+
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h1>Edit Annual Leave Request</h1>
 
@@ -20,6 +22,14 @@
     <%
         return;
     } %>
+
+    <%
+    if(IsError)
+    { %>
+        <uc:ErrorMessage id="ErrorMessage" runat="server" />   
+    <% 
+    }
+    %>
 
     <div class="form-group">
         Start Date:

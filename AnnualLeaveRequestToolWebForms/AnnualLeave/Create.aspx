@@ -1,16 +1,14 @@
 ﻿<%@ Page Async="true" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Create.aspx.cs" Inherits="AnnualLeaveRequestToolWebForms.AnnualLeave.Create" %>
 
+<%@ Register TagPrefix="uc" TagName="ErrorMessage" Src="~/Controls/ErrorMessage.ascx" %>
+
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h1>Create Annual Leave Request</h1>
 
     <%
     if(IsError)
     { %>
-        <div style="color:red; padding-top: 20px; font-size: 18px;" padding-bottom: 20px">
-            <ul>
-                <li><asp:Label ID="lbErrorMessage" runat="server"></asp:Label></li>
-            </ul>
-        </div>
+        <uc:ErrorMessage id="ErrorMessage" runat="server" />   
     <% 
     }
     %>

@@ -201,6 +201,8 @@
     <Content Include="AnnualLeave\Details.aspx" />
     <Content Include="AnnualLeave\Edit.aspx" />
     <Content Include="AnnualLeave\Overview.aspx" />
+    <Content Include="Controls\DetailRow.ascx" />
+    <Content Include="Controls\ErrorMessage.ascx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -293,6 +295,20 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controls\DetailRow.ascx.cs">
+      <DependentUpon>DetailRow.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\DetailRow.ascx.designer.cs">
+      <DependentUpon>DetailRow.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ErrorMessage.ascx.cs">
+      <DependentUpon>ErrorMessage.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Controls\ErrorMessage.ascx.designer.cs">
+      <DependentUpon>ErrorMessage.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Data\AnnualLeaveRequestClient.cs" />
     <Compile Include="Data\IAnnualLeaveRequestLogic.cs" />
     <Compile Include="Default.aspx.cs">
