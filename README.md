@@ -3,11 +3,12 @@ Simple Annual Leave Request Tool
 
 * Allows users to create, update or delete annual leave requests.  
 * The Annual leave requests are saved and read from a SQLServer database using Dapper as the ORM in the DAL (Data Access Layer) project  
-* There are 4 GUI projects (web application frameworks)
+* There are 5 GUI projects (web application frameworks)
   *  Blazor Server/.Net 6
   *  Blazor WebAssembly/.Net 6 (uses Restful Web API project)
   *  MVC/.Net 6
   *  Razor Pages/.Net 6
+  *  WebForms/.Net 4.8 (uses Restful Web API project)
 * There are 2 Restful Web API projects
   * .Net 6 with controllers
   * .Net 6 Minimal API
