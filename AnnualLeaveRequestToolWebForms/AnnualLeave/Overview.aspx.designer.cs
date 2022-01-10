@@ -15,6 +15,15 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
     {
 
         /// <summary>
+        /// ErrorMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::AnnualLeaveRequestToolWebForms.Common.ErrorMessage ErrorMessage;
+
+        /// <summary>
         /// ddlYears control.
         /// </summary>
         /// <remarks>

@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="DetailRow.ascx.cs" Inherits="AnnualLeaveRequestToolWebForms.Controls.DetailRow" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="DetailRow.ascx.cs" Inherits="AnnualLeaveRequestToolWebForms.Common.DetailRow" %>
 
 <div class="row">
     <dl class="col-md-6 dl-horizontal">

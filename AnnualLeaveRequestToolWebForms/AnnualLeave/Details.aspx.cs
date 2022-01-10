@@ -13,6 +13,8 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
 
         private IAnnualLeaveRequestLogic annualLeaveRequestLogic;
 
+        protected bool IsError;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             Page.Title = "Details";
@@ -44,9 +46,28 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
 
         private async Task PopulatePageAsync(int annualLeaveRequestID)
         {
-            Model = await annualLeaveRequestLogic.GetRequestAsync(annualLeaveRequestID);
-            EditableRequest = Model.StartDate.Year >= DateTime.UtcNow.Year;
-            DetailRow.Model = Model;
+            try
+            {
+                Model = await annualLeaveRequestLogic.GetRequestAsync(annualLeaveRequestID);
+
+                if (Model == null)
+                {
+                    return;
+                }
+
+                EditableRequest = Model.StartDate.Year >= DateTime.UtcNow.Year;
+                DetailRow.Model = Model;
+            }
+            catch(Exception ex)
+            {
+                DisplayErrorMessage(ex.Message);
+            }
+        }
+
+        private void DisplayErrorMessage(string errorMessage)
+        {
+            IsError = true;
+            ErrorMessage.DisplayErrorMessage(errorMessage);
         }
     }
 }

@@ -14,9 +14,8 @@ namespace AnnualLeaveRequestToolWebForms.Data
 
         private static string CONTROLLER_NAME = "AnnualLeaveRequest";
 
-        public AnnualLeaveRequestClient() //HttpClient client
+        public AnnualLeaveRequestClient()
         {
-            //_httpClient = client;
             _httpClient = GlobalSettings.HttpClient;
         }
 

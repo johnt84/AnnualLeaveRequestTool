@@ -14,14 +14,28 @@ namespace AnnualLeaveRequestToolWebForms.Common
 
         }
 
-        public void DisplayErrorMessage(string errorMessage)
+        internal void DisplayErrorMessage(string errorMessage)
         {
             int errorMessagesPosition = errorMessage.IndexOf("\\\\n");
 
-            string errorMessageTrimmed = errorMessage.Substring(errorMessagesPosition);
+            string errorMessageTrimmed = errorMessagesPosition > 0 ? 
+                                            errorMessage.Substring(errorMessagesPosition) 
+                                            : errorMessage;
+
             string errorMessageCleaned = errorMessageTrimmed.Replace("\\\\n", "*").Replace(@"""", string.Empty);
 
             ErrorMessages = errorMessageCleaned.Split('*').ToList();
+            ErrorMessages.RemoveAll(x => string.IsNullOrEmpty(x));
+        }
+
+        internal void DisplayErrorMessages(List<string> errors)
+        {
+            if(errors == null || errors.Count == 0)
+            {
+                return;
+            }
+            
+            ErrorMessages = errors;
             ErrorMessages.RemoveAll(x => string.IsNullOrEmpty(x));
         }
     }

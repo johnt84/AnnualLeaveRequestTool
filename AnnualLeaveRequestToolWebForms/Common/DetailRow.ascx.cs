@@ -2,7 +2,7 @@
 using System;
 using System.Web.UI;
 
-namespace AnnualLeaveRequestToolWebForms.Controls
+namespace AnnualLeaveRequestToolWebForms.Common
 {
     public partial class DetailRow : UserControl
     {

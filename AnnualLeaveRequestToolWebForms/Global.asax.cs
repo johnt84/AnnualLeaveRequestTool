@@ -37,6 +37,7 @@ namespace AnnualLeaveRequestToolWebForms
             GlobalSettings.Container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
 
             GlobalSettings.Container.Register<IAnnualLeaveRequestLogic, AnnualLeaveRequestClient>(Lifestyle.Singleton);
+            GlobalSettings.Container.Register<IErrorHandler, ErrorHandler>(Lifestyle.Scoped);
 
             GlobalSettings.Container.Verify();
         }

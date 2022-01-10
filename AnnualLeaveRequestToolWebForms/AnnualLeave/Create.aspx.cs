@@ -13,6 +13,8 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
     {
         private IAnnualLeaveRequestLogic annualLeaveRequestLogic;
 
+        private IErrorHandler errorHandler;
+
         private List<string> PaidLeaveTypes = new List<string>()
                 {
                     "Paid",
@@ -37,6 +39,7 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
             Page.Title = "Create";
 
             annualLeaveRequestLogic = GlobalSettings.Container.GetInstance<IAnnualLeaveRequestLogic>();
+            errorHandler = GlobalSettings.Container.GetInstance<IErrorHandler>();
 
             if (!IsPostBack)
             {
@@ -52,6 +55,22 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
 
         private async Task SubmitButtonClickAsync()
         {
+            var annualLeaveRequestInput = new AnnualLeaveRequestInput()
+            {
+                StartDate = txtStartDate.Text,
+                ReturnDate = txtReturnDate.Text,
+                PaidLeaveType = ddlPaidLeaveType.SelectedValue,
+                LeaveType = ddlLeaveType.SelectedValue,
+            };
+
+            var errors = errorHandler.CheckAnnualLeaveRequestEntryIsValid(annualLeaveRequestInput);
+
+            if (errors != null && errors.Count > 0)
+            {
+                DisplayErrorMessages(errors);
+                return;
+            }
+
             DateTime startDate = DateTime.Parse(txtStartDate.Text);
 
             var annualLeaveRequest = new AnnualLeaveRequestOverviewModel()
@@ -108,6 +127,12 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
         {
             IsError = true;
             ErrorMessage.DisplayErrorMessage(errorMessage);
+        }
+
+        private void DisplayErrorMessages(List<string> errorMessages)
+        {
+            IsError = true;
+            ErrorMessage.DisplayErrorMessages(errorMessages);
         }
     }
 }

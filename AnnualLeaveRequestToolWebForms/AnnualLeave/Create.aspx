@@ -1,6 +1,6 @@
 ﻿<%@ Page Async="true" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Create.aspx.cs" Inherits="AnnualLeaveRequestToolWebForms.AnnualLeave.Create" %>
 
-<%@ Register TagPrefix="uc" TagName="ErrorMessage" Src="~/Controls/ErrorMessage.ascx" %>
+<%@ Register TagPrefix="uc" TagName="ErrorMessage" Src="~/Common/ErrorMessage.ascx" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <link rel="stylesheet" type="text/css" href="/content/jquery-ui.css" />

@@ -1,6 +1,8 @@
 ﻿<%@ Page Async="true" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Details.aspx.cs" Inherits="AnnualLeaveRequestToolWebForms.AnnualLeave.Details" %>
 
-<%@ Register TagPrefix="uc" TagName="DetailRow" Src="~/Controls/DetailRow.ascx" %>
+<%@ Register TagPrefix="uc" TagName="DetailRow" Src="~/Common/DetailRow.ascx" %>
+
+<%@ Register TagPrefix="uc" TagName="ErrorMessage" Src="~/Common/ErrorMessage.ascx" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h1>Details</h1>
@@ -22,6 +24,14 @@
     <%
         return;
     } %>
+
+    <%
+    if(IsError)
+    { %>
+        <uc:ErrorMessage id="ErrorMessage" runat="server" />   
+    <% 
+    }
+    %>
 
     <div class="container">
         <uc:DetailRow id="DetailRow" runat="server" />

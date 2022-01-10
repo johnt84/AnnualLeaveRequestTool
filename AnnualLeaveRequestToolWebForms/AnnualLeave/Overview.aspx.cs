@@ -12,6 +12,8 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
         protected bool EditableYearSelected;
         protected int SelectedYear;
 
+        protected bool IsError;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             Page.Title = "Overview";
@@ -53,20 +55,40 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
 
         private async Task RefreshAnnualLeaveRequestsForYear()
         {
-            var annualLeaveRequestsForYear = await annualLeaveRequestLogic.GetRequestsForYearAsync(SelectedYear);
+            try
+            {
+                var annualLeaveRequestsForYear = await annualLeaveRequestLogic.GetRequestsForYearAsync(SelectedYear);
 
-            rptAnnualLeaveRequestForYear.DataSource = annualLeaveRequestsForYear;
-            rptAnnualLeaveRequestForYear.DataBind();
+                rptAnnualLeaveRequestForYear.DataSource = annualLeaveRequestsForYear;
+                rptAnnualLeaveRequestForYear.DataBind();
 
-            EditableYearSelected = SelectedYear >= DateTime.UtcNow.Year;
+                EditableYearSelected = SelectedYear >= DateTime.UtcNow.Year;
+            }
+            catch (Exception ex)
+            {
+                DisplayErrorMessage(ex.Message);
+            }
         }
 
         private async Task PopulateYearsDropdownAsync()
         {
-            ddlYears.DataSource = await annualLeaveRequestLogic.GetYearsAsync();
-            ddlYears.DataBind();
+            try
+            {
+                ddlYears.DataSource = await annualLeaveRequestLogic.GetYearsAsync();
+                ddlYears.DataBind();
 
-            ddlYears.SelectedValue = SelectedYear.ToString();
+                ddlYears.SelectedValue = SelectedYear.ToString();
+            }
+            catch (Exception ex)
+            {
+                DisplayErrorMessage(ex.Message);
+            }
+        }
+
+        private void DisplayErrorMessage(string errorMessage)
+        {
+            IsError = true;
+            ErrorMessage.DisplayErrorMessage(errorMessage);
         }
     }
 }

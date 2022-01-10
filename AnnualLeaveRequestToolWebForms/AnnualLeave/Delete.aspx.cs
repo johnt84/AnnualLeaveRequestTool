@@ -12,6 +12,8 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
 
         private IAnnualLeaveRequestLogic annualLeaveRequestLogic;
 
+        protected bool IsError;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             Page.Title = "Delete";
@@ -45,14 +47,40 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
 
         private async Task PopulatePageAsync(int annualLeaveRequestID)
         {
-            Model = await annualLeaveRequestLogic.GetRequestAsync(annualLeaveRequestID);
-            DetailRow.Model = Model;
+            try
+            {
+                Model = await annualLeaveRequestLogic.GetRequestAsync(annualLeaveRequestID);
+
+                if (Model == null)
+                {
+                    return;
+                }
+
+                DetailRow.Model = Model;
+            }
+            catch (Exception ex)
+            {
+                DisplayErrorMessage(ex.Message);
+            }
         }
 
         private async Task DeleteButtonClickAsync()
         {
-            await annualLeaveRequestLogic.DeleteAsync(Model);
-            Response.Redirect($@"Overview?selectedyear={Model.Year}");
+            try
+            {
+                await annualLeaveRequestLogic.DeleteAsync(Model);
+                Response.Redirect($@"Overview?selectedyear={Model.Year}");
+            }
+            catch(Exception ex)
+            {
+                DisplayErrorMessage(ex.Message);
+            }
+        }
+
+        private void DisplayErrorMessage(string errorMessage)
+        {
+            IsError = true;
+            ErrorMessage.DisplayErrorMessage(errorMessage);
         }
     }
 }

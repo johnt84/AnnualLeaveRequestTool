@@ -202,8 +202,8 @@
     <Content Include="AnnualLeave\Edit.aspx" />
     <Content Include="AnnualLeave\Overview.aspx" />
     <Content Include="Content\jquery-ui.css" />
-    <Content Include="Controls\DetailRow.ascx" />
-    <Content Include="Controls\ErrorMessage.ascx" />
+    <Content Include="Common\DetailRow.ascx" />
+    <Content Include="Common\ErrorMessage.ascx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
@@ -298,22 +298,24 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controls\DetailRow.ascx.cs">
+    <Compile Include="Common\DetailRow.ascx.cs">
       <DependentUpon>DetailRow.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Controls\DetailRow.ascx.designer.cs">
+    <Compile Include="Common\DetailRow.ascx.designer.cs">
       <DependentUpon>DetailRow.ascx</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ErrorMessage.ascx.cs">
+    <Compile Include="Common\ErrorMessage.ascx.cs">
       <DependentUpon>ErrorMessage.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Controls\ErrorMessage.ascx.designer.cs">
+    <Compile Include="Common\ErrorMessage.ascx.designer.cs">
       <DependentUpon>ErrorMessage.ascx</DependentUpon>
     </Compile>
     <Compile Include="Data\AnnualLeaveRequestClient.cs" />
+    <Compile Include="Data\ErrorHandler.cs" />
     <Compile Include="Data\IAnnualLeaveRequestLogic.cs" />
+    <Compile Include="Data\IErrorHandler.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -325,6 +327,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="GlobalSettings.cs" />
+    <Compile Include="Models\AnnualLeaveRequestInput.cs" />
     <Compile Include="Models\AnnualLeaveRequestOverviewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
