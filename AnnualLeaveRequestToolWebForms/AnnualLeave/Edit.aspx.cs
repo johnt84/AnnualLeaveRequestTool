@@ -102,8 +102,8 @@ namespace AnnualLeaveRequestToolWebForms.AnnualLeave
         {
             PopulateDropdowns();
 
-            txtStartDate.Text = Model.StartDate.ToString("yyyy-MM-dd");
-            txtReturnDate.Text = Model.ReturnDate.ToString("yyyy-MM-dd");
+            txtStartDate.Text = Model.StartDate.ToString("dd/MM/yyyy");
+            txtReturnDate.Text = Model.ReturnDate.ToString("dd/MM/yyyy");
             ddlPaidLeaveType.SelectedValue = Model.PaidLeaveType;
             ddlLeaveType.SelectedValue = Model.LeaveType;
             txtNotes.Text = Model.Notes;

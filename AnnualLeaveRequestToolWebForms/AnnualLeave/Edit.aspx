@@ -3,6 +3,8 @@
 <%@ Register TagPrefix="uc" TagName="ErrorMessage" Src="~/Controls/ErrorMessage.ascx" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
+    <link rel="stylesheet" type="text/css" href="/content/jquery-ui.css" /> 
+    
     <h1>Edit Annual Leave Request</h1>
 
      <% if (Model == null || Model.AnnualLeaveRequestID == 0)
@@ -33,12 +35,12 @@
 
     <div class="form-group">
         Start Date:
-        <asp:TextBox ID="txtStartDate" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txtStartDate" ClientIDMode="Static" runat="server"></asp:TextBox>
     </div>
 
     <div class="form-group">    
         Return Date:
-        <asp:TextBox ID="txtReturnDate" runat="server"></asp:TextBox>
+        <asp:TextBox ID="txtReturnDate" ClientIDMode="Static" runat="server"></asp:TextBox>
     </div>
 
     <div class="form-group">
@@ -69,4 +71,27 @@
             Back to Overview
         </a>
     </div>
+
+    <script type="text/javascript" charset="utf8" src="/Scripts/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="/Scripts/jquery-ui.js"></script>
+    <script>  
+        $(function ()  
+        {  
+            $('#txtStartDate').datepicker(
+            {  
+                dateFormat: 'dd/mm/yy',  
+                changeMonth: true,  
+                changeYear: true,  
+                yearRange: '2020:2100'
+            });
+
+            $('#txtReturnDate').datepicker(
+            {
+                dateFormat: 'dd/mm/yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: '2020:2100'
+            });
+        })  
+    </script>
 </asp:Content>

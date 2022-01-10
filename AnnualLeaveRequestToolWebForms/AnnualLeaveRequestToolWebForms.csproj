@@ -201,6 +201,7 @@
     <Content Include="AnnualLeave\Details.aspx" />
     <Content Include="AnnualLeave\Edit.aspx" />
     <Content Include="AnnualLeave\Overview.aspx" />
+    <Content Include="Content\jquery-ui.css" />
     <Content Include="Controls\DetailRow.ascx" />
     <Content Include="Controls\ErrorMessage.ascx" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -228,6 +229,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.js" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.js" />
+    <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\jquery.dataTables.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\WebForms\DetailsView.js" />
