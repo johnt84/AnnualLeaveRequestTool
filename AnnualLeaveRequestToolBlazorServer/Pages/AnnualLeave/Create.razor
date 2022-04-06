@@ -16,7 +16,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Start Date</label>
         <div class="col-md-3">
-            <InputDate class="form-control" @bind-Value="model.StartDate" />
+            <InputDate id="dtStartDate" class="form-control" @bind-Value="model.StartDate" />
             <ValidationMessage For="(() => model.StartDate)" />
         </div>
     </div>
@@ -24,7 +24,7 @@
     <div class="form-group">
         <label class="control-label col-md-2">Return Date</label>
         <div class="col-md-3">
-            <InputDate class="form-control" @bind-Value="model.ReturnDate" />
+            <InputDate id="dtReturnDate" class="form-control" @bind-Value="model.ReturnDate" />
             <ValidationMessage For="(() => model.ReturnDate)" />
         </div>
     </div>
@@ -32,14 +32,14 @@
     <div class="form-group">
         <label class="control-label col-md-2">Number of days requested</label>
         <div class="col-md-3">
-            <label style="@(GetNumberOfDaysRequested() > 0 ? "color:black;" : "color:red")" class="control-label col-md-2">@model.NumberOfAnnualLeaveDaysRequested</label>
+            <label id="lbNumberOfDaysRequested" style="@(GetNumberOfDaysRequested() > 0 ? "color:black;" : "color:red")" class="control-label col-md-2">@model.NumberOfAnnualLeaveDaysRequested</label>
         </div>
     </div>
 
     <div class="form-group">
         <label class="control-label col-md-2">Leave to be Paid/Unpaid</label>
         <div class="col-md-3">
-            <InputSelect @bind-Value="model.PaidLeaveType" class="form-control">
+            <InputSelect id="ddlPaidLeaveType" @bind-Value="model.PaidLeaveType" class="form-control">
                 <option value="">Please select the Paid Leave Type</option>
                 @foreach (var paidLeaveType in PaidLeaveTypes)
                 {
@@ -51,9 +51,9 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-md-2">Leave to be Paid/Unpaid</label>
+        <label class="control-label col-md-2">Leave Type</label>
         <div class="col-md-3">
-            <InputSelect @bind-Value="model.LeaveType" class="form-control">
+            <InputSelect id="ddlLeaveType" @bind-Value="model.LeaveType" class="form-control">
                 <option value="">Please select the Leave Type</option>
                 @foreach (var leaveType in LeaveTypes)
                 {
@@ -67,19 +67,19 @@
     <div class="form-group">
         <label class="control-label col-md-2">Notes</label>
         <div class="col-md-3">
-            <InputTextArea class="form-control" @bind-Value="model.Notes" />
+            <InputTextArea id="txtNotes"  class="form-control" @bind-Value="model.Notes" />
             <ValidationMessage For="(() => model.Notes)" />
         </div>
     </div>
 
     @if (model.NumberOfAnnualLeaveDaysRequested > 0)
     {
-        <button type="submit">Submit</button>
+        <button id="btnSubmit" type="submit">Submit</button>
     }
 </EditForm>
 
 <div class="form-actions no-color esh-link-list" style="padding-top: 20px">
-    <a href="/AnnualLeave/Overview" class="esh-link-item">
+    <a id="btnBackToOverview" href="/AnnualLeave/Overview" class="esh-link-item">
         Back to Overview
     </a>
 </div>

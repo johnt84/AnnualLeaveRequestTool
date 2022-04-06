@@ -36,7 +36,7 @@
     </select>
 </div>
 
-<table class="table" style="width: 1024px;">
+<table id="tbAnnualLeaveRequests" class="table" style="width: 1024px;">
     <tr>
         <th style="width: 120px;">Start Date</th>
         <th style="width: 120px;">Return Date</th>
@@ -53,7 +53,7 @@
     </tr>
     @foreach (var annualLeaveRequestForYear in annualLeaveRequestsForYear)
     {
-    <tr style="@(annualLeaveRequestForYear.AnnualLeaveRequestID == AnnualLeaveRequestID ? "background-color: #ffff99;" : string.Empty)">
+    <tr id="@annualLeaveRequestForYear.AnnualLeaveRequestID" style="@(annualLeaveRequestForYear.AnnualLeaveRequestID == AnnualLeaveRequestID ? "background-color: #ffff99;" : string.Empty)">
         <td>@annualLeaveRequestForYear.StartDate.ToString("dd MMM yyyy")</td>
         <td>@annualLeaveRequestForYear.ReturnDate.ToString("dd MMM yyyy")</td>
         <td>@annualLeaveRequestForYear.NumberOfDaysRequested</td>
@@ -91,7 +91,7 @@
 </table>
 <br />
 
-<table class="table" style="width: 225px;">
+<table id="tbAnnualLeaveRequestsOverview"  class="table" style="width: 225px;">
     <tr>
         <td>Number of Days</td>
         <td>@NumberOfDays</td>
