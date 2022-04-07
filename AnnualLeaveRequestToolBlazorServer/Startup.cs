@@ -1,8 +1,10 @@
 using AnnualLeaveRequest.Shared;
 using AnnualLeaveRequestDAL;
+using AnnualLeaveRequestEFDAL.Models;
 using AnnualLeaveRequestToolBlazorServer.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -32,6 +34,11 @@ namespace AnnualLeaveRequestToolBlazorServer
 
             var sqlConnectionConfiguration = new SqlConnectionConfiguration(Configuration.GetConnectionString("AnnualLeaveRequestDB"));
             services.AddSingleton(sqlConnectionConfiguration);
+
+            services.AddDbContext<AnnualLeaveContext>(options =>
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("AnnualLeaveRequestDB"));
+            });
 
             services.AddSingleton<AnnualLeaveRequestDataAccess>();
 
