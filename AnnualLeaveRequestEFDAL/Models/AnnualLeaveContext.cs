@@ -17,14 +17,6 @@ namespace AnnualLeaveRequestEFDAL.Models
         public virtual DbSet<AnnualLeaveRequestsOverview> AnnualLeaveRequestsOverviews { get; set; } = null!;
         public virtual DbSet<AnnualLeaveYear> AnnualLeaveYears { get; set; } = null!;
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer(";Database=AnnualLeave;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AnnualLeaveRequest>(entity =>
