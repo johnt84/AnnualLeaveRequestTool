@@ -66,7 +66,7 @@ namespace AnnualLeaveRequestBlazorServerAutomationUITest
 
             int numberOfRowsInTableBeforeCreate = driver.FindElements(By.XPath("//table[@id='tbAnnualLeaveRequests']//tr")).Count;
 
-            driver.Navigate().GoToUrl($"{config["BlazorServerAnnualLeaveRequestApp"]}AnnualLeave/Create");
+            driver.Navigate().GoToUrl($"{config["BlazorServerAnnualLeaveRequestApp"]}AnnualLeave/Delete");
 
             Thread.Sleep(4000);
 
