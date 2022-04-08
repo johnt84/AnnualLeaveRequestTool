@@ -1,5 +1,5 @@
 ﻿using AnnualLeaveRequest.Shared;
-using AnnualLeaveRequestDAL;
+using AnnualLeaveRequestEFDAL.DataAccess.Interfaces;
 using System;
 using System.Collections.Generic;
 
@@ -7,9 +7,9 @@ namespace AnnualLeaveRequestToolBlazorServer.Data
 {
     public class AnnualLeaveRequestLogic : IAnnualLeaveRequestLogic
     {
-        private readonly AnnualLeaveRequestDataAccess _annualLeaveRequestDataAccess;
+        private readonly IAnnualLeaveRequestDataAccess _annualLeaveRequestDataAccess;
 
-        public AnnualLeaveRequestLogic(AnnualLeaveRequestDataAccess annualLeaveRequestDataAccess)
+        public AnnualLeaveRequestLogic(IAnnualLeaveRequestDataAccess annualLeaveRequestDataAccess)
         {
             _annualLeaveRequestDataAccess = annualLeaveRequestDataAccess;
         }

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+	  <PackageReference Include="AutoMapper" Version="11.0.1" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.3"></PackageReference>
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.3">
       <PrivateAssets>all</PrivateAssets>
@@ -15,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DataAccess\" />
+    <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 
 </Project>

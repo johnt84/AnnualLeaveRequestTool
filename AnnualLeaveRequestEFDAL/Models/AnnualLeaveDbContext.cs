@@ -2,13 +2,13 @@
 
 namespace AnnualLeaveRequestEFDAL.Models
 {
-    public partial class AnnualLeaveContext : DbContext
+    public partial class AnnualLeaveDbContext : DbContext
     {
-        public AnnualLeaveContext()
+        public AnnualLeaveDbContext()
         {
         }
 
-        public AnnualLeaveContext(DbContextOptions<AnnualLeaveContext> options)
+        public AnnualLeaveDbContext(DbContextOptions<AnnualLeaveDbContext> options)
             : base(options)
         {
         }
@@ -16,6 +16,9 @@ namespace AnnualLeaveRequestEFDAL.Models
         public virtual DbSet<AnnualLeaveRequest> AnnualLeaveRequests { get; set; } = null!;
         public virtual DbSet<AnnualLeaveRequestsOverview> AnnualLeaveRequestsOverviews { get; set; } = null!;
         public virtual DbSet<AnnualLeaveYear> AnnualLeaveYears { get; set; } = null!;
+
+        public IQueryable<AnnualLeaveRequestsBetweenTwoDates> GetAnnualLeaveRequestsBetweenTwoDates(DateTime startDate, DateTime returnDate)
+                => FromExpression(() => GetAnnualLeaveRequestsBetweenTwoDates(startDate, returnDate));
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -105,6 +108,13 @@ namespace AnnualLeaveRequestEFDAL.Models
 
                 entity.Property(e => e.NumberOfPublicLeaveDaysLeft).HasColumnType("decimal(18, 2)");
             });
+
+            modelBuilder.HasDbFunction(typeof(AnnualLeaveDbContext)
+                        .GetMethod(nameof(GetAnnualLeaveRequestsBetweenTwoDates)
+                            , new[] { typeof(DateTime), typeof(DateTime) }))
+                        .HasName("NumberOfAnnualLeaveDaysBetweenTwoDatesGet");
+
+            modelBuilder.Entity<AnnualLeaveRequestsBetweenTwoDates>().HasNoKey();
 
             OnModelCreatingPartial(modelBuilder);
         }
