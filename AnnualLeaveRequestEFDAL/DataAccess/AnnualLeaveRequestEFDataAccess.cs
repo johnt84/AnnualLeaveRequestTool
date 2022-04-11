@@ -1,5 +1,6 @@
 ﻿using AnnualLeaveRequestEFDAL.DataAccess.Interfaces;
 using AnnualLeaveRequestEFDAL.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AnnualLeaveRequestEFDAL.DataAccess
 {
@@ -86,6 +87,8 @@ namespace AnnualLeaveRequestEFDAL.DataAccess
 
                 _db.SaveChanges();
 
+                _db.Entry(model).State = EntityState.Detached;
+
                 int newAnnualLeaveRequestId = model?.AnnualLeaveRequestId ?? 0;
 
                 var newAnnualLeaveRequest = GetRequest(newAnnualLeaveRequestId);
@@ -113,15 +116,15 @@ namespace AnnualLeaveRequestEFDAL.DataAccess
 
                 var existingAnnualLeaveRequestBeforeChange = GetRequest(model.AnnualLeaveRequestId);
 
-                decimal numberOfDaysLeftAfterChange = annualLeaveRequestsBetweenTwoDate.NumberOfDaysLeft - (model.NumberOfDays - existingAnnualLeaveRequestBeforeChange.NumberOfDays);
-                decimal numberOfAnnualLeaveDaysLeftAfterChange = annualLeaveRequestsBetweenTwoDate.NumberOfAnnualLeaveDaysLeft - (model.NumberOfAnnualLeaveDays - existingAnnualLeaveRequestBeforeChange.NumberOfAnnualLeaveDays);
-                decimal numberOfPublicDaysLeftAfterChange = annualLeaveRequestsBetweenTwoDate.NumberOfPublicLeaveDaysLeft - (model.NumberOfPublicLeaveDays - existingAnnualLeaveRequestBeforeChange.NumberOfPublicLeaveDays);
+                decimal numberOfDaysLeftAfterChange = annualLeaveRequestsBetweenTwoDate.NumberOfDaysLeft - (annualLeaveRequestsBetweenTwoDate.NumberOfDays - existingAnnualLeaveRequestBeforeChange.NumberOfDaysRequested.Value);
+                decimal numberOfAnnualLeaveDaysLeftAfterChange = annualLeaveRequestsBetweenTwoDate.NumberOfAnnualLeaveDaysLeft - (annualLeaveRequestsBetweenTwoDate.NumberOfAnnualLeaveDays - existingAnnualLeaveRequestBeforeChange.NumberOfAnnualLeaveDaysRequested.Value);
+                decimal numberOfPublicDaysLeftAfterChange = annualLeaveRequestsBetweenTwoDate.NumberOfPublicLeaveDaysLeft - (annualLeaveRequestsBetweenTwoDate.NumberOfPublicLeaveDays - existingAnnualLeaveRequestBeforeChange.NumberOfPublicLeaveDaysRequested.Value);
 
                 annualLeaveYear.NumberOfDaysLeft = numberOfDaysLeftAfterChange;
                 annualLeaveYear.NumberOfAnnualLeaveDaysLeft = numberOfAnnualLeaveDaysLeftAfterChange;
                 annualLeaveYear.NumberOfPublicLeaveDaysLeft = numberOfPublicDaysLeftAfterChange;
 
-                var updatedAnnualLeaveRequestYear = _annualLeaveRequestYearEFDataAccess.Update(annualLeaveYear);
+                _db.AnnualLeaveYears.Update(annualLeaveYear);
 
                 model.Year = annualLeaveRequestsBetweenTwoDate.Year;
                 model.NumberOfDays = annualLeaveRequestsBetweenTwoDate.NumberOfDays;
@@ -131,6 +134,8 @@ namespace AnnualLeaveRequestEFDAL.DataAccess
                 _db.AnnualLeaveRequests.Update(model);
 
                 _db.SaveChanges();
+
+                _db.Entry(model).State = EntityState.Detached;
 
                 int updateAnnualLeaveRequestId = model?.AnnualLeaveRequestId ?? 0;
 
@@ -155,12 +160,6 @@ namespace AnnualLeaveRequestEFDAL.DataAccess
 
             foreach (var annualLeaveRequestsBetweenTwoDate in annualLeaveRequestsBetweenTwoDates)
             {
-                model.Year = annualLeaveRequestsBetweenTwoDate.Year;
-
-                _db.AnnualLeaveRequests.Remove(model);
-
-                _db.SaveChanges();
-
                 var annualLeaveYear = _annualLeaveRequestYearEFDataAccess.GetAnnualLeaveYear(model.Year);
 
                 annualLeaveYear.NumberOfDaysLeft = annualLeaveYear.NumberOfDaysLeft + annualLeaveRequestsBetweenTwoDate.NumberOfDays;
@@ -168,6 +167,14 @@ namespace AnnualLeaveRequestEFDAL.DataAccess
                 annualLeaveYear.NumberOfPublicLeaveDaysLeft = annualLeaveYear.NumberOfPublicLeaveDaysLeft + annualLeaveRequestsBetweenTwoDate.NumberOfPublicLeaveDays;
 
                 var updatedAnnualLeaveRequestYear = _annualLeaveRequestYearEFDataAccess.Update(annualLeaveYear);
+
+                model.Year = annualLeaveRequestsBetweenTwoDate.Year;
+
+                _db.AnnualLeaveRequests.Remove(model);
+
+                _db.SaveChanges();
+
+                _db.Entry(model).State = EntityState.Detached;
 
                 int updateAnnualLeaveRequestId = model?.AnnualLeaveRequestId ?? 0;
 
