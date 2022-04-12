@@ -1,4 +1,6 @@
-﻿namespace AnnualLeaveRequestEFDAL.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AnnualLeaveRequestEFDAL.Models
 {
     public partial class AnnualLeaveRequestsOverview
     {
@@ -19,5 +21,8 @@
         public decimal NumberOfDaysLeftForYear { get; set; }
         public decimal NumberOfAnnualLeaveDaysLeftForYear { get; set; }
         public decimal NumberOfPublicLeaveDaysLeftForYear { get; set; }
+
+        [NotMapped]
+        public string ErrorMessage { get; set; }
     }
 }

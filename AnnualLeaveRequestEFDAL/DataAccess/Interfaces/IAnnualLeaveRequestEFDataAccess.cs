@@ -8,8 +8,8 @@ namespace AnnualLeaveRequestEFDAL.DataAccess.Interfaces
         List<AnnualLeaveRequestsOverview> GetRequestsForYear(int year);
         AnnualLeaveRequestsOverview? GetRequest(int annualLeaveRequestID);
         decimal GetDaysBetweenStartDateAndReturnDate(DateTime startDate, DateTime returnDate);
-        List<AnnualLeaveRequestsOverview> Create(Models.AnnualLeaveRequest model);
-        List<AnnualLeaveRequestsOverview> Update(Models.AnnualLeaveRequest model);
+        AnnualLeaveRequestsOverview Create(Models.AnnualLeaveRequest model);
+        AnnualLeaveRequestsOverview Update(Models.AnnualLeaveRequest model);
         void Delete(Models.AnnualLeaveRequest model);
     }
 }

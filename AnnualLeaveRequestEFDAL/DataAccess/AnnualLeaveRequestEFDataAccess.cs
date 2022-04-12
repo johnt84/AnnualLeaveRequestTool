@@ -1,6 +1,8 @@
 ﻿using AnnualLeaveRequestEFDAL.DataAccess.Interfaces;
 using AnnualLeaveRequestEFDAL.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace AnnualLeaveRequestEFDAL.DataAccess
 {
@@ -57,130 +59,218 @@ namespace AnnualLeaveRequestEFDAL.DataAccess
             return 0;
         }
 
-        public List<AnnualLeaveRequestsOverview> Create(Models.AnnualLeaveRequest model)
+        public AnnualLeaveRequestsOverview Create(Models.AnnualLeaveRequest model)
         {
-            var annualLeaveRequestsBetweenTwoDates = GetAnnualLeaveRequestsBetweenTwoDatesGet(model.StartDate, model.ReturnDate);
-
-            if (annualLeaveRequestsBetweenTwoDates.Count == 0)
+            var paidLeaveTypeParam = new SqlParameter()
             {
-                return null;
+                ParameterName = "@PaidLeaveType",
+                Direction = ParameterDirection.Input,
+                DbType = DbType.String,
+                Value = model.PaidLeaveType,
+            };
+
+            var leaveTypeParam = new SqlParameter()
+            {
+                ParameterName = "@LeaveType",
+                Direction = ParameterDirection.Input,
+                DbType = DbType.String,
+                Value = model.LeaveType,
+            };
+
+            var startDateParam = new SqlParameter()
+            {
+                ParameterName = "@StartDate",
+                Direction = ParameterDirection.Input,
+                DbType = DbType.DateTime,
+                Value = model.StartDate,
+            };
+
+            var returnDateParam = new SqlParameter()
+            {
+                ParameterName = "@ReturnDate",
+                Direction = ParameterDirection.Input,
+                DbType = DbType.DateTime,
+                Value = model.ReturnDate,
+            };
+
+            var dateCreatedParam = new SqlParameter()
+            {
+                ParameterName = "@DateCreated",
+                Direction = ParameterDirection.Input,
+                DbType = DbType.DateTime,
+                Value = model.DateCreated,
+            };
+
+            var notesParam = new SqlParameter()
+            {
+                ParameterName = "@Notes",
+                Direction = ParameterDirection.Input,
+                DbType = DbType.String,
+                IsNullable = true,
+                Value = !string.IsNullOrWhiteSpace(model.Notes) ? model.Notes : DBNull.Value,
+            };
+
+            var newAnnualLeaveRequestIdParam = new SqlParameter()
+            {
+                ParameterName = "@Id",
+                DbType = DbType.Int32,
+                Direction = ParameterDirection.Output,
+            };
+
+            string query = @"exec procCreateAnnualLeaveRequest 
+                                    @PaidLeaveType,
+                                    @LeaveType,
+                                    @StartDate,
+                                    @ReturnDate,
+                                    @DateCreated,
+                                    @Notes,
+                                    @Id out";
+
+            try
+            {
+                _db.Database.ExecuteSqlRaw(query,
+                        paidLeaveTypeParam,
+                        leaveTypeParam,
+                        startDateParam,
+                        returnDateParam,
+                        dateCreatedParam,
+                        notesParam,
+                        newAnnualLeaveRequestIdParam);
+            }
+            catch (Exception ex)
+            {
+                return new AnnualLeaveRequestsOverview()
+                {
+                    PaidLeaveType = model.PaidLeaveType,
+                    LeaveType = model.LeaveType,
+                    StartDate = model.StartDate,
+                    ReturnDate = model.ReturnDate,
+                    DateCreated = model.DateCreated,
+                    Notes = model.Notes,
+                    ErrorMessage = ex.Message,
+                };
             }
 
-             var annualLeaveRequestsOverviews = new List<AnnualLeaveRequestsOverview>();
-
-            foreach (var annualLeaveRequestsBetweenTwoDate in annualLeaveRequestsBetweenTwoDates)
-            {
-                var annualLeaveYear = _annualLeaveRequestYearEFDataAccess.GetAnnualLeaveYear(annualLeaveRequestsBetweenTwoDate.Year);
-
-                annualLeaveYear.NumberOfDaysLeft = annualLeaveRequestsBetweenTwoDate.NumberOfDaysLeftAfterRequest;
-                annualLeaveYear.NumberOfAnnualLeaveDaysLeft = annualLeaveRequestsBetweenTwoDate.NumberOfAnnualLeaveDaysLeftAfterRequest;
-                annualLeaveYear.NumberOfPublicLeaveDaysLeft = annualLeaveRequestsBetweenTwoDate.NumberOfPublicLeaveDaysLeftAfterRequest;
-
-                var updatedAnnualLeaveRequestYear = _annualLeaveRequestYearEFDataAccess.Update(annualLeaveYear);
-
-                model.Year = annualLeaveRequestsBetweenTwoDate.Year;
-                model.NumberOfDays = annualLeaveRequestsBetweenTwoDate.NumberOfDays;
-                model.NumberOfAnnualLeaveDays = annualLeaveRequestsBetweenTwoDate.NumberOfAnnualLeaveDays;
-                model.NumberOfPublicLeaveDays = annualLeaveRequestsBetweenTwoDate.NumberOfPublicLeaveDays;
-
-                _db.AnnualLeaveRequests.Add(model);
-
-                _db.SaveChanges();
-
-                _db.Entry(model).State = EntityState.Detached;
-
-                int newAnnualLeaveRequestId = model?.AnnualLeaveRequestId ?? 0;
-
-                var newAnnualLeaveRequest = GetRequest(newAnnualLeaveRequestId);
-
-                annualLeaveRequestsOverviews.Add(newAnnualLeaveRequest);
-            }
-
-            return annualLeaveRequestsOverviews;
+            return GetRequest(Convert.ToInt32(newAnnualLeaveRequestIdParam.Value));
         }
 
-        public List<AnnualLeaveRequestsOverview> Update(Models.AnnualLeaveRequest model)
+        public AnnualLeaveRequestsOverview Update(Models.AnnualLeaveRequest model)
         {
-            var annualLeaveRequestsBetweenTwoDates = GetAnnualLeaveRequestsBetweenTwoDatesGet(model.StartDate, model.ReturnDate);
-
-            if (annualLeaveRequestsBetweenTwoDates.Count == 0)
+            var annualLeaveRequestIdParam = new SqlParameter()
             {
-                return null;
+                ParameterName = "@AnnualLeaveRequestID",
+                Direction = ParameterDirection.Input,
+                DbType = DbType.Int32,
+                Value = model.AnnualLeaveRequestId,
+            };
+
+            var paidLeaveTypeParam = new SqlParameter()
+            {
+                ParameterName = "@PaidLeaveType",
+                Direction = ParameterDirection.Input,
+                DbType = DbType.String,
+                Value = model.PaidLeaveType,
+            };
+
+            var leaveTypeParam = new SqlParameter()
+            {
+                ParameterName = "@LeaveType",
+                Direction = ParameterDirection.Input,
+                DbType = DbType.String,
+                Value = model.LeaveType,
+            };
+
+            var startDateParam = new SqlParameter()
+            {
+                ParameterName = "@StartDate",
+                Direction = ParameterDirection.Input,
+                DbType = DbType.DateTime,
+                Value = model.StartDate,
+            };
+
+            var returnDateParam = new SqlParameter()
+            {
+                ParameterName = "@ReturnDate",
+                Direction = ParameterDirection.Input,
+                DbType = DbType.DateTime,
+                Value = model.ReturnDate,
+            };
+
+            var dateCreatedParam = new SqlParameter()
+            {
+                ParameterName = "@DateCreated",
+                Direction = ParameterDirection.Input,
+                DbType = DbType.DateTime,
+                Value = model.DateCreated,
+            };
+
+            var notesParam = new SqlParameter()
+            {
+                ParameterName = "@Notes",
+                Direction = ParameterDirection.Input,
+                DbType = DbType.String,
+                IsNullable = true,
+                Value = !string.IsNullOrWhiteSpace(model.Notes) ? model.Notes : DBNull.Value,
+            };
+
+            string query = @"exec procUpdateAnnualLeaveRequest 
+                                        @AnnualLeaveRequestID,                 
+                                        @PaidLeaveType, 
+                                        @LeaveType, 
+                                        @StartDate, 
+                                        @ReturnDate,  
+                                        @Notes";
+
+            try
+            {
+                _db.Database.ExecuteSqlRaw(query,
+                        annualLeaveRequestIdParam,
+                        paidLeaveTypeParam,
+                        leaveTypeParam,
+                        startDateParam,
+                        returnDateParam,
+                        dateCreatedParam,
+                        notesParam); 
+            }
+            catch (Exception ex)
+            {
+                return new AnnualLeaveRequestsOverview()
+                {
+                    AnnualLeaveRequestId = model.AnnualLeaveRequestId,
+                    PaidLeaveType = model.PaidLeaveType,
+                    LeaveType = model.LeaveType,
+                    StartDate = model.StartDate,
+                    ReturnDate = model.ReturnDate,
+                    DateCreated = model.DateCreated,
+                    Notes = model.Notes,
+                    Year = model.Year,
+                    ErrorMessage = ex.Message,
+                };
             }
 
-            var annualLeaveRequestsOverviews = new List<AnnualLeaveRequestsOverview>();
-
-            foreach (var annualLeaveRequestsBetweenTwoDate in annualLeaveRequestsBetweenTwoDates)
-            {
-                var annualLeaveYear = _annualLeaveRequestYearEFDataAccess.GetAnnualLeaveYear(annualLeaveRequestsBetweenTwoDate.Year);
-
-                var existingAnnualLeaveRequestBeforeChange = GetRequest(model.AnnualLeaveRequestId);
-
-                decimal numberOfDaysLeftAfterChange = annualLeaveRequestsBetweenTwoDate.NumberOfDaysLeft - (annualLeaveRequestsBetweenTwoDate.NumberOfDays - existingAnnualLeaveRequestBeforeChange.NumberOfDaysRequested.Value);
-                decimal numberOfAnnualLeaveDaysLeftAfterChange = annualLeaveRequestsBetweenTwoDate.NumberOfAnnualLeaveDaysLeft - (annualLeaveRequestsBetweenTwoDate.NumberOfAnnualLeaveDays - existingAnnualLeaveRequestBeforeChange.NumberOfAnnualLeaveDaysRequested.Value);
-                decimal numberOfPublicDaysLeftAfterChange = annualLeaveRequestsBetweenTwoDate.NumberOfPublicLeaveDaysLeft - (annualLeaveRequestsBetweenTwoDate.NumberOfPublicLeaveDays - existingAnnualLeaveRequestBeforeChange.NumberOfPublicLeaveDaysRequested.Value);
-
-                annualLeaveYear.NumberOfDaysLeft = numberOfDaysLeftAfterChange;
-                annualLeaveYear.NumberOfAnnualLeaveDaysLeft = numberOfAnnualLeaveDaysLeftAfterChange;
-                annualLeaveYear.NumberOfPublicLeaveDaysLeft = numberOfPublicDaysLeftAfterChange;
-
-                _db.AnnualLeaveYears.Update(annualLeaveYear);
-
-                model.Year = annualLeaveRequestsBetweenTwoDate.Year;
-                model.NumberOfDays = annualLeaveRequestsBetweenTwoDate.NumberOfDays;
-                model.NumberOfAnnualLeaveDays = annualLeaveRequestsBetweenTwoDate.NumberOfAnnualLeaveDays;
-                model.NumberOfPublicLeaveDays = annualLeaveRequestsBetweenTwoDate.NumberOfPublicLeaveDays;
-
-                _db.AnnualLeaveRequests.Update(model);
-
-                _db.SaveChanges();
-
-                _db.Entry(model).State = EntityState.Detached;
-
-                int updateAnnualLeaveRequestId = model?.AnnualLeaveRequestId ?? 0;
-
-                var updateAnnualLeaveRequest = GetRequest(updateAnnualLeaveRequestId);
-
-                annualLeaveRequestsOverviews.Add(updateAnnualLeaveRequest);
-            }
-
-            return annualLeaveRequestsOverviews;
+            return GetRequest(model.AnnualLeaveRequestId);
         }
 
         public void Delete(Models.AnnualLeaveRequest model)
         {
-            var annualLeaveRequestsBetweenTwoDates = GetAnnualLeaveRequestsBetweenTwoDatesGet(model.StartDate, model.ReturnDate);
-
-            if (annualLeaveRequestsBetweenTwoDates.Count == 0)
+            var annualLeaveRequestIdParam = new SqlParameter()
             {
-                return;
+                ParameterName = "@AnnualLeaveRequestID",
+                Direction = ParameterDirection.Input,
+                DbType = DbType.Int32,
+                Value = model.AnnualLeaveRequestId,
+            };
+
+            string query = @"exec procDeleteAnnualLeaveRequest @AnnualLeaveRequestID";
+
+            try
+            {
+                _db.Database.ExecuteSqlRaw(query,
+                        annualLeaveRequestIdParam);
             }
-
-            var annualLeaveRequestsOverviews = new List<AnnualLeaveRequestsOverview>();
-
-            foreach (var annualLeaveRequestsBetweenTwoDate in annualLeaveRequestsBetweenTwoDates)
+            catch (Exception)
             {
-                var annualLeaveYear = _annualLeaveRequestYearEFDataAccess.GetAnnualLeaveYear(model.Year);
 
-                annualLeaveYear.NumberOfDaysLeft = annualLeaveYear.NumberOfDaysLeft + annualLeaveRequestsBetweenTwoDate.NumberOfDays;
-                annualLeaveYear.NumberOfAnnualLeaveDaysLeft = annualLeaveYear.NumberOfAnnualLeaveDaysLeft + annualLeaveRequestsBetweenTwoDate.NumberOfAnnualLeaveDays;
-                annualLeaveYear.NumberOfPublicLeaveDaysLeft = annualLeaveYear.NumberOfPublicLeaveDaysLeft + annualLeaveRequestsBetweenTwoDate.NumberOfPublicLeaveDays;
-
-                var updatedAnnualLeaveRequestYear = _annualLeaveRequestYearEFDataAccess.Update(annualLeaveYear);
-
-                model.Year = annualLeaveRequestsBetweenTwoDate.Year;
-
-                _db.AnnualLeaveRequests.Remove(model);
-
-                _db.SaveChanges();
-
-                _db.Entry(model).State = EntityState.Detached;
-
-                int updateAnnualLeaveRequestId = model?.AnnualLeaveRequestId ?? 0;
-
-                var updateAnnualLeaveRequest = GetRequest(updateAnnualLeaveRequestId);
-
-                annualLeaveRequestsOverviews.Add(updateAnnualLeaveRequest);
             }
         }
     }

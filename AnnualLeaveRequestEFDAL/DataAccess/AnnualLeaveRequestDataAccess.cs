@@ -87,12 +87,9 @@ namespace AnnualLeaveRequestEFDAL.DataAccess
                 Year = model.Year,
             };
 
-            var newAnnualLeaveRequests = _annualLeaveRequestEFDataAccess.Create(annualLeaveRequest);
+            var newAnnualLeaveRequest = _annualLeaveRequestEFDataAccess.Create(annualLeaveRequest);
 
-            var newAnnualLeaveRequestToReturn = newAnnualLeaveRequests
-                                                    .FirstOrDefault();
-
-            return _mapper.Map<AnnualLeaveRequestOverviewModel>(newAnnualLeaveRequestToReturn);
+            return _mapper.Map<AnnualLeaveRequestOverviewModel>(newAnnualLeaveRequest);
         }
 
         public AnnualLeaveRequestOverviewModel Update(AnnualLeaveRequestOverviewModel model)
@@ -112,12 +109,9 @@ namespace AnnualLeaveRequestEFDAL.DataAccess
                 Year = model.Year,
             };
 
-            var updateAnnualLeaveRequests = _annualLeaveRequestEFDataAccess.Update(annualLeaveRequest);
+            var updateAnnualLeaveRequest = _annualLeaveRequestEFDataAccess.Update(annualLeaveRequest);
 
-            var updateAnnualLeaveRequestToReturn = updateAnnualLeaveRequests
-                                                    .FirstOrDefault();
-
-            return _mapper.Map<AnnualLeaveRequestOverviewModel>(updateAnnualLeaveRequestToReturn);
+            return _mapper.Map<AnnualLeaveRequestOverviewModel>(updateAnnualLeaveRequest);
         }
 
         public void Delete(AnnualLeaveRequestOverviewModel model)
