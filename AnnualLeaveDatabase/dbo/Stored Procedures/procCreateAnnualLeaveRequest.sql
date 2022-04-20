@@ -15,6 +15,7 @@ CREATE PROCEDURE [dbo].[procCreateAnnualLeaveRequest]
     ,@ReturnDate datetime
     ,@DateCreated datetime
     ,@Notes nvarchar(150)
+	,@firstNewALRequestID int = 0 OUTPUT
 AS
 BEGIN
 
@@ -271,8 +272,6 @@ BEGIN
 		inner join @newAnnualLeaveRequestIDs x on t.AnnualLeaveRequestID = x.newAnnualLeaveRequestID
 	end
     
-	declare @firstNewALRequestID int = 0
-
     select @firstNewALRequestID = min(t.newAnnualLeaveRequestID)
 	from @newAnnualLeaveRequestIDs t
 
