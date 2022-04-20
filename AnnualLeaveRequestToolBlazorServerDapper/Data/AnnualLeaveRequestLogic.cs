@@ -1,15 +1,15 @@
 ﻿using AnnualLeaveRequest.Shared;
-using AnnualLeaveRequestEFDAL.DataAccess.Interfaces;
+using AnnualLeaveRequestDapperDAL;
 using System;
 using System.Collections.Generic;
 
-namespace AnnualLeaveRequestToolBlazorServer.Data
+namespace AnnualLeaveRequestToolBlazorServerDapper.Data
 {
     public class AnnualLeaveRequestLogic : IAnnualLeaveRequestLogic
     {
-        private readonly IAnnualLeaveRequestDataAccess _annualLeaveRequestDataAccess;
+        private readonly AnnualLeaveRequestDataAccess _annualLeaveRequestDataAccess;
 
-        public AnnualLeaveRequestLogic(IAnnualLeaveRequestDataAccess annualLeaveRequestDataAccess)
+        public AnnualLeaveRequestLogic(AnnualLeaveRequestDataAccess annualLeaveRequestDataAccess)
         {
             _annualLeaveRequestDataAccess = annualLeaveRequestDataAccess;
         }

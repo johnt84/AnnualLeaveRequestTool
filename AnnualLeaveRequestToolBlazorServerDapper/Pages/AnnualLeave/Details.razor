@@ -1,18 +1,18 @@
-﻿@page  "/AnnualLeave/Delete/{AnnualLeaveRequestID:int}"
+﻿@page  "/AnnualLeave/Details/{AnnualLeaveRequestID:int}"
 
 @using AnnualLeaveRequest.Shared
-@using AnnualLeaveRequestToolBlazorServer.Data
-@using AnnualLeaveRequestToolBlazorServer.Components
+@using AnnualLeaveRequestToolBlazorServerDapper.Data
+@using AnnualLeaveRequestToolBlazorServerDapper.Components
 @inject IAnnualLeaveRequestLogic AnnualLeaveRequestLogic
 @inject NavigationManager NavigationManager
 
-<h2 class="esh-body-title">Delete</h2>
+<h2 class="esh-body-title">Details</h2>
 
-@if (!deletableRequest)
+@if (model == null || model.AnnualLeaveRequestID == 0)
 {
     <div style="color:red; padding-bottom: 20px">
         <ul>
-            <li>Cannot delete this Annual Leave Request</li>
+            <li>Cannot view this Annual Leave Request</li>
         </ul>
     </div>
 
@@ -29,33 +29,29 @@
     <DetailRow Model="model" />
 
     <div class="form-actions no-color esh-link-list">
-        <button class="btn esh-button esh-button-primary" @onclick="DeleteRequest">
-            Delete
-        </button>
-        |
+        @if (editableRequest)
+        {
+            <a href="@($"/AnnualLeave/Edit/{model.AnnualLeaveRequestID}")" class="esh-link-item">
+                Edit
+            </a>
+            <label>|</label>
+        }
+
         <a href="/AnnualLeave/Overview" class="esh-link-item">
             Back to Overview
         </a>
     </div>
 </div>
-    
+
 @code {
     [Parameter]
     public int AnnualLeaveRequestID { get; set; }
 
     private AnnualLeaveRequestOverviewModel model = new AnnualLeaveRequestOverviewModel();
-
-    protected bool deletableRequest => model?.AnnualLeaveRequestID > 0 && model.Year >= DateTime.UtcNow.Year;
+    protected bool editableRequest => model.Year >= DateTime.UtcNow.Year;
 
     protected override void OnInitialized()
     {
         model = AnnualLeaveRequestLogic.GetRequest(AnnualLeaveRequestID);
-    }
-
-    private void DeleteRequest()
-    {
-        AnnualLeaveRequestLogic.Delete(model);
-
-        NavigationManager.NavigateTo("AnnualLeave/Overview");
     }
 }

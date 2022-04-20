@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "AnnualLeaveRequestToolBlazorServer": {
+    "AnnualLeaveRequestToolBlazorServerDapper": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,
