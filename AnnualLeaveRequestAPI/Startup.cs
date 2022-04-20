@@ -1,7 +1,7 @@
 using AnnualLeaveRequest.Shared;
 using AnnualLeaveRequestAPI.Interfaces;
 using AnnualLeaveRequestAPI.Logic;
-using AnnualLeaveRequestDAL;
+using AnnualLeaveRequestDapperDAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
