@@ -1,6 +1,6 @@
 using AnnualLeaveRequestEFDAL.Models;
-using AnnualLeaveRequestToolBlazorServer.Data;
-using AnnualLeaveRequestToolBlazorServer.Mappings;
+using AnnualLeaveRequestToolBlazorServerEF.Data;
+using AnnualLeaveRequestToolBlazorServerEF.Mappings;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 
-namespace AnnualLeaveRequestToolBlazorServer
+namespace AnnualLeaveRequestToolBlazorServerEF
 {
     public class Startup
     {

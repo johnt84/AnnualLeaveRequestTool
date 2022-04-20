@@ -1,5 +1,5 @@
 using AnnualLeaveRequest.Shared;
-using AnnualLeaveRequestDAL;
+using AnnualLeaveRequestDapperDAL;
 using AnnualLeaveRequestToolMVC.Interfaces;
 using AnnualLeaveRequestToolMVC.Logic;
 using Microsoft.AspNetCore.Builder;

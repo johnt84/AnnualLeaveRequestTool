@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AnnualLeaveRequestDAL\AnnualLeaveRequestDAL.csproj" />
+    <ProjectReference Include="..\AnnualLeaveRequestDapperDAL\AnnualLeaveRequestDapperDAL.csproj" />
     <ProjectReference Include="..\Shared\Shared.csproj" />
   </ItemGroup>
 

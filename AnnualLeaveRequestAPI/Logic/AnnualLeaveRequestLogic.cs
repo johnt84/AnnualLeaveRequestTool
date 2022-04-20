@@ -1,7 +1,7 @@
 ﻿using AnnualLeaveRequest.Shared;
 using AnnualLeaveRequestAPI.Interfaces;
 using AnnualLeaveRequestAPI.Models;
-using AnnualLeaveRequestDAL;
+using AnnualLeaveRequestDapperDAL;
 using System;
 using System.Collections.Generic;
 

@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AnnualLeaveDatabase", "AnnualLeaveDatabase\AnnualLeaveDatabase.sqlproj", "{2B472EED-E2E4-48BA-A0E7-5C368ADDCF43}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestDAL", "AnnualLeaveRequestDAL\AnnualLeaveRequestDAL.csproj", "{E6611E6C-6C36-4EFE-98D0-61B6F566F4D3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shared", "Shared\Shared.csproj", "{0D7102EC-7BA0-4DC4-9404-1FDCC2EDB57B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestToolBlazorServer", "AnnualLeaveRequestToolBlazorServer\AnnualLeaveRequestToolBlazorServer.csproj", "{36E82688-05AA-4F71-8441-42208CEA1DA2}"
@@ -23,7 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestToolRazor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnnualLeaveRequestToolWebForms", "AnnualLeaveRequestToolWebForms\AnnualLeaveRequestToolWebForms.csproj", "{9565C9B3-F72A-43E9-A9BD-FCF9BCA541A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnnualLeaveRequestEFDAL", "AnnualLeaveRequestEFDAL\AnnualLeaveRequestEFDAL.csproj", "{586FC09F-FA4C-4E8B-9EA5-972730662FC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestEFDAL", "AnnualLeaveRequestEFDAL\AnnualLeaveRequestEFDAL.csproj", "{586FC09F-FA4C-4E8B-9EA5-972730662FC5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestDapperDAL", "AnnualLeaveRequestDapperDAL\AnnualLeaveRequestDapperDAL.csproj", "{26CFB328-FA75-4820-BDC1-020D806BFB1F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AnnualLeaveRequestToolBlazorServerEF", "AnnualLeaveRequestToolBlazorServerEF\AnnualLeaveRequestToolBlazorServerEF.csproj", "{B75404B2-2314-48C0-8A40-510ACF089923}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +39,6 @@ Global
 		{2B472EED-E2E4-48BA-A0E7-5C368ADDCF43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B472EED-E2E4-48BA-A0E7-5C368ADDCF43}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2B472EED-E2E4-48BA-A0E7-5C368ADDCF43}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{E6611E6C-6C36-4EFE-98D0-61B6F566F4D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E6611E6C-6C36-4EFE-98D0-61B6F566F4D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E6611E6C-6C36-4EFE-98D0-61B6F566F4D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E6611E6C-6C36-4EFE-98D0-61B6F566F4D3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0D7102EC-7BA0-4DC4-9404-1FDCC2EDB57B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0D7102EC-7BA0-4DC4-9404-1FDCC2EDB57B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D7102EC-7BA0-4DC4-9404-1FDCC2EDB57B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -77,6 +75,14 @@ Global
 		{586FC09F-FA4C-4E8B-9EA5-972730662FC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{586FC09F-FA4C-4E8B-9EA5-972730662FC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{586FC09F-FA4C-4E8B-9EA5-972730662FC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26CFB328-FA75-4820-BDC1-020D806BFB1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26CFB328-FA75-4820-BDC1-020D806BFB1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26CFB328-FA75-4820-BDC1-020D806BFB1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26CFB328-FA75-4820-BDC1-020D806BFB1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B75404B2-2314-48C0-8A40-510ACF089923}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B75404B2-2314-48C0-8A40-510ACF089923}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B75404B2-2314-48C0-8A40-510ACF089923}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B75404B2-2314-48C0-8A40-510ACF089923}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

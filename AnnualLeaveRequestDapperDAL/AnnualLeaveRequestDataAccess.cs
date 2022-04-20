@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 
-namespace AnnualLeaveRequestDAL
+namespace AnnualLeaveRequestDapperDAL
 {
     public class AnnualLeaveRequestDataAccess : IAnnualLeaveRequestDataAccess
     {
