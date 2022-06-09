@@ -1,0 +1,16 @@
+﻿<div style="color:red; padding-bottom: 20px">
+    @if (ErrorMessages?.Count > 0)
+    {
+        <ul>
+            @foreach (var errorMessage in ErrorMessages)
+            {
+                <li>@errorMessage</li>
+            }
+        </ul>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public List<string> ErrorMessages { get; set; }
+}
