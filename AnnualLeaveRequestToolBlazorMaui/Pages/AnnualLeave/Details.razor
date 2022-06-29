@@ -1,6 +1,6 @@
 ﻿@page  "/AnnualLeave/Details/{AnnualLeaveRequestID:int}"
 
-@inject IAnnualLeaveRequestLogic AnnualLeaveRequestLogic
+@inject IAnnualLeaveRequestClient AnnualLeaveRequestClient
 @inject NavigationManager NavigationManager
 
 <h2 class="esh-body-title">Details</h2>
@@ -47,8 +47,8 @@
     private AnnualLeaveRequestOverviewModel model = new AnnualLeaveRequestOverviewModel();
     protected bool editableRequest => model.Year >= DateTime.UtcNow.Year;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        model = AnnualLeaveRequestLogic.GetRequest(AnnualLeaveRequestID);
+        model = await AnnualLeaveRequestClient.GetRequest(AnnualLeaveRequestID);
     }
 }

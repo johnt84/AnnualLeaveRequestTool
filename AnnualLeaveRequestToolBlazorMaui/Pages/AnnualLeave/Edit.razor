@@ -1,6 +1,6 @@
 ﻿@page  "/AnnualLeave/Edit/{AnnualLeaveRequestID:int}"
 
-@inject IAnnualLeaveRequestLogic AnnualLeaveRequestLogic
+@inject IAnnualLeaveRequestClient AnnualLeaveRequestClient
 @inject NavigationManager NavigationManager
 
 <h2>Edit Annual Leave Request</h2>
@@ -48,13 +48,6 @@
         <div class="col-md-3">
             <InputDate class="form-control" @bind-Value="model.ReturnDate" />
             <ValidationMessage For="(() => model.ReturnDate)" />
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label class="control-label col-md-2">Number of days requested</label>
-        <div class="col-md-3">
-            <label style="@(GetNumberOfDaysRequested() > 0 ? "color:black;" : "color:red")" class="control-label col-md-2">@model.NumberOfAnnualLeaveDaysRequested</label>
         </div>
     </div>
 
@@ -140,16 +133,16 @@
 
     protected bool editableRequest => model?.AnnualLeaveRequestID > 0 && model.Year >= DateTime.UtcNow.Year;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        model = AnnualLeaveRequestLogic.GetRequest(AnnualLeaveRequestID);
+        model = await AnnualLeaveRequestClient.GetRequest(AnnualLeaveRequestID);
     }
 
-    private void EditRequest()
+    private async Task EditRequest()
     {
         DateRequested = DateTime.UtcNow;
 
-        model = AnnualLeaveRequestLogic.Update(model);
+        model = await AnnualLeaveRequestClient.UpdateAnnualLeaveRequest(model);
 
         if (string.IsNullOrEmpty(model.ErrorMessage))
         {
@@ -165,11 +158,5 @@
     private void BackToOverview()
     {
         NavigationManager.NavigateTo("AnnualLeave/Overview");
-    }
-
-    private decimal GetNumberOfDaysRequested()
-    {
-        model.NumberOfAnnualLeaveDaysRequested = AnnualLeaveRequestLogic.GetDaysBetweenStartDateAndReturnDate(model.StartDate, model.ReturnDate);
-        return model.NumberOfAnnualLeaveDaysRequested;
     }
 }

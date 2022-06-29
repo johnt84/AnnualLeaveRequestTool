@@ -1,7 +1,7 @@
 ﻿@page  "/AnnualLeave/Overview/"
 @page  "/AnnualLeave/Overview/{AnnualLeaveRequestID:int}"
 
-@inject IAnnualLeaveRequestLogic AnnualLeaveRequestLogic
+@inject IAnnualLeaveRequestClient AnnualLeaveRequestClient
 @inject NavigationManager NavigationManager
 
 <div style="padding-bottom: 20px">
@@ -17,103 +17,114 @@
     </div>
 }
 
-<div style="padding-bottom: 20px">
-    <select id="Year" name="Year" @onchange=@YearSelected>
-        @foreach (var year in years)
+@if (years == null)
+{
+    <p><em>Loading...</em></p>
+}
+else if (!years.Any())
+{
+    <p><em>There are currently no years</em></p>
+}
+else
+{
+    <div style="padding-bottom: 20px">
+        <select id="Year" name="Year" @onchange=@YearSelectedAsync>
+            @foreach (var year in years)
+            {
+                if (year == Year)
+                {
+                    <option value="@year" selected>@year</option>
+                }
+                else
+                {
+                    <option value="@year">@year</option>
+                }
+            }
+        </select>
+    </div>
+
+    <table class="table" style="width: 1024px;">
+        <tr>
+            <th style="width: 120px;">Start Date</th>
+            <th style="width: 120px;">Return Date</th>
+            <th style="width: 165px;">Number of Days Requested</th>
+            <th style="width: 165px;">Number of Annual Leave Days Requested</th>
+            <th style="width: 165px;">Number of Public Leave Days Requested</th>
+            <th style="width: 165px;">Number of Days Left</th>
+            <th style="width: 165px;">Number of Annual Leave Days Left</th>
+            <th style="width: 165px;">Number of Public Holidays Left</th>
+            <th style="width: 150px;">Notes</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
+        @foreach (var annualLeaveRequestForYear in annualLeaveRequestsForYear)
         {
-            if (year == Year)
-            {
-                <option value="@year" selected>@year</option>
-            }
-            else
-            {
-                <option value="@year">@year</option>
-            }
+            <tr style="@(annualLeaveRequestForYear.AnnualLeaveRequestID == AnnualLeaveRequestID ? "background-color: #ffff99;" : string.Empty)">
+                <td>@annualLeaveRequestForYear.StartDate.ToString("dd MMM yyyy")</td>
+                <td>@annualLeaveRequestForYear.ReturnDate.ToString("dd MMM yyyy")</td>
+                <td>@annualLeaveRequestForYear.NumberOfDaysRequested</td>
+                <td>@annualLeaveRequestForYear.NumberOfAnnualLeaveDaysRequested</td>
+                <td>@annualLeaveRequestForYear.NumberOfPublicLeaveDaysRequested</td>
+                <td>@annualLeaveRequestForYear.NumberOfDaysLeft</td>
+                <td>@annualLeaveRequestForYear.NumberOfAnnualLeaveDaysLeft</td>
+                <td>@annualLeaveRequestForYear.NumberOfPublicLeaveDaysLeft</td>
+                <td>@annualLeaveRequestForYear.Notes</td>
+
+                <td>
+                    @if (editableYearSelected)
+                    {
+                        <a href="@($"AnnualLeave/Edit/{annualLeaveRequestForYear.AnnualLeaveRequestID}")" class="esh-table-link">
+                            Edit
+                        </a>
+                    }
+                </td>
+                <td>
+                    <a href="@($"AnnualLeave/Details/{annualLeaveRequestForYear.AnnualLeaveRequestID}")" class="esh-table-link">
+                        Details
+                    </a>
+                </td>
+                <td>
+                    @if (editableYearSelected)
+                    {
+                        <a href="@($"AnnualLeave/Delete/{annualLeaveRequestForYear.AnnualLeaveRequestID}")" class="esh-table-link">
+                            Delete
+                        </a>
+                    }
+                </td>
+            </tr>
         }
-    </select>
-</div>
 
-<table class="table" style="width: 1024px;">
-    <tr>
-        <th style="width: 120px;">Start Date</th>
-        <th style="width: 120px;">Return Date</th>
-        <th style="width: 165px;">Number of Days Requested</th>
-        <th style="width: 165px;">Number of Annual Leave Days Requested</th>
-        <th style="width: 165px;">Number of Public Leave Days Requested</th>
-        <th style="width: 165px;">Number of Days Left</th>
-        <th style="width: 165px;">Number of Annual Leave Days Left</th>
-        <th style="width: 165px;">Number of Public Holidays Left</th>
-        <th style="width: 150px;">Notes</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-        <th>&nbsp;</th>
-    </tr>
-    @foreach (var annualLeaveRequestForYear in annualLeaveRequestsForYear)
-    {
-    <tr style="@(annualLeaveRequestForYear.AnnualLeaveRequestID == AnnualLeaveRequestID ? "background-color: #ffff99;" : string.Empty)">
-        <td>@annualLeaveRequestForYear.StartDate.ToString("dd MMM yyyy")</td>
-        <td>@annualLeaveRequestForYear.ReturnDate.ToString("dd MMM yyyy")</td>
-        <td>@annualLeaveRequestForYear.NumberOfDaysRequested</td>
-        <td>@annualLeaveRequestForYear.NumberOfAnnualLeaveDaysRequested</td>
-        <td>@annualLeaveRequestForYear.NumberOfPublicLeaveDaysRequested</td>
-        <td>@annualLeaveRequestForYear.NumberOfDaysLeft</td>
-        <td>@annualLeaveRequestForYear.NumberOfAnnualLeaveDaysLeft</td>
-        <td>@annualLeaveRequestForYear.NumberOfPublicLeaveDaysLeft</td>
-        <td>@annualLeaveRequestForYear.Notes</td>
+    </table>
+    <br />
 
-        <td>
-            @if(editableYearSelected)
-            {
-                <a href="@($"AnnualLeave/Edit/{annualLeaveRequestForYear.AnnualLeaveRequestID}")" class="esh-table-link">
-                    Edit
-                </a>
-            }
-        </td>
-        <td>
-            <a href="@($"AnnualLeave/Details/{annualLeaveRequestForYear.AnnualLeaveRequestID}")" class="esh-table-link">
-                Details
-            </a>
-        </td>
-        <td>
-            @if(editableYearSelected)
-            {
-                <a href="@($"AnnualLeave/Delete/{annualLeaveRequestForYear.AnnualLeaveRequestID}")" class="esh-table-link">
-                    Delete
-                </a>
-            }
-        </td>
-    </tr>
-    }
-
-</table>
-<br />
-
-<table class="table" style="width: 225px;">
-    <tr>
-        <td>Number of Days</td>
-        <td>@NumberOfDays</td>
-    </tr>
-    <tr>
-        <td>Number of Annual Leave Days</td>
-        <td>@NumberOfAnnualLeaveDays</td>
-    </tr>
-    <tr>
-        <td>Number of Public Holidays</td>
-        <td>@NumberOfPublicLeaveDays</td>
-    </tr>
-    <tr>
-        <td>Number of Days Left</td>
-        <td>@NumberOfDaysLeft</td>
-    </tr>
-    <tr>
-        <td>Number of Annual Leave Days Left</td>
-        <td>@NumberOfAnnualLeaveDaysLeft</td>
-    </tr>
-    <tr>
-        <td>Number of Public Days Left</td>
-        <td>@NumberOfPublicDaysLeft</td>
-    </tr>
-</table>
+    <table class="table" style="width: 225px;">
+        <tr>
+            <td>Number of Days</td>
+            <td>@NumberOfDays</td>
+        </tr>
+        <tr>
+            <td>Number of Annual Leave Days</td>
+            <td>@NumberOfAnnualLeaveDays</td>
+        </tr>
+        <tr>
+            <td>Number of Public Holidays</td>
+            <td>@NumberOfPublicLeaveDays</td>
+        </tr>
+        <tr>
+            <td>Number of Days Left</td>
+            <td>@NumberOfDaysLeft</td>
+        </tr>
+        <tr>
+            <td>Number of Annual Leave Days Left</td>
+            <td>@NumberOfAnnualLeaveDaysLeft</td>
+        </tr>
+        <tr>
+            <td>Number of Public Days Left</td>
+            <td>@NumberOfPublicDaysLeft</td>
+        </tr>
+    </table>
+}
 
 @code {
     [Parameter]
@@ -134,25 +145,26 @@
 
     protected async override Task OnInitializedAsync()
     {
-        await RefreshPage();
+        await RefreshPageAsync();
     }
 
-    protected async Task YearSelected(ChangeEventArgs e)
+    protected async Task YearSelectedAsync(ChangeEventArgs e)
     {
         Year = Convert.ToInt32(e.Value.ToString());
 
-        await RefreshPage();
+        await RefreshPageAsync();
     }
 
-    private async Task RefreshPage()
+    private async Task RefreshPageAsync()
     {
         if (AnnualLeaveRequestID > 0)
         {
-            Year = AnnualLeaveRequestLogic.GetRequest(AnnualLeaveRequestID)?.Year ?? DateTime.UtcNow.Year;
+            var annualLeaveRequest = await AnnualLeaveRequestClient.GetRequest(AnnualLeaveRequestID);
+            Year = annualLeaveRequest?.Year ?? DateTime.UtcNow.Year;
         }
 
-        years = AnnualLeaveRequestLogic.GetYears();
-        annualLeaveRequestsForYear = AnnualLeaveRequestLogic.GetRequestsForYear(Year);
+        years = await AnnualLeaveRequestClient.GetYears();
+        annualLeaveRequestsForYear = await AnnualLeaveRequestClient.GetRequestsForYear(Year);
 
         if (annualLeaveRequestsForYear.Count > 0)
         {

@@ -1,6 +1,6 @@
 ﻿@page  "/AnnualLeave/Delete/{AnnualLeaveRequestID:int}"
 
-@inject IAnnualLeaveRequestLogic AnnualLeaveRequestLogic
+@inject IAnnualLeaveRequestClient AnnualLeaveRequestClient
 @inject NavigationManager NavigationManager
 
 <h2 class="esh-body-title">Delete</h2>
@@ -44,14 +44,14 @@
 
     protected bool deletableRequest => model?.AnnualLeaveRequestID > 0 && model.Year >= DateTime.UtcNow.Year;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        model = AnnualLeaveRequestLogic.GetRequest(AnnualLeaveRequestID);
+        model = await AnnualLeaveRequestClient.GetRequest(AnnualLeaveRequestID);
     }
 
-    private void DeleteRequest()
+    private async Task DeleteRequest()
     {
-        AnnualLeaveRequestLogic.Delete(model);
+        await AnnualLeaveRequestClient.DeleteAnnualLeaveRequest(model.AnnualLeaveRequestID);
 
         NavigationManager.NavigateTo("AnnualLeave/Overview");
     }
