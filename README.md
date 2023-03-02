@@ -1,5 +1,5 @@
 # Annual Leave Request Tool
-Simple Annual Leave Request Tool
+Simple Annual Leave Request Tool.  Web app developed 5 ways - WebForms, MVC, RazorPages and Blazor (WASM/Server).
 
 * Allows users to create, update or delete annual leave requests.  
 * The Annual leave requests are saved and read from a SQLServer database using an ORM (default is Dapper) in the DAL (Data Access Layer) project  
