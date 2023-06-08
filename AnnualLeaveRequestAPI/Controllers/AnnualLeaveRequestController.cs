@@ -1,8 +1,12 @@
-﻿using AnnualLeaveRequestAPI.Interfaces;
+﻿using AnnualLeaveRequestAPI.Commands;
+using AnnualLeaveRequestAPI.Interfaces;
 using AnnualLeaveRequestAPI.Models;
+using AnnualLeaveRequestAPI.Queries;
+using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Threading.Tasks;
 
 namespace AnnualLeaveRequestAPI.Controllers
 {
@@ -10,19 +14,19 @@ namespace AnnualLeaveRequestAPI.Controllers
     [ApiController]
     public class AnnualLeaveRequestController : Controller
     {
-        private readonly IAnnualLeaveRequestLogic _annualLeaveRequestLogic = null;
+        private readonly IMediator _mediator = null;
 
-        public AnnualLeaveRequestController(IAnnualLeaveRequestLogic annualLeaveRequestLogic)
+        public AnnualLeaveRequestController(IAnnualLeaveRequestLogic annualLeaveRequestLogic, IMediator mediator)
         {
-            _annualLeaveRequestLogic = annualLeaveRequestLogic;
+            _mediator = mediator;
         }
 
         [HttpGet("GetYears")]
-        public IActionResult GetYears()
+        public async Task<IActionResult> GetYearsAsync()
         {
             try
             {
-                var years = _annualLeaveRequestLogic.GetYears();
+                var years = await _mediator.Send(new GetYearsQuery());
 
                 if (years != null && years.Count > 0)
                 {
@@ -39,11 +43,11 @@ namespace AnnualLeaveRequestAPI.Controllers
         }
 
         [HttpGet("GetRequestsForYear/{year:int}")]
-        public IActionResult GetRequestsForYear(int year)
+        public async Task<IActionResult> GetRequestsForYearAsync(int year)
         {
             try
             {
-                var annualLeaveRequestsForYear = _annualLeaveRequestLogic.GetRequestsForYear(year);
+                var annualLeaveRequestsForYear = await _mediator.Send(new GetRequestsForYearQuery(year));
 
                 if (annualLeaveRequestsForYear != null && annualLeaveRequestsForYear.Count > 0)
                 {
@@ -60,11 +64,11 @@ namespace AnnualLeaveRequestAPI.Controllers
         }
 
         [HttpGet("Get/{annualLeaveRequestID:int}")]
-        public IActionResult Get(int annualLeaveRequestID)
+        public async Task<IActionResult> GetAsync(int annualLeaveRequestID)
         {
             try
             {
-                var annualLeaveRequest = _annualLeaveRequestLogic.GetRequest(annualLeaveRequestID);
+                var annualLeaveRequest = await _mediator.Send(new GetRequestQuery(annualLeaveRequestID));
 
                 if (annualLeaveRequest != null && annualLeaveRequest.Year > 0)
                 {
@@ -81,11 +85,11 @@ namespace AnnualLeaveRequestAPI.Controllers
         }
 
         [HttpGet("GetDaysBetweenStartDateAndEndDate/{startDate:DateTime}/{returnDate:DateTime}")]
-        public IActionResult GetDaysBetweenStartDateAndEndDate(DateTime startDate, DateTime returnDate)
+        public async Task<IActionResult> GetDaysBetweenStartDateAndEndDateAsync(DateTime startDate, DateTime returnDate)
         {
             try
             {
-                decimal daysBetweenStartDateAndReturnDate = _annualLeaveRequestLogic.GetDaysBetweenStartDateAndReturnDate(startDate, returnDate);
+                decimal daysBetweenStartDateAndReturnDate = await _mediator.Send(new GetDaysBetweenStartDateAndReturnDateQuery(startDate, returnDate));
 
                 if (daysBetweenStartDateAndReturnDate > 0)
                 {
@@ -102,11 +106,11 @@ namespace AnnualLeaveRequestAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(AnnualLeaveRequestCRUDModel createAnnualLeaveRequestCRUDModel)
+        public async Task<IActionResult> Create(AnnualLeaveRequestCRUDModel createAnnualLeaveRequestCRUDModel)
         {
             try
             {
-                var annualLeaveRequestCreated = _annualLeaveRequestLogic.Create(createAnnualLeaveRequestCRUDModel);
+                var annualLeaveRequestCreated = await _mediator.Send(new CreateCommand(createAnnualLeaveRequestCRUDModel));
 
                 if (annualLeaveRequestCreated != null && annualLeaveRequestCreated.Year == createAnnualLeaveRequestCRUDModel.Year
                         && string.IsNullOrEmpty(annualLeaveRequestCreated.ErrorMessage))
@@ -138,11 +142,11 @@ namespace AnnualLeaveRequestAPI.Controllers
         }
 
         [HttpPut]
-        public ActionResult<AnnualLeaveRequestCRUDModel> Update(AnnualLeaveRequestCRUDModel updateAnnualLeaveRequestCRUDModel)
+        public async Task<ActionResult<AnnualLeaveRequestCRUDModel>> UpdateAsync(AnnualLeaveRequestCRUDModel updateAnnualLeaveRequestCRUDModel)
         {
             try
             {
-                var annualLeaveRequestUpdated = _annualLeaveRequestLogic.Update(updateAnnualLeaveRequestCRUDModel);
+                var annualLeaveRequestUpdated = await _mediator.Send(new UpdateCommand(updateAnnualLeaveRequestCRUDModel));
 
                 if (annualLeaveRequestUpdated != null && annualLeaveRequestUpdated.Year == updateAnnualLeaveRequestCRUDModel.Year 
                     && string.IsNullOrEmpty(annualLeaveRequestUpdated.ErrorMessage))
@@ -173,11 +177,11 @@ namespace AnnualLeaveRequestAPI.Controllers
         }
 
         [HttpDelete("{annualLeaveRequestID}")]
-        public IActionResult Delete(int annualLeaveRequestID)
+        public async Task<IActionResult> DeleteAsync(int annualLeaveRequestID)
         {
             try
             {
-                _annualLeaveRequestLogic.Delete(annualLeaveRequestID);
+                await _mediator.Send(new DeleteCommand(annualLeaveRequestID));
 
                 return NoContent();
             }
