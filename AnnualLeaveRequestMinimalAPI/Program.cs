@@ -1,3 +1,7 @@
+using AnnualLeaveRequestMinimalAPI.Commands;
+using AnnualLeaveRequestMinimalAPI.Queries;
+using MediatR;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var sqlConnectionConfiguration = new SqlConnectionConfiguration(builder.Configuration.GetConnectionString("AnnualLeaveRequestDB"));
@@ -13,6 +17,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddCors();
 
 builder.Services.AddAuthorization();
+
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
 var app = builder.Build();
 
@@ -31,29 +37,29 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/api/AnnualLeaveRequest/GetYears", (IAnnualLeaveRequestLogic annualLeaveRequestLogic) =>
-    annualLeaveRequestLogic.GetYears() is List<int> years
+app.MapGet("/api/AnnualLeaveRequest/GetYears", async (IMediator mediator) =>
+    await mediator.Send(new GetYearsQuery()) is List<int> years
                                 ? Results.Ok(years)
                                 : Results.NoContent());
 
-app.MapGet("/api/AnnualLeaveRequest/GetRequestsForYear/{year:int}", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, int year) =>
-    annualLeaveRequestLogic.GetRequestsForYear(year) is List<AnnualLeaveRequestOverviewModel> annualLeaveRequestsForYear 
+app.MapGet("/api/AnnualLeaveRequest/GetRequestsForYear/{year:int}", async (IMediator mediator, int year) =>
+    await mediator.Send(new GetRequestsForYearQuery(year)) is List<AnnualLeaveRequestOverviewModel> annualLeaveRequestsForYear 
                                 ? Results.Ok(annualLeaveRequestsForYear)
                                 : Results.NoContent());
 
-app.MapGet("/api/AnnualLeaveRequest/Get/{annualLeaveRequestID:int}", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, int annualLeaveRequestID) =>
-    annualLeaveRequestLogic.GetRequest(annualLeaveRequestID) is AnnualLeaveRequestOverviewModel annualLeaveRequest
+app.MapGet("/api/AnnualLeaveRequest/Get/{annualLeaveRequestID:int}", async (IMediator mediator, int annualLeaveRequestID) =>
+    await mediator.Send(new GetRequestQuery(annualLeaveRequestID)) is AnnualLeaveRequestOverviewModel annualLeaveRequest
                                 ? Results.Ok(annualLeaveRequest)
                                 : Results.NoContent());
 
-app.MapGet("/api/AnnualLeaveRequest/GetDaysBetweenStartDateAndEndDate/{startDate:DateTime}/{returnDate:DateTime}", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, DateTime startDate, DateTime returnDate) =>
-    annualLeaveRequestLogic.GetDaysBetweenStartDateAndReturnDate(startDate, returnDate) is decimal daysBetweenStartDateAndReturnDate
+app.MapGet("/api/AnnualLeaveRequest/GetDaysBetweenStartDateAndEndDate/{startDate:DateTime}/{returnDate:DateTime}", async (IMediator mediator, DateTime startDate, DateTime returnDate) =>
+    await mediator.Send(new GetDaysBetweenStartDateAndReturnDateQuery(startDate, returnDate)) is decimal daysBetweenStartDateAndReturnDate
                                 ? Results.Ok(daysBetweenStartDateAndReturnDate)
                                 : Results.NoContent());
 
-app.MapPost("/api/AnnualLeaveRequest", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, AnnualLeaveRequestCRUDModel createAnnualLeaveRequestCRUDModel) =>
+app.MapPost("/api/AnnualLeaveRequest", async (IMediator mediator, AnnualLeaveRequestCRUDModel createAnnualLeaveRequestCRUDModel) =>
 {
-    var annualLeaveRequestCreated = annualLeaveRequestLogic.Create(createAnnualLeaveRequestCRUDModel);
+    var annualLeaveRequestCreated = await mediator.Send(new CreateCommand(createAnnualLeaveRequestCRUDModel));
 
     if (annualLeaveRequestCreated != null && annualLeaveRequestCreated.Year == createAnnualLeaveRequestCRUDModel.Year
             && string.IsNullOrEmpty(annualLeaveRequestCreated.ErrorMessage))
@@ -77,9 +83,9 @@ app.MapPost("/api/AnnualLeaveRequest", (IAnnualLeaveRequestLogic annualLeaveRequ
     }
 }).Accepts<AnnualLeaveRequestCRUDModel>("application/json").Produces(201, typeof(AnnualLeaveRequestCRUDModel));
 
-app.MapPut("/api/AnnualLeaveRequest", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, AnnualLeaveRequestCRUDModel updateAnnualLeaveRequestCRUDModel) =>
+app.MapPut("/api/AnnualLeaveRequest", async (IMediator mediator, AnnualLeaveRequestCRUDModel updateAnnualLeaveRequestCRUDModel) =>
 {
-    var annualLeaveRequestUpdated = annualLeaveRequestLogic.Update(updateAnnualLeaveRequestCRUDModel);
+    var annualLeaveRequestUpdated = await mediator.Send(new UpdateCommand(updateAnnualLeaveRequestCRUDModel));
 
     if (annualLeaveRequestUpdated != null && annualLeaveRequestUpdated.Year == updateAnnualLeaveRequestCRUDModel.Year
                     && string.IsNullOrEmpty(annualLeaveRequestUpdated.ErrorMessage))
@@ -103,11 +109,11 @@ app.MapPut("/api/AnnualLeaveRequest", (IAnnualLeaveRequestLogic annualLeaveReque
     }
 }).Accepts<AnnualLeaveRequestCRUDModel>("application/json").Produces(201, typeof(AnnualLeaveRequestCRUDModel)).ProducesProblem(404);
 
-app.MapDelete("/api/AnnualLeaveRequest/{annualLeaveRequestID}", (IAnnualLeaveRequestLogic annualLeaveRequestLogic, int annualLeaveRequestID) =>
+app.MapDelete("/api/AnnualLeaveRequest/{annualLeaveRequestID}", async (IMediator mediator, int annualLeaveRequestID) =>
 {
     try
     {
-        annualLeaveRequestLogic.Delete(annualLeaveRequestID);
+        await mediator.Send(new DeleteCommand(annualLeaveRequestID));
 
         return Results.NoContent();
     }

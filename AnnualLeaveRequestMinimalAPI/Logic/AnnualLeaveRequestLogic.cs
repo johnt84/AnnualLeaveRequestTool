@@ -1,11 +1,4 @@
-﻿using AnnualLeaveRequest.Shared;
-using AnnualLeaveRequestMinimalAPI.Interfaces;
-using AnnualLeaveRequestMinimalAPI.Models;
-using AnnualLeaveRequestDapperDAL;
-using System;
-using System.Collections.Generic;
-
-namespace AnnualLeaveRequestMinimalAPI.Logic
+﻿namespace AnnualLeaveRequestMinimalAPI.Logic
 {
     public class AnnualLeaveRequestLogic : IAnnualLeaveRequestLogic
     {
