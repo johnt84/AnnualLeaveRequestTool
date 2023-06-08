@@ -46,6 +46,7 @@ namespace AnnualLeaveRequestAPI
             services.AddSingleton<AnnualLeaveRequestDataAccess>();
 
             services.AddSingleton<IAnnualLeaveRequestLogic, AnnualLeaveRequestLogic>();
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
