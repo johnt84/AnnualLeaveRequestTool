@@ -14,7 +14,7 @@ Simple Annual Leave Request Tool.  Web app developed 5 ways - WebForms, MVC, Raz
   *  Razor Pages/.Net 6 (uses Dapper DAL to query DB)
   *  WebForms/.Net 4.8 (uses Restful Web API project)
 * There are 2 Restful Web API projects (both use Dapper DAL to query DB)
-  * .Net 6 with controllers
+  * .Net 6 with controllers (uses MediatR to comnincate with Dapper ORM DAL project)
   * .Net 6 Minimal API
 * There is a SQLServer database project which can be used to set up an AnnualLeave DB on SSMS which can be used by the Annual Leave Request tool
 * Live Blazor Server web app is deployed to an Azure web app and the database is deployed to an Azure SQL Database
