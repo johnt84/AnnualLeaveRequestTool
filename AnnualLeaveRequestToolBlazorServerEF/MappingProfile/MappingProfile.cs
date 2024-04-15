@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using AnnualLeaveRequest.Shared;
+using AnnualLeaveRequestEFDAL.Models;
 
 namespace AnnualLeaveRequestToolBlazorServerEF.Mappings
 {
@@ -6,7 +8,7 @@ namespace AnnualLeaveRequestToolBlazorServerEF.Mappings
     {
         public MappingProfile()
         {
-            CreateMap<AnnualLeaveRequest.Shared.AnnualLeaveRequestOverviewModel, AnnualLeaveRequestEFDAL.Models.AnnualLeaveRequestsOverview>()
+            CreateMap<AnnualLeaveRequestOverviewModel, AnnualLeaveRequestsOverview>()
                 .ReverseMap();
         }
     }

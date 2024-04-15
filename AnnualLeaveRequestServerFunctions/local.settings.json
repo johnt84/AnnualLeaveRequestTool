@@ -1,0 +1,8 @@
+{
+    "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "AnnualLeaveRequestDB": "Server=;Database=AnnualLeaveDatabase;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True"
+  }
+}

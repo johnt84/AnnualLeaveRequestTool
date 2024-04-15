@@ -6,6 +6,7 @@ namespace AnnualLeaveRequestEFDAL.DataAccess.Interfaces
     {
         List<int> GetYears();
         List<AnnualLeaveRequestsOverview> GetRequestsForYear(int year);
+        Task<List<AnnualLeaveRequestsOverview>> GetRequestsForYearAsync(int year, CancellationToken cancellationToken);
         AnnualLeaveRequestsOverview? GetRequest(int annualLeaveRequestID);
         decimal GetDaysBetweenStartDateAndReturnDate(DateTime startDate, DateTime returnDate);
         AnnualLeaveRequestsOverview Create(Models.AnnualLeaveRequest model);

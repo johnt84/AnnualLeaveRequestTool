@@ -33,6 +33,14 @@ namespace AnnualLeaveRequestEFDAL.DataAccess
                         .ToList();
         }
 
+        public async Task<List<AnnualLeaveRequestsOverview>> GetRequestsForYearAsync(int year, CancellationToken cancellationToken)
+        {
+            return await _db.AnnualLeaveRequestsOverviews
+                        .Where(x => x.Year == year)
+                        .OrderBy(x => x.StartDate)
+                        .ToListAsync(cancellationToken);
+        }
+
         public AnnualLeaveRequestsOverview? GetRequest(int annualLeaveRequestID)
         {
             return _db.AnnualLeaveRequestsOverviews
