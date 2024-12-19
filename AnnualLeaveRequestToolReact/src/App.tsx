@@ -1,9 +1,9 @@
-import Table from "./components/Table";
+import Overview from "./components/Overview";
 
 function App() {
   return (
     <div>
-      <Table />
+      <Overview />
     </div>
   );
 }

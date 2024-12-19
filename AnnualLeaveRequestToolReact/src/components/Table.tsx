@@ -1,43 +1,36 @@
 import moment from "moment";
 
-const Table = () => {
-  type AnnualLeaveRequest = {
-    startDate: Date;
-    returnDate: Date;
-    numberOfDaysRequested: Number;
-    numberOfAnnualLeaveDaysRequested: Number;
-    numberOfPublicLeaveDaysRequested: Number;
-    numberOfDaysLeft: Number;
-    numberOfAnnualLeaveDaysLeft: Number;
-    numberOfPublicLeaveDaysLeft: Number;
-    notes: string;
-  };
+interface Props {
+  annualLeaveRequests: AnnualLeaveRequest[];
+  detailsVisible: boolean;
+  recordClicked: number;
+  setDetailsVisibility: (
+    detailsVisible: boolean,
+    recordClicked: number
+  ) => void;
+}
 
-  const annualLeaveRequests: AnnualLeaveRequest[] = [
-    {
-      startDate: new Date(2025, 0, 1),
-      returnDate: new Date(2025, 0, 2),
-      numberOfDaysRequested: 1,
-      numberOfAnnualLeaveDaysRequested: 0,
-      numberOfPublicLeaveDaysRequested: 1,
-      numberOfDaysLeft: 27,
-      numberOfAnnualLeaveDaysLeft: 25,
-      numberOfPublicLeaveDaysLeft: 2,
-      notes: "New Years",
-    },
-    {
-      startDate: new Date(2025, 1, 9),
-      returnDate: new Date(2025, 1, 10),
-      numberOfDaysRequested: 1,
-      numberOfAnnualLeaveDaysRequested: 1,
-      numberOfPublicLeaveDaysRequested: 0,
-      numberOfDaysLeft: 26,
-      numberOfAnnualLeaveDaysLeft: 24,
-      numberOfPublicLeaveDaysLeft: 2,
-      notes: "Birthday",
-    },
-  ];
+type AnnualLeaveRequest = {
+  recordNumber: number;
+  startDate: Date;
+  returnDate: Date;
+  numberOfDaysRequested: number;
+  numberOfAnnualLeaveDaysRequested: number;
+  numberOfPublicLeaveDaysRequested: number;
+  numberOfDaysLeft: number;
+  numberOfAnnualLeaveDaysLeft: number;
+  numberOfPublicLeaveDaysLeft: number;
+  paidLeaveType: string;
+  leaveType: string;
+  notes: string;
+};
 
+const Table = ({
+  annualLeaveRequests,
+  detailsVisible,
+  recordClicked,
+  setDetailsVisibility,
+}: Props) => {
   return (
     <>
       <h1>Annual Leave Requests Overview</h1>
@@ -56,6 +49,7 @@ const Table = () => {
             <th scope="col">Number of Annual Leave Days Left</th>
             <th scope="col">Number of Public Holidays Left</th>
             <th scope="col">Notes</th>
+            <th scope="col">&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -70,6 +64,15 @@ const Table = () => {
               <td>{item.numberOfAnnualLeaveDaysLeft.toString()}</td>
               <td>{item.numberOfPublicLeaveDaysLeft.toString()}</td>
               <td>{item.notes}</td>
+              <td>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => setDetailsVisibility(true, item.recordNumber)}
+                >
+                  View
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>
