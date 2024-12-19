@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const Table = () => {
   type AnnualLeaveRequest = {
     startDate: Date;
@@ -13,8 +15,8 @@ const Table = () => {
 
   const annualLeaveRequests: AnnualLeaveRequest[] = [
     {
-      startDate: new Date("2025-01-01"),
-      returnDate: new Date("2025-01-02"),
+      startDate: new Date(2025, 0, 1),
+      returnDate: new Date(2025, 0, 2),
       numberOfDaysRequested: 1,
       numberOfAnnualLeaveDaysRequested: 0,
       numberOfPublicLeaveDaysRequested: 1,
@@ -24,8 +26,8 @@ const Table = () => {
       notes: "New Years",
     },
     {
-      startDate: new Date("2025-02-09"),
-      returnDate: new Date("2025-02-10"),
+      startDate: new Date(2025, 1, 9),
+      returnDate: new Date(2025, 1, 10),
       numberOfDaysRequested: 1,
       numberOfAnnualLeaveDaysRequested: 1,
       numberOfPublicLeaveDaysRequested: 0,
@@ -59,20 +61,8 @@ const Table = () => {
         <tbody>
           {annualLeaveRequests.map((item) => (
             <tr>
-              <td>
-                {item.startDate.toLocaleDateString("en-us", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
-              </td>
-              <td>
-                {item.returnDate.toLocaleDateString("en-us", {
-                  year: "numeric",
-                  month: "short",
-                  day: "numeric",
-                })}
-              </td>
+              <td>{moment(item.startDate).format("DD MMM yyyy")}</td>
+              <td>{moment(item.returnDate).format("DD MMM yyyy")}</td>
               <td>{item.numberOfDaysRequested.toString()}</td>
               <td>{item.numberOfAnnualLeaveDaysRequested.toString()}</td>
               <td>{item.numberOfPublicLeaveDaysRequested.toString()}</td>
