@@ -3,7 +3,7 @@ import moment from "moment";
 interface Props {
   annualLeaveRequests: AnnualLeaveRequest[];
   selectedRequest: AnnualLeaveRequest;
-  selectRequest: (annualLeaveRequest: AnnualLeaveRequest) => void;
+  setSelectedRequest: (annualLeaveRequest: AnnualLeaveRequest) => void;
 }
 
 type AnnualLeaveRequest = {
@@ -21,7 +21,7 @@ type AnnualLeaveRequest = {
   notes: string;
 };
 
-const Table = ({ annualLeaveRequests, selectRequest }: Props) => {
+const Table = ({ annualLeaveRequests, setSelectedRequest }: Props) => {
   return (
     <>
       <h1>Annual Leave Requests Overview</h1>
@@ -58,7 +58,7 @@ const Table = ({ annualLeaveRequests, selectRequest }: Props) => {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={() => selectRequest(item)}
+                  onClick={() => setSelectedRequest(item)}
                 >
                   View
                 </button>

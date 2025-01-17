@@ -53,7 +53,7 @@ const Overview = () => {
     annualLeaveRequestsArray
   );
 
-  const [selectedRequest, selectRequest] = useState();
+  const [selectedRequest, setSelectedRequest] = useState();
 
   const addAnnualLeaveRequest = () => {
     setAnnualLeaveRequests([
@@ -78,13 +78,14 @@ const Overview = () => {
   return (
     <>
       {selectedRequest !== undefined ? (
-        <Details request={selectedRequest} />
+        <Details request={selectedRequest}
+        />
       ) : (
         <>
           <Table
             annualLeaveRequests={annualLeaveRequests}
-            selectRequest={selectRequest}
             selectedRequest={selectedRequest}
+            setSelectedRequest={setSelectedRequest}
           />
           <button className="btn btn-primary" onClick={addAnnualLeaveRequest}>
             Add
