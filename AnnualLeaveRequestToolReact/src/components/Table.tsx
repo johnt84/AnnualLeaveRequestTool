@@ -2,6 +2,7 @@ import moment from "moment";
 
 interface Props {
   annualLeaveRequests: AnnualLeaveRequest[];
+  setAnnualLeaveRequests: (annualLeaveRequests: AnnualLeaveRequest[]) => void;
   selectedRequest: AnnualLeaveRequest;
   setSelectedRequest: (annualLeaveRequest: AnnualLeaveRequest) => void;
 }
@@ -21,7 +22,36 @@ type AnnualLeaveRequest = {
   notes: string;
 };
 
-const Table = ({ annualLeaveRequests, setSelectedRequest }: Props) => {
+const Table = ({
+  annualLeaveRequests,
+  setAnnualLeaveRequests,
+  setSelectedRequest,
+}: Props) => {
+  const editAnnualLeaveRequest = (request: AnnualLeaveRequest) => {
+    const editRequests = annualLeaveRequests.map((annualLeaveRequest) => {
+      if (request.recordNumber === annualLeaveRequest.recordNumber) {
+        return {
+          ...annualLeaveRequest,
+          numberOfDaysRequested: 2,
+        };
+      } else {
+        return annualLeaveRequest;
+      }
+    });
+    setAnnualLeaveRequests(editRequests);
+  };
+
+  const deleteAnnualLeaveRequest = (request: AnnualLeaveRequest) => {
+    const index = annualLeaveRequests.indexOf(request);
+
+    const deleteRequests = [
+      ...annualLeaveRequests.slice(0, index), // Elements before the one to delete
+      ...annualLeaveRequests.slice(index + 1), // Elements after the one to delete
+    ];
+
+    setAnnualLeaveRequests(deleteRequests);
+  };
+
   return (
     <>
       <h1>Annual Leave Requests Overview</h1>
@@ -40,6 +70,9 @@ const Table = ({ annualLeaveRequests, setSelectedRequest }: Props) => {
             <th scope="col">Number of Annual Leave Days Left</th>
             <th scope="col">Number of Public Holidays Left</th>
             <th scope="col">Notes</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -60,6 +93,22 @@ const Table = ({ annualLeaveRequests, setSelectedRequest }: Props) => {
                   onClick={() => setSelectedRequest(item)}
                 >
                   View
+                </button>
+              </td>
+              <td>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => editAnnualLeaveRequest(item)}
+                >
+                  Edit
+                </button>
+              </td>
+              <td>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => deleteAnnualLeaveRequest(item)}
+                >
+                  Delete
                 </button>
               </td>
             </tr>
