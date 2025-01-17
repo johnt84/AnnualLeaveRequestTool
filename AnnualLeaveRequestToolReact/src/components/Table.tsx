@@ -56,7 +56,6 @@ const Table = ({ annualLeaveRequests, setSelectedRequest }: Props) => {
               <td>{item.notes}</td>
               <td>
                 <button
-                  type="button"
                   className="btn btn-primary"
                   onClick={() => setSelectedRequest(item)}
                 >

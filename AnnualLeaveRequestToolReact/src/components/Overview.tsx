@@ -78,8 +78,7 @@ const Overview = () => {
   return (
     <>
       {selectedRequest !== undefined ? (
-        <Details request={selectedRequest}
-        />
+        <Details request={selectedRequest} />
       ) : (
         <>
           <Table
