@@ -1,8 +1,7 @@
 import DetailRow from "./DetailRow";
 
 interface Props {
-  annualLeaveRequests: AnnualLeaveRequest[];
-  recordClicked: number;
+  request: AnnualLeaveRequest;
 }
 
 type AnnualLeaveRequest = {
@@ -20,13 +19,8 @@ type AnnualLeaveRequest = {
   notes: string;
 };
 
-const Details = ({ annualLeaveRequests, recordClicked }: Props) => {
-  return (
-    <DetailRow
-      annualLeaveRequests={annualLeaveRequests}
-      recordClicked={recordClicked}
-    />
-  );
+const Details = ({ request }: Props) => {
+  return <DetailRow request={request} />;
 };
 
 export default Details;

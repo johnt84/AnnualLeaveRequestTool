@@ -2,12 +2,8 @@ import moment from "moment";
 
 interface Props {
   annualLeaveRequests: AnnualLeaveRequest[];
-  detailsVisible: boolean;
-  recordClicked: number;
-  setDetailsVisibility: (
-    detailsVisible: boolean,
-    recordClicked: number
-  ) => void;
+  selectedRequest: AnnualLeaveRequest;
+  selectRequest: (annualLeaveRequest: AnnualLeaveRequest) => void;
 }
 
 type AnnualLeaveRequest = {
@@ -25,12 +21,7 @@ type AnnualLeaveRequest = {
   notes: string;
 };
 
-const Table = ({
-  annualLeaveRequests,
-  detailsVisible,
-  recordClicked,
-  setDetailsVisibility,
-}: Props) => {
+const Table = ({ annualLeaveRequests, selectRequest }: Props) => {
   return (
     <>
       <h1>Annual Leave Requests Overview</h1>
@@ -49,12 +40,11 @@ const Table = ({
             <th scope="col">Number of Annual Leave Days Left</th>
             <th scope="col">Number of Public Holidays Left</th>
             <th scope="col">Notes</th>
-            <th scope="col">&nbsp;</th>
           </tr>
         </thead>
         <tbody>
           {annualLeaveRequests.map((item) => (
-            <tr>
+            <tr key={item.recordNumber}>
               <td>{moment(item.startDate).format("DD MMM yyyy")}</td>
               <td>{moment(item.returnDate).format("DD MMM yyyy")}</td>
               <td>{item.numberOfDaysRequested.toString()}</td>
@@ -68,7 +58,7 @@ const Table = ({
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={() => setDetailsVisibility(true, item.recordNumber)}
+                  onClick={() => selectRequest(item)}
                 >
                   View
                 </button>

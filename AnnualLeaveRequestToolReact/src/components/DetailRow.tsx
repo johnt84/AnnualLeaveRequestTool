@@ -1,8 +1,7 @@
 import moment from "moment";
 
 interface Props {
-  annualLeaveRequests: AnnualLeaveRequest[];
-  recordClicked: number;
+  request: AnnualLeaveRequest;
 }
 
 type AnnualLeaveRequest = {
@@ -20,43 +19,42 @@ type AnnualLeaveRequest = {
   notes: string;
 };
 
-const DetailRow = ({ annualLeaveRequests, recordClicked }: Props) => {
-  let model = annualLeaveRequests[recordClicked];
+const DetailRow = ({ request }: Props) => {
   return (
     <>
       <div className="row">
         <dl className="col-md-6 dl-horizontal">
           <dt>Start Date</dt>
 
-          <dd>{moment(model.startDate).format("DD MMM yyyy")}</dd>
+          <dd>{moment(request.startDate).format("DD MMM yyyy")}</dd>
 
           <dt>Return Date</dt>
 
-          <dd>{moment(model.returnDate).format("DD MMM yyyy")}</dd>
+          <dd>{moment(request.returnDate).format("DD MMM yyyy")}</dd>
 
           <dt>Number of Days Requested</dt>
 
-          <dd>{model.numberOfDaysRequested.toString()}</dd>
+          <dd>{request.numberOfDaysRequested?.toString()}</dd>
 
           <dt>Number of Annual Leave Days Requested</dt>
 
-          <dd>{model.numberOfAnnualLeaveDaysRequested.toString()}</dd>
+          <dd>{request.numberOfAnnualLeaveDaysRequested?.toString()}</dd>
 
           <dt>Number of Public Leave Days Requested</dt>
 
-          <dd>{model.numberOfPublicLeaveDaysRequested.toString()}</dd>
+          <dd>{request.numberOfPublicLeaveDaysRequested?.toString()}</dd>
 
           <dt>Paid Leave Type</dt>
 
-          <dd>{model.paidLeaveType}</dd>
+          <dd>{request.paidLeaveType}</dd>
 
           <dt>Leave Type</dt>
 
-          <dd>{model.leaveType}</dd>
+          <dd>{request.leaveType}</dd>
 
           <dt>Notes</dt>
 
-          <dd>{model.notes}</dd>
+          <dd>{request.notes}</dd>
         </dl>
       </div>
     </>
