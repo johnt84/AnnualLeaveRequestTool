@@ -1,14 +1,7 @@
-import moment from "moment";
+import TableRow from "./TableRow";
 
-interface Props {
-  annualLeaveRequests: AnnualLeaveRequest[];
-  setAnnualLeaveRequests: (annualLeaveRequests: AnnualLeaveRequest[]) => void;
-  selectedRequest: AnnualLeaveRequest;
-  setSelectedRequest: (annualLeaveRequest: AnnualLeaveRequest) => void;
-}
-
-type AnnualLeaveRequest = {
-  recordNumber: number;
+interface AnnualLeaveRequest {
+  id: string;
   startDate: Date;
   returnDate: Date;
   numberOfDaysRequested: number;
@@ -20,44 +13,25 @@ type AnnualLeaveRequest = {
   paidLeaveType: string;
   leaveType: string;
   notes: string;
-};
+}
+
+interface Props {
+  requests: AnnualLeaveRequest[];
+  setSelectedRequest: (annualLeaveRequest: AnnualLeaveRequest) => void;
+  handleEditRequest: (id: string) => void;
+  handleDeleteRequest: (id: string) => void;
+}
 
 const Table = ({
-  annualLeaveRequests,
-  setAnnualLeaveRequests,
+  requests,
   setSelectedRequest,
+  handleEditRequest,
+  handleDeleteRequest,
 }: Props) => {
-  const editAnnualLeaveRequest = (request: AnnualLeaveRequest) => {
-    const editRequests = annualLeaveRequests.map((annualLeaveRequest) => {
-      if (request.recordNumber === annualLeaveRequest.recordNumber) {
-        return {
-          ...annualLeaveRequest,
-          numberOfDaysRequested: 2,
-        };
-      } else {
-        return annualLeaveRequest;
-      }
-    });
-    setAnnualLeaveRequests(editRequests);
-  };
-
-  const deleteAnnualLeaveRequest = (request: AnnualLeaveRequest) => {
-    const index = annualLeaveRequests.indexOf(request);
-
-    const deleteRequests = [
-      ...annualLeaveRequests.slice(0, index), // Elements before the one to delete
-      ...annualLeaveRequests.slice(index + 1), // Elements after the one to delete
-    ];
-
-    setAnnualLeaveRequests(deleteRequests);
-  };
-
   return (
     <>
       <h1>Annual Leave Requests Overview</h1>
-      {annualLeaveRequests.length === 0 && (
-        <p>No annual leave requests exist</p>
-      )}
+      {requests.length === 0 && <p>No annual leave requests exist</p>}
       <table className="table">
         <thead>
           <tr>
@@ -76,42 +50,13 @@ const Table = ({
           </tr>
         </thead>
         <tbody>
-          {annualLeaveRequests.map((item) => (
-            <tr key={item.recordNumber}>
-              <td>{moment(item.startDate).format("DD MMM yyyy")}</td>
-              <td>{moment(item.returnDate).format("DD MMM yyyy")}</td>
-              <td>{item.numberOfDaysRequested.toString()}</td>
-              <td>{item.numberOfAnnualLeaveDaysRequested.toString()}</td>
-              <td>{item.numberOfPublicLeaveDaysRequested.toString()}</td>
-              <td>{item.numberOfDaysLeft.toString()}</td>
-              <td>{item.numberOfAnnualLeaveDaysLeft.toString()}</td>
-              <td>{item.numberOfPublicLeaveDaysLeft.toString()}</td>
-              <td>{item.notes}</td>
-              <td>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => setSelectedRequest(item)}
-                >
-                  View
-                </button>
-              </td>
-              <td>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => editAnnualLeaveRequest(item)}
-                >
-                  Edit
-                </button>
-              </td>
-              <td>
-                <button
-                  className="btn btn-primary"
-                  onClick={() => deleteAnnualLeaveRequest(item)}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
+          {requests.map((item) => (
+            <TableRow
+              request={item}
+              setSelectedRequest={setSelectedRequest}
+              handleEditRequest={handleEditRequest}
+              handleDeleteRequest={handleDeleteRequest}
+            />
           ))}
         </tbody>
       </table>

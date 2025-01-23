@@ -1,11 +1,7 @@
 import moment from "moment";
 
-interface Props {
-  request: AnnualLeaveRequest;
-}
-
-type AnnualLeaveRequest = {
-  recordNumber: number;
+interface AnnualLeaveRequest {
+  id: string;
   startDate: Date;
   returnDate: Date;
   numberOfDaysRequested: number;
@@ -17,7 +13,11 @@ type AnnualLeaveRequest = {
   paidLeaveType: string;
   leaveType: string;
   notes: string;
-};
+}
+
+interface Props {
+  request: AnnualLeaveRequest;
+}
 
 const DetailRow = ({ request }: Props) => {
   return (
