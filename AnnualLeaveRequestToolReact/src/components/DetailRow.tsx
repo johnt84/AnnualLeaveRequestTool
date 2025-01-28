@@ -17,9 +17,14 @@ interface AnnualLeaveRequest {
 
 interface Props {
   request: AnnualLeaveRequest;
+  handleViewRequest: (annualLeaveRequest?: AnnualLeaveRequest) => void;
 }
 
-const DetailRow = ({ request }: Props) => {
+const DetailRow = ({ request, handleViewRequest }: Props) => {
+  const handleBackToMenuClick = () => {
+    handleViewRequest(undefined);
+  };
+
   return (
     <>
       <div className="row">
@@ -56,6 +61,9 @@ const DetailRow = ({ request }: Props) => {
 
           <dd>{request.notes}</dd>
         </dl>
+      </div>
+      <div>
+        <button onClick={handleBackToMenuClick}>Back</button>
       </div>
     </>
   );

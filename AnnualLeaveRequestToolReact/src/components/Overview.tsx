@@ -1,6 +1,9 @@
 import { useState } from "react";
 import Table from "./Table";
 import Details from "./Details";
+import NewRequestForm from "./NewRequestForm";
+import EditRequestForm from "./EditRequestForm";
+import DeleteRequestForm from "./DeleteRequestForm";
 
 interface AnnualLeaveRequest {
   id: string;
@@ -49,41 +52,53 @@ const Overview = () => {
     },
   ]);
 
-  const [selectedRequest, setSelectedRequest] = useState<AnnualLeaveRequest>();
+  const [addRequest, setAddRequest] = useState<boolean>(false);
 
-  const handleAddRequest = () => {
-    setRequests([
-      ...requests,
-      {
-        id: crypto.randomUUID(),
-        startDate: new Date(2025, 6, 1),
-        returnDate: new Date(2025, 6, 8),
-        numberOfDaysRequested: 5,
-        numberOfAnnualLeaveDaysRequested: 5,
-        numberOfPublicLeaveDaysRequested: 0,
-        numberOfDaysLeft: 21,
-        numberOfAnnualLeaveDaysLeft: 19,
-        numberOfPublicLeaveDaysLeft: 2,
-        paidLeaveType: "Paid",
-        leaveType: "Annual Leave",
-        notes: "Summer Holiday",
-      },
-    ]);
+  const [editRequest, setEditRequest] = useState<AnnualLeaveRequest>();
+
+  const [deleteRequest, setDeleteRequest] = useState<AnnualLeaveRequest>();
+
+  const [viewRequest, setViewRequest] = useState<AnnualLeaveRequest>();
+
+  const handleAddRequest = (addingRequest: boolean) => {
+    setAddRequest(addingRequest);
   };
 
-  const handleEditRequest = (id: string) => {
-    let editDays = 2;
+  const handleSaveAddRequest = (newRequest: AnnualLeaveRequest) => {
+    let request = { ...newRequest, id: crypto.randomUUID() };
+
+    setRequests([...requests, request]);
+  };
+
+  const handleViewRequest = (request?: AnnualLeaveRequest) => {
+    setViewRequest(request);
+  };
+
+  const handleEditRequest = (request?: AnnualLeaveRequest) => {
+    setEditRequest(request);
+  };
+
+  const handleSaveEditRequest = (editRequest: AnnualLeaveRequest) => {
     setRequests(
       requests.map((request) => {
-        if (request.id === id) {
+        if (request.id === editRequest.id) {
           return {
             ...request,
-            numberOfDaysRequested: request.numberOfDaysRequested + editDays,
+            startDate: editRequest.startDate,
+            returnDate: editRequest.returnDate,
+            numberOfDaysRequested: editRequest.numberOfDaysRequested,
             numberOfAnnualLeaveDaysRequested:
-              request.numberOfAnnualLeaveDaysRequested + editDays,
-            numberOfDaysLeft: request.numberOfDaysLeft - editDays,
+              editRequest.numberOfAnnualLeaveDaysRequested,
+            numberOfPublicLeaveDaysRequested:
+              editRequest.numberOfPublicLeaveDaysRequested,
+            numberOfDaysLeft: editRequest.numberOfDaysLeft,
             numberOfAnnualLeaveDaysLeft:
-              request.numberOfAnnualLeaveDaysLeft - editDays,
+              editRequest.numberOfAnnualLeaveDaysLeft,
+            numberOfPublicLeaveDaysLeft:
+              editRequest.numberOfPublicLeaveDaysLeft,
+            paidLeaveType: editRequest.paidLeaveType,
+            leaveType: editRequest.leaveType,
+            notes: editRequest.notes,
           };
         }
         return request;
@@ -91,27 +106,66 @@ const Overview = () => {
     );
   };
 
-  const handleDeleteRequest = (id: string) => {
+  const handleDeleteRequest = (request?: AnnualLeaveRequest) => {
+    setDeleteRequest(request);
+  };
+
+  const handleConfirmDeleteRequest = (request: AnnualLeaveRequest) => {
     setRequests((currentRequests) => {
-      return currentRequests.filter((request) => request.id !== id);
+      return currentRequests.filter(
+        (currentRequest) => currentRequest.id !== request.id
+      );
     });
   };
 
   return (
     <>
-      {selectedRequest !== undefined ? (
-        <Details request={selectedRequest} />
-      ) : (
+      {addRequest === false &&
+      viewRequest === undefined &&
+      editRequest === undefined &&
+      deleteRequest === undefined ? (
         <>
           <Table
             requests={requests}
-            setSelectedRequest={setSelectedRequest}
+            handleViewRequest={handleViewRequest}
             handleEditRequest={handleEditRequest}
             handleDeleteRequest={handleDeleteRequest}
           />
-          <button className="btn btn-primary" onClick={handleAddRequest}>
+          <button
+            className="btn btn-primary"
+            onClick={() => handleAddRequest(true)}
+          >
             Add
           </button>
+        </>
+      ) : (
+        <>
+          {addRequest == true && (
+            <NewRequestForm
+              handleAddRequest={handleAddRequest}
+              handleSaveAddRequest={handleSaveAddRequest}
+            />
+          )}
+          {viewRequest !== undefined && (
+            <Details
+              request={viewRequest}
+              handleViewRequest={handleViewRequest}
+            ></Details>
+          )}
+          {editRequest !== undefined && (
+            <EditRequestForm
+              request={editRequest}
+              handleEditRequest={handleEditRequest}
+              handleSaveEditRequest={handleSaveEditRequest}
+            ></EditRequestForm>
+          )}
+          {deleteRequest !== undefined && (
+            <DeleteRequestForm
+              request={deleteRequest}
+              handleDeleteRequest={handleDeleteRequest}
+              handleConfirmDeleteRequest={handleConfirmDeleteRequest}
+            ></DeleteRequestForm>
+          )}
         </>
       )}
     </>

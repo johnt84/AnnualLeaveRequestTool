@@ -17,14 +17,14 @@ interface AnnualLeaveRequest {
 
 interface Props {
   requests: AnnualLeaveRequest[];
-  setSelectedRequest: (annualLeaveRequest: AnnualLeaveRequest) => void;
-  handleEditRequest: (id: string) => void;
-  handleDeleteRequest: (id: string) => void;
+  handleViewRequest: (annualLeaveRequest?: AnnualLeaveRequest) => void;
+  handleEditRequest: (annualLeaveRequest?: AnnualLeaveRequest) => void;
+  handleDeleteRequest: (annualLeaveRequest?: AnnualLeaveRequest) => void;
 }
 
 const Table = ({
   requests,
-  setSelectedRequest,
+  handleViewRequest,
   handleEditRequest,
   handleDeleteRequest,
 }: Props) => {
@@ -53,7 +53,7 @@ const Table = ({
           {requests.map((item) => (
             <TableRow
               request={item}
-              setSelectedRequest={setSelectedRequest}
+              handleViewRequest={handleViewRequest}
               handleEditRequest={handleEditRequest}
               handleDeleteRequest={handleDeleteRequest}
             />

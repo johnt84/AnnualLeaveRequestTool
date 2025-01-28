@@ -17,10 +17,11 @@ interface AnnualLeaveRequest {
 
 interface Props {
   request: AnnualLeaveRequest;
+  handleViewRequest: (annualLeaveRequest?: AnnualLeaveRequest) => void;
 }
 
-const Details = ({ request }: Props) => {
-  return <DetailRow request={request} />;
+const Details = ({ request, handleViewRequest }: Props) => {
+  return <DetailRow request={request} handleViewRequest={handleViewRequest} />;
 };
 
 export default Details;

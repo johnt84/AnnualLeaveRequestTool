@@ -17,14 +17,14 @@ interface AnnualLeaveRequest {
 
 interface Props {
   request: AnnualLeaveRequest;
-  setSelectedRequest: (annualLeaveRequest: AnnualLeaveRequest) => void;
-  handleEditRequest: (id: string) => void;
-  handleDeleteRequest: (id: string) => void;
+  handleViewRequest: (annualLeaveRequest?: AnnualLeaveRequest) => void;
+  handleEditRequest: (annualLeaveRequest?: AnnualLeaveRequest) => void;
+  handleDeleteRequest: (annualLeaveRequest?: AnnualLeaveRequest) => void;
 }
 
 const TableRow = ({
   request,
-  setSelectedRequest,
+  handleViewRequest,
   handleEditRequest,
   handleDeleteRequest,
 }: Props) => {
@@ -42,7 +42,7 @@ const TableRow = ({
       <td>
         <button
           className="btn btn-primary"
-          onClick={() => setSelectedRequest(request)}
+          onClick={() => handleViewRequest(request)}
         >
           View
         </button>
@@ -50,7 +50,7 @@ const TableRow = ({
       <td>
         <button
           className="btn btn-primary"
-          onClick={() => handleEditRequest(request.id)}
+          onClick={() => handleEditRequest(request)}
         >
           Edit
         </button>
@@ -58,7 +58,7 @@ const TableRow = ({
       <td>
         <button
           className="btn btn-primary"
-          onClick={() => handleDeleteRequest(request.id)}
+          onClick={() => handleDeleteRequest(request)}
         >
           Delete
         </button>
