@@ -5,18 +5,27 @@ interface Props {
 }
 
 interface AnnualLeaveRequest {
-  id: string;
+  annualLeaveRequestId: number;
+  year: string;
+  paidLeaveType: string;
+  leaveType: string;
   startDate: Date;
   returnDate: Date;
+  dateCreated: Date;
+  notes: string;
+  numberOfDays: number;
+  numberOfAnnualLeaveDays: number;
+  numberOfPublicLeaveDays: number;
   numberOfDaysRequested: number;
   numberOfAnnualLeaveDaysRequested: number;
   numberOfPublicLeaveDaysRequested: number;
   numberOfDaysLeft: number;
   numberOfAnnualLeaveDaysLeft: number;
   numberOfPublicLeaveDaysLeft: number;
-  paidLeaveType: string;
-  leaveType: string;
-  notes: string;
+  numberOfDaysLeftForYear: number;
+  numberOfAnnualLeaveDaysLeftForYear: number;
+  numberOfPublicLeaveDaysLeftForYear: number;
+  errorMessage: string;
 }
 
 const DeleteRequestForm = ({

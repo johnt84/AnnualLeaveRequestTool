@@ -6,34 +6,52 @@ interface Props {
 }
 
 interface AnnualLeaveRequest {
-  id: string;
+  annualLeaveRequestId: number;
+  year: string;
+  paidLeaveType: string;
+  leaveType: string;
   startDate: Date;
   returnDate: Date;
+  dateCreated: Date;
+  notes: string;
+  numberOfDays: number;
+  numberOfAnnualLeaveDays: number;
+  numberOfPublicLeaveDays: number;
   numberOfDaysRequested: number;
   numberOfAnnualLeaveDaysRequested: number;
   numberOfPublicLeaveDaysRequested: number;
   numberOfDaysLeft: number;
   numberOfAnnualLeaveDaysLeft: number;
   numberOfPublicLeaveDaysLeft: number;
-  paidLeaveType: string;
-  leaveType: string;
-  notes: string;
+  numberOfDaysLeftForYear: number;
+  numberOfAnnualLeaveDaysLeftForYear: number;
+  numberOfPublicLeaveDaysLeftForYear: number;
+  errorMessage: string;
 }
 
 const NewRequestForm = ({ handleAddRequest, handleSaveAddRequest }: Props) => {
   const emptyRequest: AnnualLeaveRequest = {
-    id: "",
+    annualLeaveRequestId: 0,
+    year: "2025",
+    paidLeaveType: "",
+    leaveType: "",
     startDate: new Date(),
     returnDate: new Date(),
+    dateCreated: new Date(),
+    notes: "",
+    numberOfDays: 0,
+    numberOfAnnualLeaveDays: 0,
+    numberOfPublicLeaveDays: 0,
     numberOfDaysRequested: 0,
     numberOfAnnualLeaveDaysRequested: 0,
     numberOfPublicLeaveDaysRequested: 0,
     numberOfDaysLeft: 0,
     numberOfAnnualLeaveDaysLeft: 0,
     numberOfPublicLeaveDaysLeft: 0,
-    paidLeaveType: "",
-    leaveType: "",
-    notes: "",
+    numberOfDaysLeftForYear: 0,
+    numberOfAnnualLeaveDaysLeftForYear: 0,
+    numberOfPublicLeaveDaysLeftForYear: 0,
+    errorMessage: "",
   };
 
   const [newRequest, setNewRequest] =
@@ -41,8 +59,6 @@ const NewRequestForm = ({ handleAddRequest, handleSaveAddRequest }: Props) => {
 
   const handleSaveClick = () => {
     if (newRequest === undefined) return;
-
-    calculateDates();
 
     handleSaveAddRequest(newRequest);
     setNewRequest(newRequest);
@@ -53,25 +69,6 @@ const NewRequestForm = ({ handleAddRequest, handleSaveAddRequest }: Props) => {
   const handleCancelClick = () => {
     handleAddRequest(false);
   };
-
-  const calculateDates = () => {
-    let numberOfDays = getNumberOfDaysBetweenTwoDate(
-      newRequest.startDate,
-      newRequest.returnDate
-    );
-
-    setNewRequest({
-      ...newRequest,
-      numberOfDaysRequested: numberOfDays,
-      numberOfAnnualLeaveDaysRequested: numberOfDays,
-    });
-  };
-
-  function getNumberOfDaysBetweenTwoDate(fromDate: Date, toDate: Date) {
-    let differenceInTime = toDate.getTime() - fromDate.getTime();
-
-    return Math.round(differenceInTime / (1000 * 3600 * 24));
-  }
 
   return (
     <>

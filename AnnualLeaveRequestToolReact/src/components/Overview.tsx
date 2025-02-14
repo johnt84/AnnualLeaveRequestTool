@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Table from "./Table";
 import Details from "./Details";
 import NewRequestForm from "./NewRequestForm";
@@ -6,51 +6,31 @@ import EditRequestForm from "./EditRequestForm";
 import DeleteRequestForm from "./DeleteRequestForm";
 
 interface AnnualLeaveRequest {
-  id: string;
+  annualLeaveRequestId: number;
+  year: string;
+  paidLeaveType: string;
+  leaveType: string;
   startDate: Date;
   returnDate: Date;
+  dateCreated: Date;
+  notes: string;
+  numberOfDays: number;
+  numberOfAnnualLeaveDays: number;
+  numberOfPublicLeaveDays: number;
   numberOfDaysRequested: number;
   numberOfAnnualLeaveDaysRequested: number;
   numberOfPublicLeaveDaysRequested: number;
   numberOfDaysLeft: number;
   numberOfAnnualLeaveDaysLeft: number;
   numberOfPublicLeaveDaysLeft: number;
-  paidLeaveType: string;
-  leaveType: string;
-  notes: string;
+  numberOfDaysLeftForYear: number;
+  numberOfAnnualLeaveDaysLeftForYear: number;
+  numberOfPublicLeaveDaysLeftForYear: number;
+  errorMessage: string;
 }
 
 const Overview = () => {
-  const [requests, setRequests] = useState<AnnualLeaveRequest[]>([
-    {
-      id: crypto.randomUUID(),
-      startDate: new Date(2025, 0, 1),
-      returnDate: new Date(2025, 0, 2),
-      numberOfDaysRequested: 1,
-      numberOfAnnualLeaveDaysRequested: 0,
-      numberOfPublicLeaveDaysRequested: 1,
-      numberOfDaysLeft: 27,
-      numberOfAnnualLeaveDaysLeft: 25,
-      numberOfPublicLeaveDaysLeft: 2,
-      paidLeaveType: "Paid",
-      leaveType: "Annual Leave",
-      notes: "New Years",
-    },
-    {
-      id: crypto.randomUUID(),
-      startDate: new Date(2025, 1, 9),
-      returnDate: new Date(2025, 1, 10),
-      numberOfDaysRequested: 1,
-      numberOfAnnualLeaveDaysRequested: 1,
-      numberOfPublicLeaveDaysRequested: 0,
-      numberOfDaysLeft: 26,
-      numberOfAnnualLeaveDaysLeft: 24,
-      numberOfPublicLeaveDaysLeft: 2,
-      paidLeaveType: "Paid",
-      leaveType: "Annual Leave",
-      notes: "Birthday",
-    },
-  ]);
+  const [requests, setRequests] = useState<AnnualLeaveRequest[]>([]);
 
   const [addRequest, setAddRequest] = useState<boolean>(false);
 
@@ -58,19 +38,85 @@ const Overview = () => {
 
   const [deleteRequest, setDeleteRequest] = useState<AnnualLeaveRequest>();
 
-  const [viewRequest, setViewRequest] = useState<AnnualLeaveRequest>();
+    const [viewRequest, setViewRequest] = useState<AnnualLeaveRequest>();
+
+   const apiUrlPrefix = "";
+
+   const apiUrlSuffix = "/api/AnnualLeaveRequest";
+
+   const apiUrl = apiUrlPrefix + apiUrlSuffix;
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      const requests = await fetchRequestsAsync();
+      setRequests(requests);
+    };
+    fetchRequests();
+  }, []);
+
+  async function fetchRequestsAsync(): Promise<AnnualLeaveRequest[]> {
+      const response = await fetch(apiUrl + "/GetRequestsForYear/2025");
+
+    const data = await response.json();
+    return data;
+  }
+
+  async function fetchRequestAync(
+    request?: AnnualLeaveRequest
+  ): Promise<AnnualLeaveRequest> {
+    const response = await fetch(
+        apiUrl + "/Get" + `/${request?.annualLeaveRequestId}`
+    );
+
+    const data = await response.json();
+    return data;
+  }
+
+  const postRequestAsync = async (request: AnnualLeaveRequest) => {
+      await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
+    });
+  };
+
+  const putRequestAsync = async (request: AnnualLeaveRequest) => {
+      await fetch(apiUrl, {
+      method: "PUT",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(request),
+    });
+  };
+
+  const deleteRequestAsync = async (request?: AnnualLeaveRequest) => {
+      await fetch(apiUrl + `/${request?.annualLeaveRequestId}`, {
+      method: "DELETE",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+  };
 
   const handleAddRequest = (addingRequest: boolean) => {
     setAddRequest(addingRequest);
   };
 
   const handleSaveAddRequest = (newRequest: AnnualLeaveRequest) => {
-    let request = { ...newRequest, id: crypto.randomUUID() };
+    postRequestAsync(newRequest);
 
-    setRequests([...requests, request]);
+    setRequests([...requests, newRequest]);
   };
 
   const handleViewRequest = (request?: AnnualLeaveRequest) => {
+    fetchRequestAync(request);
+
     setViewRequest(request);
   };
 
@@ -79,9 +125,11 @@ const Overview = () => {
   };
 
   const handleSaveEditRequest = (editRequest: AnnualLeaveRequest) => {
+    putRequestAsync(editRequest);
+
     setRequests(
       requests.map((request) => {
-        if (request.id === editRequest.id) {
+        if (request.annualLeaveRequestId === editRequest.annualLeaveRequestId) {
           return {
             ...request,
             startDate: editRequest.startDate,
@@ -107,6 +155,8 @@ const Overview = () => {
   };
 
   const handleDeleteRequest = (request?: AnnualLeaveRequest) => {
+    deleteRequestAsync(request);
+
     setDeleteRequest(request);
   };
 

@@ -7,18 +7,27 @@ interface Props {
 }
 
 interface AnnualLeaveRequest {
-  id: string;
+  annualLeaveRequestId: number;
+  year: string;
+  paidLeaveType: string;
+  leaveType: string;
   startDate: Date;
   returnDate: Date;
+  dateCreated: Date;
+  notes: string;
+  numberOfDays: number;
+  numberOfAnnualLeaveDays: number;
+  numberOfPublicLeaveDays: number;
   numberOfDaysRequested: number;
   numberOfAnnualLeaveDaysRequested: number;
   numberOfPublicLeaveDaysRequested: number;
   numberOfDaysLeft: number;
   numberOfAnnualLeaveDaysLeft: number;
   numberOfPublicLeaveDaysLeft: number;
-  paidLeaveType: string;
-  leaveType: string;
-  notes: string;
+  numberOfDaysLeftForYear: number;
+  numberOfAnnualLeaveDaysLeftForYear: number;
+  numberOfPublicLeaveDaysLeftForYear: number;
+  errorMessage: string;
 }
 
 const EditRequestForm = ({
@@ -31,8 +40,6 @@ const EditRequestForm = ({
   const handleSaveClick = () => {
     if (editRequest === undefined) return;
 
-    calculateDates();
-
     handleSaveEditRequest(editRequest);
 
     handleEditRequest(undefined);
@@ -41,25 +48,6 @@ const EditRequestForm = ({
   const handleCancelClick = () => {
     handleEditRequest(undefined);
   };
-
-  const calculateDates = () => {
-    let numberOfDays = getNumberOfDaysBetweenTwoDate(
-      editRequest.startDate,
-      editRequest.returnDate
-    );
-
-    setEditRequest({
-      ...editRequest,
-      numberOfDaysRequested: numberOfDays,
-      numberOfAnnualLeaveDaysRequested: numberOfDays,
-    });
-  };
-
-  function getNumberOfDaysBetweenTwoDate(fromDate: Date, toDate: Date) {
-    let differenceInTime = toDate.getTime() - fromDate.getTime();
-
-    return Math.round(differenceInTime / (1000 * 3600 * 24));
-  }
 
   return (
     <>

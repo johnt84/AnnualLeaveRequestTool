@@ -1,20 +1,28 @@
 import TableRow from "./TableRow";
 
 interface AnnualLeaveRequest {
-  id: string;
+  annualLeaveRequestId: number;
+  year: string;
+  paidLeaveType: string;
+  leaveType: string;
   startDate: Date;
   returnDate: Date;
+  dateCreated: Date;
+  notes: string;
+  numberOfDays: number;
+  numberOfAnnualLeaveDays: number;
+  numberOfPublicLeaveDays: number;
   numberOfDaysRequested: number;
   numberOfAnnualLeaveDaysRequested: number;
   numberOfPublicLeaveDaysRequested: number;
   numberOfDaysLeft: number;
   numberOfAnnualLeaveDaysLeft: number;
   numberOfPublicLeaveDaysLeft: number;
-  paidLeaveType: string;
-  leaveType: string;
-  notes: string;
+  numberOfDaysLeftForYear: number;
+  numberOfAnnualLeaveDaysLeftForYear: number;
+  numberOfPublicLeaveDaysLeftForYear: number;
+  errorMessage: string;
 }
-
 interface Props {
   requests: AnnualLeaveRequest[];
   handleViewRequest: (annualLeaveRequest?: AnnualLeaveRequest) => void;
@@ -52,6 +60,7 @@ const Table = ({
         <tbody>
           {requests.map((item) => (
             <TableRow
+              key={item.annualLeaveRequestId}
               request={item}
               handleViewRequest={handleViewRequest}
               handleEditRequest={handleEditRequest}
